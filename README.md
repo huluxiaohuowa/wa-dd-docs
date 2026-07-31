@@ -12,7 +12,7 @@
 
 ![WA-DD main page](userguide/images/wa-dd-workbench-main.jpg)
 
-WA-DD 专为计算机辅助药物设计（CADD）研究人员打造，将已可用的靶点蛋白处理、配体准备、分子对接、分子生成、相互作用分析和 FEP/RBFE dry-run 工作流整合到统一的浏览器界面中；正式自由能生产模拟仍在开发。
+WA-DD 专为计算机辅助药物设计（CADD）研究人员打造，将靶点蛋白处理、配体准备、分子对接、分子生成、FEP/RBFE 自由能生产计算和相互作用分析整合到统一的浏览器界面中。
 
 从 PDB 结构导入到配体库准备，从 Uni-Dock 对接到 PocketXMol 生成、FEP 规划和三维相互作用检查，所有中间结果都保留为可复用资产——WA-DD 让您专注于药物设计本身，而非工具链的拼凑与切换。
 
@@ -22,7 +22,7 @@ WA-DD 专为计算机辅助药物设计（CADD）研究人员打造，将已可�
 
 ### 核心价值
 
-- **连续工作流**：已覆盖蛋白准备、配体准备、对接、分子生成、FEP/RBFE dry-run 和相互作用分析
+- **连续工作流**：已覆盖蛋白准备、配体准备、对接、分子生成、FEP/RBFE 生产计算和相互作用分析
 - **资产化管理**：蛋白、口袋、配体、对接构象库、FEP 派生 SDF 和报告都沉淀为可复用、可追踪、可 API 调用的资产
 - **灵活部署**：支持 x86 NVIDIA 和 Jetson Thor ARM64 平台，兼顾性能与边缘计算
 - **开放生态**：对接 Uni-Dock、Vina、OpenFE、OpenMM 等主流 CADD 工具
@@ -31,14 +31,13 @@ WA-DD 专为计算机辅助药物设计（CADD）研究人员打造，将已可�
 
 ### 功能状态
 
-功能按用户能否在当前 WebApp 中完成端到端任务划分；“开发中”和“规划中”均不应视为生产可用能力。
+功能按用户能否在当前 WebApp 中完成端到端任务划分；“规划中”模块不应视为生产可用能力。
 
 | 状态 | 模块 | 当前可用范围 |
 | --- | --- | --- |
 | 已可用 | 项目与资产、蛋白处理、配体处理、对接任务、分子生成、相互作用分析 | 可创建并复用资产、提交任务、查看、筛选、导出或下载输出。 |
-| 已可用 | FEP / RBFE dry-run | 可从 docked pose library 创建 ligand map 规划结果，生成 `fep_result` 和带 FEP 字段的 `fep_output` SDF；dry-run 不代表真实 ΔΔG。 |
+| 已可用 | FEP / RBFE 生产计算 | 支持 OpenFE + OpenMM（CUDA）进行真实 ΔG/ΔΔG 自由能计算；可选择 dry-run 规划或完整生产模拟；输出 edge 结果表、带 FEP 字段的 SDF 和轨迹文件。 |
 | 已可用 | Agent / Pi、管理、系统资源、用户文档、API 文档 | 可管理个人 Agent 会话与模型配置；管理员可管理用户和任务；模块指南和 API 契约可直接浏览。 |
-| 开发中 | FEP / 自由能生产计算 | 正式 OpenMM 生产模拟、真实 ΔG/ΔΔG、轨迹分析和长程 RBFE 科学验证仍待完成。 |
 | 规划中 | TPD / PROTAC、SAR / 构效关系 | 目前仅保留功能定位与指南入口，尚无可提交的业务工作流。 |
 
 #### 已可用
@@ -47,7 +46,7 @@ WA-DD 专为计算机辅助药物设计（CADD）研究人员打造，将已可�
 - **蛋白与配体处理**：支持 PDB ID/本地 PDB、SMILES/SDF/MOL/MOL2/PDB 导入，3D 预览、口袋定义、Ketcher 2D 编辑及蛋白/配体准备。配体资产按原始配体、准备后配体、对接构象、分子生成和 FEP 输出分组，可打开 2D/3D、排序、筛选、合并、导出。
 - **对接与相互作用分析**：使用 Uni-Dock GPU（Vina/Vinardo 评分）提交对接任务；每组任务输出一个合并 SDF pose library 和报告。相互作用分析可从对接、生成或 FEP 输出中多选构象，检查几何接触、导出表格/SDF 或生成新资产。
 - **分子生成**：PocketXMol 支持口袋 de novo 生成和 fragment growing；结果保存为可复用的 `prepared_ligand` 或 `prepared_ligand_library`。`scaffold hopping` 与 `linker design` 需要原子锚点选择器，当前未开放。
-- **FEP / RBFE dry-run**：可基于 docked pose library 创建 RBFE 规划结果，输出 `fep_result` edge 表和带 FEP 字段的 `fep_output` SDF。dry-run 用于检查 ligand map 和结果联动，不产生真实 ΔG/ΔΔG 或轨迹。
+- **FEP / RBFE 生产计算**：基于 OpenFE + OpenMM（CUDA）执行真实相对结合自由能计算。支持 star 拓扑网络、Lomap 原子映射、dry-run 规划预览和完整生产模拟。每个 edge 输出 ΔΔG (kcal/mol)、误差和轨迹文件（DCD），结果汇总为 `fep_result` edge 表和带 FEP 字段的 `fep_output` SDF。支持从对接姿势库或准备好的配体 SDF 直接启动。
 - **Agent / Pi**：每位用户拥有独立会话、上下文和加密模型配置；受控工具仅能访问该用户有权限的项目、资产和任务。
 - **管理、用户文档与自动化**：管理员可审核用户和管理全局任务；系统资源页显示宿主机 CPU、内存、磁盘和 GPU；Web 镜像会把 `userguide/*.md` 转换为页面内用户文档；API 文档基于 FastAPI OpenAPI，支持以 `project_id`、`asset_id` 和 `job_id` 串联自动化。
 
@@ -55,14 +54,10 @@ WA-DD 专为计算机辅助药物设计（CADD）研究人员打造，将已可�
 
 ![WA-DD Agent / Pi：用户可管理独立会话和模型配置，并在对话中调用当前项目权限范围内的 CADD 工作流](userguide/images/agent-pi-overview.jpg)
 
-#### 开发中：尚不可作为完整生产工作流使用
-
-- **FEP / 自由能生产计算**：OpenFE + OpenMM（CUDA）worker 仍面向正式采样与分析补齐；真实 ΔG/ΔΔG、误差、轨迹和长程 RBFE 科学验证尚未完成，当前不应据 dry-run 作出生产级 FEP 结论。
-
 #### 规划中：尚未实现业务工作流
 
-- **TPD / PROTAC**：拟支持 POI-E3 三元复合物设计、warhead/E3 ligand/linker 设计与降解剂优化；待 FEP 稳定后启动。
-- **SAR / 构效关系**：拟支持活性数据表、R-group 分析、MMPA、构效关系可视化和下一轮设计候选推荐；尚未实现。
+- **TPD / PROTAC**：拟支持 POI-E3 三元复合物设计、warhead/E3 ligand/linker 设计与降解剂优化。
+- **SAR / 构效关系**：拟支持活性数据表、R-group 分析、MMPA、构效关系可视化和下一轮设计候选推荐。
 
 <a id="interaction-model-zh"></a>
 
@@ -282,7 +277,7 @@ cd ictrek.app
 
 ### 来源与许可
 
-WA-DD 当前以资产管理、蛋白/配体准备、Uni-Dock 对接、PocketXMol 分子生成、FEP/RBFE dry-run 和相互作用分析为核心。
+WA-DD 当前以资产管理、蛋白/配体准备、Uni-Dock 对接、PocketXMol 分子生成、FEP/RBFE 生产计算和相互作用分析为核心。
 
 项目源代码采用 [Business Source License 1.1](LICENSE)：
 - **非商业用途**：可用于学术研究和教育目的，但不得分发或商业使用
@@ -297,7 +292,7 @@ WA-DD 当前以资产管理、蛋白/配体准备、Uni-Dock 对接、PocketXMol
 
 > **Developer**: [huluxiaohuowa](https://github.com/huluxiaohuowa) · This project is still under development. For testing access, contact qhulu@outlook.com (only academic/research institutions and universities are accepted; commercial use is not available at this time).
 
-WA-DD is an integrated molecular design workbench for Computer-Aided Drug Design (CADD) researchers. It unifies the available target-protein preparation, ligand preparation, molecular docking, molecule generation, interaction analysis, and FEP/RBFE dry-run workflows in one browser interface; formal free-energy production simulation remains in development.
+WA-DD is an integrated molecular design workbench for Computer-Aided Drug Design (CADD) researchers. It unifies target-protein preparation, ligand preparation, molecular docking, molecule generation, FEP/RBFE production free-energy calculation, and interaction analysis in one browser interface.
 
 From PDB import and ligand-library preparation through Uni-Dock screening, PocketXMol generation, FEP planning, and 3D interaction inspection, WA-DD keeps every intermediate result as a reusable asset—so you can focus on drug design rather than toolchain integration and switching.
 
@@ -305,7 +300,7 @@ From PDB import and ligand-library preparation through Uni-Dock screening, Pocke
 
 ### Core Values
 
-- **Connected workflows**: Available workflows cover protein preparation, ligand preparation, docking, molecule generation, FEP/RBFE dry-run, and interaction analysis
+- **Connected workflows**: Available workflows cover protein preparation, ligand preparation, docking, molecule generation, FEP/RBFE production calculation, and interaction analysis
 - **Asset-based management**: Proteins, pockets, ligands, docking pose libraries, FEP-derived SDFs, and reports are reusable, traceable, API-addressable assets
 - **Flexible deployment**: Supports x86 NVIDIA and Jetson Thor ARM64 platforms, balancing performance and edge computing
 - **Open ecosystem**: Integrates with Uni-Dock, Vina, OpenFE, OpenMM, and other mainstream CADD tools
@@ -314,14 +309,13 @@ From PDB import and ligand-library preparation through Uni-Dock screening, Pocke
 
 ### Feature status
 
-Status is based on whether a user can complete an end-to-end task in the current WebApp. “In development” and “planned” must not be treated as production-ready functionality.
+Status is based on whether a user can complete an end-to-end task in the current WebApp. “Planned” modules must not be treated as production-ready functionality.
 
 | Status | Modules | Available scope |
 | --- | --- | --- |
 | Available | Projects and assets, protein preparation, ligand preparation, docking tasks, molecule generation, interaction analysis | Create and reuse assets, submit jobs, and inspect, filter, export, or download outputs. |
-| Available | FEP / RBFE dry-run | Create ligand-map planning results from docked pose libraries and generate `fep_result` plus FEP-annotated `fep_output` SDF assets. Dry-run results are not real ΔΔG. |
+| Available | FEP / RBFE production calculation | Real ΔG/ΔΔG free energy calculations via OpenFE + OpenMM (CUDA); choose dry-run planning or full production simulation; output edge result tables, FEP-annotated SDF, and trajectory files. |
 | Available | Agent / Pi, administration, system resources, user docs, API docs | Manage personal Agent sessions and model settings; administer users/jobs; browse module guides and the API contract. |
-| In development | FEP / free-energy production calculation | Formal OpenMM production simulation, real ΔG/ΔΔG, trajectory analysis, and long-running RBFE validation remain unfinished. |
 | Planned | TPD / PROTAC, SAR | Documentation describes the intended scope, but no submit-ready workflow is available. |
 
 #### Available now
@@ -330,18 +324,14 @@ Status is based on whether a user can complete an end-to-end task in the current
 - **Protein and ligand preparation**: import PDB ID/local PDB or SMILES/SDF/MOL/MOL2/PDB, inspect structures in 3D, define pockets, edit molecules with Ketcher, and run protein or ligand preparation. Ligand assets are grouped by source, including raw ligands, prepared ligands, docking poses, molecule-generation outputs, and FEP outputs, and can be opened in 2D/3D, sorted, filtered, merged, or exported.
 - **Docking and interaction analysis**: submit Uni-Dock GPU docking jobs (Vina/Vinardo scoring). Each docking task emits one merged SDF pose library plus reports. Interaction analysis can compare selected poses from docking, generation, or FEP outputs, inspect geometric contacts, export tables/SDF, or save a new selected-poses asset.
 - **Molecule generation**: PocketXMol provides pocket de novo generation and fragment growing. Results are reusable `prepared_ligand` or `prepared_ligand_library` assets. `Scaffold hopping` and `linker design` require an atom-anchor selector and are not available yet.
-- **FEP / RBFE dry-run**: build RBFE planning results from docked pose libraries and emit a `fep_result` edge table plus a FEP-annotated `fep_output` SDF. Dry-run checks ligand maps and downstream UI wiring; it does not produce real ΔG/ΔΔG or trajectories.
+- **FEP / RBFE production calculation**: real relative binding free energy calculations via OpenFE + OpenMM (CUDA). Supports star-topology networks, Lomap atom mapping, dry-run planning preview, and full production simulation. Each edge outputs ΔΔG (kcal/mol), uncertainty, and trajectory files (DCD). Results are summarized as an `fep_result` edge table plus an FEP-annotated `fep_output` SDF. Launch directly from docking pose libraries or prepared ligand SDFs.
 - **Agent / Pi**: each user has separate conversations, context, and encrypted model configuration. Its controlled tools can access only projects, assets, and jobs within that user's permissions.
 - **Administration, user docs, and automation**: administrators can approve users and manage global jobs. The system-resources view reports host CPU, memory, disk, and GPU state. The Web image converts `userguide/*.md` into in-app user documentation. API documentation is generated from FastAPI OpenAPI and supports automation chaining with `project_id`, `asset_id`, and `job_id`.
 
-#### In development: not yet a complete production workflow
-
-- **FEP / free-energy production calculation**: the OpenFE + OpenMM (CUDA) worker path still needs formal sampling and analysis completion. Real ΔG/ΔΔG, uncertainty, trajectories, and long-running RBFE scientific validation remain unfinished; dry-run output must not be used for production-grade FEP conclusions.
-
 #### Planned: no business workflow is implemented yet
 
-- **TPD / PROTAC**: intended for POI-E3 ternary-complex design, warhead/E3-ligand/linker design, and degrader optimization. Development starts after FEP stabilizes.
-- **SAR / Structure-Activity Relationship**: intended for activity tables, R-group analysis, MMPA, SAR visualization, and next-round candidate recommendation. It is not implemented yet.
+- **TPD / PROTAC**: intended for POI-E3 ternary-complex design, warhead/E3-ligand/linker design, and degrader optimization.
+- **SAR / Structure-Activity Relationship**: intended for activity tables, R-group analysis, MMPA, SAR visualization, and next-round candidate recommendation.
 
 <a id="interaction-model-en"></a>
 
