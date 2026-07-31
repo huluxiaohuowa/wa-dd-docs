@@ -1,26 +1,26 @@
-# FEP 与分析 / FEP and Analysis
+> [English documentation](fep-analysis.EN.md)
 
-## 作用 / Role
+# FEP 与分析
+
+## 作用
 
 FEP/分析模块用于后续自由能计算、轨迹检查、误差分析和报告输出。
 
-FEP/analysis is reserved for free-energy calculations, trajectory inspection, uncertainty analysis, and reports.
+## 输入
 
-## 输入 / Inputs
+- 已准备好的复合物或对接结果
+- 配体系列
+- 模拟设置
 
-- prepared complex or docking result
-- ligand series
-- simulation settings
+## 输出
 
-## 输出 / Outputs
-
-- ΔG / ΔΔG tables
-- trajectories
-- analysis reports
+- ΔG / ΔΔG 表格
+- 轨迹
+- 分析报告
 - `fep_result` asset：保存 RBFE 网络、edge 表、状态、误差和原始结果文件。
 - `fep_output` asset：FEP 完成后额外生成的派生 SDF；保留输入分子构象，同时把 FEP 结果字段写入 SDF properties，便于在配体处理和相互作用分析中加载、排序、导出。
 
-## API / Automation
+## API 自动化
 
 当前为规划入口；后续 worker 会通过 `POST /api/v1/jobs` 创建任务，并用 `output_asset_ids` 返回结果资产。
 

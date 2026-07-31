@@ -1,4 +1,6 @@
-# 分子生成 / Molecule Generation
+> [English documentation](molecule-generation.EN.md)
+
+# 分子生成
 
 ## 作用
 

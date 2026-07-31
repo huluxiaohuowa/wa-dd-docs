@@ -1,30 +1,25 @@
-# 对接任务 / Docking Tasks
+> [English documentation](docking-tasks.EN.md)
 
-## 作用 / Role
+# 对接任务
+
+## 作用
 
 对接任务组合蛋白、配体和口袋，用于预测结合构象、筛选候选和生成 FEP 起点。当前默认对接引擎为 Uni-Dock GPU，支持 Vina/Vinardo 评分函数。
 
-Docking tasks combine receptor, ligand, and pocket assets to predict binding poses, screen candidates, and seed FEP. The default docking engine is Uni-Dock GPU with Vina/Vinardo scoring.
-
-## 输入 / Inputs
+## 输入
 
 - `prepared_protein` asset
 - `ligand` 或 `prepared_ligand` asset
 - `pocket` asset
 - Uni-Dock 为传统对接引擎，无需神经网络模型文件
 
-Uni-Dock is a traditional docking engine and does not require neural network model files.
-
-## 输出 / Outputs
+## 输出
 
 - `JobOut`
 - `result` asset：包含 Uni-Dock 报告、pose 表、worker log 和任务摘要。
 - 1 个 `prepared_ligand_library` / `docking_pose_library`：把本次任务全部成功 pose 合并到同一个 SDF；每条 SDF 记录保留分子名、SMILES、对接打分和 pose 序号，可单选、多选、排序、导出或进入相互作用分析/FEP。
 
-- `result` asset: Uni-Dock report, pose table, worker log, and task summary.
-- 1 `prepared_ligand_library` / `docking_pose_library`: all successful poses from the task are merged into one SDF. Each SDF record keeps molecule name, SMILES, docking score, and pose index, and can be selected, sorted, exported, or reused by interaction analysis/FEP.
-
-## 操作流程 / Workflow
+## 操作流程
 
 1. 在"蛋白处理"页导入或准备蛋白，并用共晶配体或手动盒子保存 `pocket` asset。
 2. 在"配体处理"页导入 SDF/SMILES 或用 Ketcher 绘制分子。根据目标用途选择导出配置：
@@ -35,16 +30,7 @@ Uni-Dock is a traditional docking engine and does not require neural network mod
 5. 点击"提交对接任务"。系统会创建 `docking` 类型任务并交由 Uni-Dock worker 执行。
 6. 在任务中心查看逐步进度；完成后到输出资产下载结构、报告或把 result asset 传给后续分析/FEP。
 
-1. Import or prepare the receptor in Protein Processing, then save a `pocket` asset from a co-crystal ligand or a manual box.
-2. Import SDF/SMILES or draw molecules in Ligand Processing. Select the export profile by target use:
-   - Uni-Dock/Vina: add hydrogens, generate 3D conformers, assign Gasteiger charges, and prepare PDBQT.
-   - FEP/MD: keep 3D conformers and force-field handoff metadata.
-3. In Docking Tasks, select receptor, pocket, and ligand from dropdowns. The page calls `/api/v1/docking/compatibility`.
-4. Choose the docking method (default: Uni-Dock GPU) and related parameters.
-5. Submit the docking task. The system creates a `docking` job and dispatches it to the Uni-Dock worker.
-6. Track progress in the Task Center. After completion, download structures/reports or reuse the result asset in analysis/FEP.
-
-## API / Automation
+## API 自动化
 
 ```http
 GET /api/v1/docking/compatibility
@@ -55,8 +41,6 @@ GET /api/v1/models/pocketxmol
 ```
 
 自动化时优先调用兼容性接口。只有 `compatible=true` 时才提交对接任务。任务完成后读取 `output_asset_ids`，再通过资产文件下载接口获取结构与报告。
-
-For automation, call the compatibility endpoint first. Submit a docking task only when `compatible=true`. After completion, read `output_asset_ids` and download structures/reports from the asset file endpoints.
 
 ## Server6 Example：1TA2 同系物库与 de novo 生成物对接
 

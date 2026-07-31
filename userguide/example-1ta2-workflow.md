@@ -1,4 +1,6 @@
-# Example 1TA2 完整范例 / Full Walkthrough
+> [English documentation](example-1ta2-workflow.EN.md)
+
+# Example 1TA2 完整范例
 
 本范例在 server6 部署页面完成，访问地址为 `http://123.207.15.89:45103`。目标是让新用户从一个 PDB 共晶结构开始，完成蛋白准备、配体准备、对接、分子生成、二次对接、FEP 规划和相互作用分析。
 

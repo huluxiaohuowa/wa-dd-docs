@@ -1,3 +1,5 @@
+> [English documentation](pi-agent.EN.md)
+
 # Agent / Pi
 
 Agent 页面以 Pi Agent Core 运行个人 CADD 助手。每个 WA-DD 用户只能看到自己的 Pi 会话、上下文和模型配置。

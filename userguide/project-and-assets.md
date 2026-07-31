@@ -1,23 +1,23 @@
-# 项目与资产 / Projects and Assets
+> [English documentation](project-and-assets.EN.md)
 
-## 作用 / Role
+# 项目与资产
+
+## 作用
 
 项目用于隔离同一用户的不同研究任务；资产是可复用的输入、输出和中间文件。
 
-Projects separate research contexts for one user. Assets are reusable inputs, outputs, and intermediate files.
+## 输入
 
-## 输入 / Inputs
+- 项目名称
+- 蛋白、配体、口袋、对接结果等资产
 
-- 项目名称 / project name
-- 蛋白、配体、口袋、对接结果等资产 / protein, ligand, pocket, docking results, and other assets
-
-## 输出 / Outputs
+## 输出
 
 - `project_id`
 - `asset_id`
-- 可下载文件 / downloadable files
+- 可下载文件
 
-## API / Automation
+## API 自动化
 
 ```http
 POST /api/v1/projects

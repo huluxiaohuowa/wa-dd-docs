@@ -1,33 +1,8 @@
-# 配体准备功能清单与开发框架 / Ligand Preparation Requirements and Development Framework
+> [English documentation](ligand-preparation-research-and-framework.EN.md)
+
+# 配体准备功能清单与开发框架
 
 本文面向 WA-DD 的配体准备模块，目标是满足 CADD 研究人员在分子对接、虚拟筛选、SAR/FEP 后续分析中的常见配体准备需求。
-
-This document defines the ligand-preparation capability required by WA-DD for CADD workflows: docking, virtual screening, SAR, and FEP. The implementation should not be a thin web-only SMILES converter. The production path uses a dedicated ligand-prep worker so that chemistry dependencies, future commercial tool adapters, and compute isolation can be managed independently from the web server.
-
-## English executive summary
-
-The ligand workflow must be docking-first. For Uni-Dock / AutoDock Vina docking, the primary ligand output is a `prepared_ligand` with 3D coordinates and proper charges; SDF is the primary interchange format, while PDBQT is the docking-ready format for Vina-family engines. The web application should manage upload, table mapping, Ketcher editing, asset lineage, job submission, and file management. The `wa-dd-ligand-prep-worker` should run the chemistry pipeline.
-
-Minimum production capabilities:
-
-- Inputs: SMILES lists, SDF/MOL/MOL2/PDB upload, tabular files with a SMILES column, empty ligand libraries, and Ketcher drawing/editing.
-- Editing: edit a single molecule from an uploaded file or molecule library; save as a new asset/version by default; keep source asset, row index, molecule name, and edit reason.
-- Standardization: RDKit sanitize, salt stripping, largest-fragment selection, metal disconnection, neutralization/reionization, canonical SMILES, InChIKey deduplication, and failed-molecule reports.
-- Enumeration: pH-aware protonation when the backend is available, tautomer enumeration, undefined stereocenter enumeration, E/Z enumeration, and per-input variant limits.
-- 3D preparation: conformer generation, MMFF/UFF optimization, conformer pruning, failure reporting, and optional retention of supplied 3D coordinates.
-- Docking output: prepared SDF with 3D coordinates, Meeko PDBQT for Vina-family engines, manifest with molecule metadata.
-- Optional compatibility: MOL2 for exchange, Open Babel fallback conversion.
-
-Current implementation direction:
-
-```text
-WebApp / FastAPI
-  -> uploads, Ketcher, tables, assets, API docs, task orchestration
-wa-dd-ligand-prep-worker
-  -> RDKit + OpenBabel + Meeko + Dimorphite-DL chemistry execution
-assets
-  -> ligand, prepared_ligand, prepared_ligand_library, optional docking_ready_ligand
-```
 
 ## 1. 结论
 
