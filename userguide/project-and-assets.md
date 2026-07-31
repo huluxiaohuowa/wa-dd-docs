@@ -55,4 +55,4 @@ DELETE /api/v1/assets/{asset_id}
 
 - `fep_output` 是 FEP 派生出的可加载 SDF 资产。
 - `docking_pose_library` 是对接任务的合并构象 SDF 资产。
-- 如果任务失败并产生失败资产，应删除失败任务和中间/输出文件，避免污染 Example 项目。 
+- 如果任务失败并产生失败资产，应删除失败任务和中间/输出文件，避免污染 Example 项目。
