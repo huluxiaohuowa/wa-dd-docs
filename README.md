@@ -16,7 +16,7 @@ WA-DD 专为计算机辅助药物设计（CADD）研究人员打造，将已可�
 
 从 PDB 结构导入到配体库准备，从 Uni-Dock 对接到 PocketXMol 生成、FEP 规划和三维相互作用检查，所有中间结果都保留为可复用资产——WA-DD 让您专注于药物设计本身，而非工具链的拼凑与切换。
 
-![WA-DD 相互作用分析工作台：在同一窗口中筛选构象、查看受体-配体三维作用力，并逐残基检查接触](userguide/images/interaction-analysis-workbench.png)
+![WA-DD 相互作用分析工作台：在同一窗口中筛选构象、查看受体-配体三维作用力，并逐残基检查接触](userguide/images/interaction-analysis-workbench.jpg)
 
 <a id="core-values-zh"></a>
 
@@ -51,9 +51,9 @@ WA-DD 专为计算机辅助药物设计（CADD）研究人员打造，将已可�
 - **Agent / Pi**：每位用户拥有独立会话、上下文和加密模型配置；受控工具仅能访问该用户有权限的项目、资产和任务。
 - **管理、用户文档与自动化**：管理员可审核用户和管理全局任务；系统资源页显示宿主机 CPU、内存、磁盘和 GPU；Web 镜像会把 `userguide/*.md` 转换为页面内用户文档；API 文档基于 FastAPI OpenAPI，支持以 `project_id`、`asset_id` 和 `job_id` 串联自动化。
 
-![WA-DD 管理与系统资源：管理员可管理用户、文件与项目、全局任务，并查看部署机器的 CPU、内存、GPU 和磁盘指标](userguide/images/admin-system-resources.png)
+![WA-DD 管理与系统资源：管理员可管理用户、文件与项目、全局任务，并查看部署机器的 CPU、内存、GPU 和磁盘指标](userguide/images/admin-system-resources.jpg)
 
-![WA-DD Agent / Pi：用户可管理独立会话和模型配置，并在对话中调用当前项目权限范围内的 CADD 工作流](userguide/images/agent-pi-overview.png)
+![WA-DD Agent / Pi：用户可管理独立会话和模型配置，并在对话中调用当前项目权限范围内的 CADD 工作流](userguide/images/agent-pi-overview.jpg)
 
 #### 开发中：尚不可作为完整生产工作流使用
 
