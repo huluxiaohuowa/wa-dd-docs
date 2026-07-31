@@ -1,0 +1,2507 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://wa-dd.fuluwa.top/molecule-generation-theory/">
+      
+      
+        <link rel="prev" href="../ictrek-webserver/">
+      
+      
+        <link rel="next" href="../openmm-cuda13-build/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>WA-DD 分子生成原理 - WA-DD 文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#wa-dd" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="WA-DD 文档" class="md-header__button md-logo" aria-label="WA-DD 文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WA-DD 文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              WA-DD 分子生成原理
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  WA-DD
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ictrek-webserver/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  WA-DD WebServer Design
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  WA-DD 分子生成原理
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../openmm-cuda13-build/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  OpenMM 8.0 + CUDA 13 编译指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../protein-prep-worker/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Protein Preparation Worker
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../userguide/1A2C-protein-preparation/" class="md-tabs__link">
+          
+  
+  
+  Userguide
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="WA-DD 文档" class="md-nav__button md-logo" aria-label="WA-DD 文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    WA-DD 文档
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WA-DD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ictrek-webserver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WA-DD WebServer Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WA-DD 分子生成原理
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WA-DD 分子生成原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 一句话定位
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 生成模型基础：扩散模型是什么
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 生成模型基础：扩散模型是什么">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 类比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 训练时学什么
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 采样时如何生成
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 口袋信息怎么用
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 口袋信息怎么用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 什么是口袋
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 口袋资产里的关键字段
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 模型如何利用口袋
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 为什么不用整个蛋白
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 分子和口袋如何编码
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 分子和口袋如何编码">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 分子图表示
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 口袋图表示
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-task-prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 任务提示（Task Prompt）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-pmasymdenoiser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 模型结构：PMAsymDenoiser
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 模型结构：PMAsymDenoiser">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-pocket-encoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 口袋编码器（Pocket Encoder）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-molecule-embedder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 分子嵌入层（Molecule Embedder）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-denoiser-backbone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 去噪主干网络（Denoiser Backbone）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-output-decoders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 输出解码器（Output Decoders）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 可选：置信度分数
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 输入与输出
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. 输入与输出">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 任务输入
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 运行时的真实输入文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 输出资产
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 加氢处理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 分子生成的完整步骤
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 两种开放模式的区别
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. 两种开放模式的区别">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-pocket_de_novo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 基于口袋从头生成（pocket_de_novo）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-fragment_grow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 片段生长（fragment_grow）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 暂未开放的模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 关键参数调优指南
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 训练数据与模型能力边界
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. 训练数据与模型能力边界">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 训练数据
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 能做什么
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 不能做什么/注意事项
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. 与下游任务的衔接
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. 参考资料
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../openmm-cuda13-build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenMM 8.0 + CUDA 13 编译指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../protein-prep-worker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Protein Preparation Worker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Userguide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Userguide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/1A2C-protein-preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1A2C 蛋白准备网页端操作指南 / 1A2C Protein Preparation Web Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/admin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    管理 / Admin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/api-automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API 自动化 / API Automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/docking-tasks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    对接任务 / Docking Tasks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/example-1ta2-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Example 1TA2 完整范例 / Full Walkthrough
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/fep-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FEP 与分析 / FEP and Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/interaction-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    相互作用分析 / Interaction Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/ligand-preparation-research-and-framework/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    配体准备功能清单与开发框架 / Ligand Preparation Requirements and Development Framework
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/ligand-preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    配体处理使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/molecule-generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分子生成 / Molecule Generation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/pi-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent / Pi
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/project-and-assets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    项目与资产 / Projects and Assets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/protein-preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    蛋白处理使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/sar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SAR / 构效关系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/tpd-protac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TPD / PROTAC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 一句话定位
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 生成模型基础：扩散模型是什么
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 生成模型基础：扩散模型是什么">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 类比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 训练时学什么
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 采样时如何生成
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 口袋信息怎么用
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 口袋信息怎么用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 什么是口袋
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 口袋资产里的关键字段
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 模型如何利用口袋
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 为什么不用整个蛋白
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 分子和口袋如何编码
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 分子和口袋如何编码">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 分子图表示
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 口袋图表示
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-task-prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 任务提示（Task Prompt）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-pmasymdenoiser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 模型结构：PMAsymDenoiser
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 模型结构：PMAsymDenoiser">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-pocket-encoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 口袋编码器（Pocket Encoder）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-molecule-embedder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 分子嵌入层（Molecule Embedder）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-denoiser-backbone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 去噪主干网络（Denoiser Backbone）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-output-decoders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 输出解码器（Output Decoders）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 可选：置信度分数
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 输入与输出
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. 输入与输出">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 任务输入
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 运行时的真实输入文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 输出资产
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 加氢处理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 分子生成的完整步骤
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 两种开放模式的区别
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. 两种开放模式的区别">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-pocket_de_novo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 基于口袋从头生成（pocket_de_novo）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-fragment_grow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 片段生长（fragment_grow）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 暂未开放的模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 关键参数调优指南
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 训练数据与模型能力边界
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. 训练数据与模型能力边界">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 训练数据
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 能做什么
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 不能做什么/注意事项
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. 与下游任务的衔接
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. 参考资料
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="wa-dd">WA-DD 分子生成原理</h1>
+<p>本文档面向没有读过 PocketXMol 原始文献的同事，解释 WA-DD 中分子生成模块用到的模型原理、口袋信息的使用方式、编码与模型结构、输入输出以及完整的生成步骤。阅读后应能理解：系统为什么这样设计、每个参数在控制什么、以及生成结果为什么长这样。</p>
+<h2 id="1">1. 一句话定位</h2>
+<p>WA-DD 的分子生成不是基于规则拼接片段，而是一个<strong>深度生成模型</strong>——它学习大量真实蛋白-小分子复合物中的原子相互作用规律，然后<strong>在指定口袋区域内从头生成三维分子构象</strong>。当前接入的引擎是 <strong>PocketXMol</strong>。</p>
+<p>PocketXMol 来自清华大学团队 2026 年发表于 <em>Cell</em> 的工作：</p>
+<blockquote>
+<p>Peng, X. et al. "Unified modeling of 3D molecular generation via atomic interactions with PocketXMol." <em>Cell</em> (2026). DOI: <a href="http://dx.doi.org/10.1016/j.cell.2026.01.003">10.1016/j.cell.2026.01.003</a>
+开源代码：<a href="https://github.com/pengxingang/PocketXMol">https://github.com/pengxingang/PocketXMol</a></p>
+</blockquote>
+<p>与传统做法把"分子对接""骨架跃迁""片段生长"等任务拆成不同工具不同，PocketXMol 试图把所有这些任务统一成同一个问题：<strong>给定一部分已知原子（蛋白口袋、已有片段、约束），生成剩余未知原子的类型、三维坐标和化学键</strong>。</p>
+<h2 id="2">2. 生成模型基础：扩散模型是什么</h2>
+<h3 id="21">2.1 类比</h3>
+<p>扩散模型（Diffusion Model）的核心思想可以类比为：</p>
+<ol>
+<li><strong>正向过程</strong>：从一张清晰照片开始，逐步加入噪声，直到完全变成随机雪花点。</li>
+<li><strong>反向过程</strong>：训练一个神经网络，学习如何从雪花点一步步恢复出清晰照片。</li>
+<li><strong>生成</strong>：从纯噪声出发，执行反向过程，得到一张模型"想象"出来的新照片。</li>
+</ol>
+<p>对分子生成来说，"清晰照片"就是一个完整的分子：每个原子的元素类型、三维坐标、原子之间的化学键。"噪声"就是把这些信息打乱：坐标随机偏移、元素类型随机替换、化学键随机改变。</p>
+<h3 id="22">2.2 训练时学什么</h3>
+<p>训练阶段，PocketXMol 会：</p>
+<ol>
+<li>取一个真实的蛋白-配体复合物结构。</li>
+<li>随机选择一部分原子作为"已知"（比如蛋白口袋原子），另一部分作为"待生成"（配体原子）。</li>
+<li>对"待生成"部分加入不同程度的噪声。</li>
+<li>让模型观察"已知部分"和"当前带噪的待生成部分"，预测原始干净结构。</li>
+</ol>
+<p>通过海量数据（论文提到约 1200 万小分子、4 万多蛋白-多肽复合物、8.5 万多蛋白-小分子复合物）的训练，模型学会的不是背下某个分子，而是<strong>原子之间合理的空间关系和成键规律</strong>。</p>
+<h3 id="23">2.3 采样时如何生成</h3>
+<p>生成（采样）阶段，模型：</p>
+<ol>
+<li>从随机噪声初始化一个分子。</li>
+<li>把蛋白口袋作为固定条件输入模型。</li>
+<li>迭代执行多步"去噪"：每步预测当前噪声结构对应的更干净结构。</li>
+<li>最后把去噪结果还原成规范的 SDF 分子文件。</li>
+</ol>
+<p>步数越多，生成过程越充分，但也越慢。</p>
+<h2 id="3">3. 口袋信息怎么用</h2>
+<h3 id="31">3.1 什么是口袋</h3>
+<p>在结构生物学中，"口袋"（pocket/binding site）是蛋白表面一个适合小分子结合的凹陷区域。WA-DD 用一个<strong>中心点 + 半径</strong>来定义 PocketXMol 的生成区域，同时用一个<strong>PDB 文件</strong>保存口袋附近的残基，用于模型输入和可视化。</p>
+<h3 id="32">3.2 口袋资产里的关键字段</h3>
+<p>WA-DD 的 <code>pocket</code> 资产元数据包含：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>center</code></td>
+<td>三维空间中心点 <code>[x, y, z]</code></td>
+<td>对接盒中心和分子生成中心</td>
+</tr>
+<tr>
+<td><code>box_size</code></td>
+<td>对接盒尺寸 <code>[sx, sy, sz]</code></td>
+<td>Vina/AutoDock/Uni-Dock 的搜索空间</td>
+</tr>
+<tr>
+<td><code>generation_radius</code></td>
+<td>生成半径（Å）</td>
+<td>PocketXMol 实际使用的口袋范围</td>
+</tr>
+<tr>
+<td><code>pocket_structure</code></td>
+<td>口袋残基 PDB</td>
+<td>模型输入 + 3D 可视化</td>
+</tr>
+</tbody>
+</table>
+<p><code>generation_radius</code> 默认从 <code>box_size</code> 推导：</p>
+<pre><code class="language-python">max_box = max(box_size)
+generation_radius = max(10.0, min(24.0, max_box / 2.0 + 4.0))
+</code></pre>
+<p>也就是说，如果 box 是 20 Å 的立方体，生成半径约为 14 Å。用户也可以在提交任务时显式覆盖。</p>
+<h3 id="33">3.3 模型如何利用口袋</h3>
+<p>PocketXMol 不会把整个蛋白都读入模型，而是只取口袋半径内的残基原子，构建一个<strong>蛋白原子图</strong>（pocket graph）：</p>
+<ul>
+<li>节点：口袋中的原子（包含元素类型、残基信息等特征）。</li>
+<li>边：原子之间的空间邻接关系（通常用 KNN 或半径图构建）。</li>
+</ul>
+<p>这个口袋图在整个生成过程中是<strong>固定不变的条件上下文</strong>。模型生成配体时，每一步都要参考口袋原子的位置和化学环境，从而确保新分子与口袋能够形成合理的相互作用（氢键、疏水作用、π-π 堆积等）。</p>
+<h3 id="34">3.4 为什么不用整个蛋白</h3>
+<p>两个原因：</p>
+<ol>
+<li><strong>计算效率</strong>： distant 残基对口袋内结合没有直接影响，去掉可以显著降低显存和计算量。</li>
+<li><strong>聚焦学习</strong>：模型在训练时也只关注结合位点附近，因此生成时只需要口袋上下文。</li>
+</ol>
+<h2 id="4">4. 分子和口袋如何编码</h2>
+<p>PocketXMol 的关键设计是<strong>原子级统一表示</strong>。它不区分小分子、多肽或蛋白，全部看作"原子 + 键"的图。</p>
+<h3 id="41">4.1 分子图表示</h3>
+<p>一个分子被表示为图：</p>
+<ul>
+<li><strong>节点（node）</strong>：每个重原子（氢原子通常被隐式处理）。</li>
+<li><code>node_type</code>：元素/原子类型编号（C、N、O、S、P、卤素等）。</li>
+<li><code>node_pos</code>：三维坐标 <code>[x, y, z]</code>。</li>
+<li><strong>半边（half-edge）</strong>：因为图神经网络中边是双向的，但化学键本身无方向，所以用半边存储 <code>i &lt; j</code> 的键。</li>
+<li><code>halfedge_type</code>：键类型编号（无键、单键、双键、三键、芳香键、MASK 等）。</li>
+<li><code>halfedge_index</code>：键连接的两个原子索引。</li>
+</ul>
+<h3 id="42">4.2 口袋图表示</h3>
+<p>口袋同样被编码为图：</p>
+<ul>
+<li><code>pocket_atom_feature</code>：口袋原子的输入特征（元素、残基类型等 one-hot 或嵌入）。</li>
+<li><code>pocket_pos</code>：口袋原子坐标。</li>
+<li><code>pocket_knn_edge_index</code>：基于 KNN 构建的口袋原子邻接边。</li>
+</ul>
+<h3 id="43-task-prompt">4.3 任务提示（Task Prompt）</h3>
+<p>PocketXMol 用一个巧妙的机制统一不同任务：<strong>二进制固定掩码</strong>（fixed masks）。对图中每个原子/键，模型都知道它是不是"已知、不可改动"的：</p>
+<ul>
+<li><code>fixed_node = 1</code>：原子类型已知，不要改。</li>
+<li><code>fixed_pos = 1</code>：原子坐标已知，不要动。</li>
+<li><code>fixed_halfedge = 1</code>：化学键已知，不要改。</li>
+</ul>
+<p>这些掩码作为额外特征拼接进模型输入，成为"任务提示"。不同任务只是掩码设置不同：</p>
+<table>
+<thead>
+<tr>
+<th>任务</th>
+<th>固定什么</th>
+<th>生成什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>口袋从头生成（pocket_de_novo）</td>
+<td>蛋白口袋原子</td>
+<td>完整配体所有原子</td>
+</tr>
+<tr>
+<td>片段生长（fragment_grow）</td>
+<td>蛋白口袋 + 参考 fragment 原子</td>
+<td>fragment 之外的扩展部分</td>
+</tr>
+<tr>
+<td>骨架跃迁（scaffold_hop）</td>
+<td>蛋白口袋 + 部分骨架原子</td>
+<td>被替换的骨架部分</td>
+</tr>
+<tr>
+<td>连接子设计（linker_design）</td>
+<td>蛋白口袋 + 两个固定片段</td>
+<td>连接两个片段的 linker</td>
+</tr>
+</tbody>
+</table>
+<p>WA-DD 当前开放了前两种，后两种需要用户在 3D 视图中点选保留/替换/锚点原子，页面暂不支持。</p>
+<h2 id="5-pmasymdenoiser">5. 模型结构：PMAsymDenoiser</h2>
+<p>PocketXMol 的核心网络叫 <code>PMAsymDenoiser</code>（Pocket-Molecule Asymmetric Denoiser），源码在 <code>models/maskfill.py</code>。它由四部分组成：</p>
+<pre><code>口袋特征编码器（Pocket Encoder）
+        ↓
+分子嵌入层（Molecule Embedder）
+        ↓
+去噪主干网络（Denoiser Backbone）
+        ↓
+输出解码器（Output Decoders）
+</code></pre>
+<h3 id="51-pocket-encoder">5.1 口袋编码器（Pocket Encoder）</h3>
+<p>输入：口袋原子特征 + 口袋原子坐标 + 口袋 KNN 边。</p>
+<ul>
+<li>先用一个线性层把 <code>pocket_atom_feature</code> 映射到隐藏维度。</li>
+<li>再用一个图神经网络（<code>ContextNodeEdgeNet</code>）在口袋图内部做消息传递，让每个口袋原子获得周围邻居和全局结构信息。</li>
+<li>输出 <code>h_pocket</code>：每个口袋原子的上下文向量。</li>
+</ul>
+<p>这个编码器让模型"理解"口袋的形状、极性、可成键位点。</p>
+<h3 id="52-molecule-embedder">5.2 分子嵌入层（Molecule Embedder）</h3>
+<p>输入：当前带噪的分子（<code>node_in</code>、<code>pos_in</code>、<code>halfedge_in</code>）+ 任务提示掩码。</p>
+<ul>
+<li><code>nodetype_embedder</code>：把原子类型编号嵌入成向量。</li>
+<li><code>edgetype_embedder</code>：把键类型编号嵌入成向量。</li>
+<li>把 <code>fixed_node</code>、<code>fixed_pos</code> 等二进制掩码作为额外通道拼接进去。</li>
+</ul>
+<p>这样每个原子和键的初始向量都包含了：当前是什么 + 这个位置是不是被锁定的。</p>
+<h3 id="53-denoiser-backbone">5.3 去噪主干网络（Denoiser Backbone）</h3>
+<p>这是模型最核心的部分。它也是一个图神经网络（<code>ContextNodeEdgeNet</code> 或 GVP/IPA 变体），但有两个特别之处：</p>
+<ol>
+<li><strong>同时处理节点和边</strong>：消息传递不仅在原子之间进行，也在化学键之间进行，因此模型能学习成键约束。</li>
+<li><strong>跨图注意力/上下文融合</strong>：分子图的消息传递会读取口袋编码器的输出 <code>h_pocket</code>，让分子原子的更新受口袋原子引导。</li>
+</ol>
+<p>经过多层消息传递后，每个原子和键都获得了富含上下文的隐藏表示。</p>
+<h3 id="54-output-decoders">5.4 输出解码器（Output Decoders）</h3>
+<p>从隐藏表示直接预测三个东西：</p>
+<ul>
+<li><code>pred_node</code>：每个原子的元素类型概率分布。</li>
+<li><code>pred_pos</code>：每个原子的三维坐标（去噪后的位置）。</li>
+<li><code>pred_halfedge</code>：每条半边的键类型概率分布。</li>
+</ul>
+<p>在训练时，这三个预测会分别与真实值计算损失；在采样时，它们被用来更新当前分子。</p>
+<h3 id="55">5.5 可选：置信度分数</h3>
+<p>如果配置里开启 <code>confidence</code>，模型还会对每个原子、坐标、键预测一个置信度，用于后续对多个生成结果排序。</p>
+<h2 id="6">6. 输入与输出</h2>
+<h3 id="61">6.1 任务输入</h3>
+<p>WA-DD 提交分子生成任务时，API 端点 <code>/api/v1/molecule-generation/pocketxmol</code> 接收以下关键参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>protein_asset_id</code></td>
+<td>必填</td>
+<td>蛋白/已准备蛋白/complex 资产</td>
+</tr>
+<tr>
+<td><code>pocket_asset_id</code></td>
+<td>必填</td>
+<td>口袋资产，提供 center/radius/pocket_structure</td>
+</tr>
+<tr>
+<td><code>mode</code></td>
+<td><code>pocket_de_novo</code></td>
+<td><code>pocket_de_novo</code> 或 <code>fragment_grow</code></td>
+</tr>
+<tr>
+<td><code>reference_ligand_asset_id</code></td>
+<td>可选</td>
+<td>fragment_grow 模式下必填</td>
+</tr>
+<tr>
+<td><code>num_mols</code></td>
+<td>20</td>
+<td>总生成数量</td>
+</tr>
+<tr>
+<td><code>batch_size</code></td>
+<td>20</td>
+<td>每轮同时生成的分子数</td>
+</tr>
+<tr>
+<td><code>num_steps</code></td>
+<td>100</td>
+<td>每分子去噪步数</td>
+</tr>
+<tr>
+<td><code>generation_radius</code></td>
+<td>从 box 推导</td>
+<td>PocketXMol 半径</td>
+</tr>
+<tr>
+<td><code>mean_atoms</code> / <code>std_atoms</code> / <code>min_atoms</code></td>
+<td>28 / 2 / 5</td>
+<td>生成分子大小的正态分布</td>
+</tr>
+<tr>
+<td><code>device</code></td>
+<td><code>cuda:0</code></td>
+<td>GPU 设备</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62">6.2 运行时的真实输入文件</h3>
+<p>worker 会准备以下文件给 PocketXMol 的 <code>scripts/sample_use.py</code>：</p>
+<ul>
+<li><code>protein_path</code>：蛋白 PDB。</li>
+<li>可选 <code>input_ligand</code>：参考 fragment SDF（fragment_grow 模式）。</li>
+<li><code>task_config</code>：YAML，包含采样参数、口袋参数、任务类型、噪声调度。</li>
+<li><code>model_config</code>：YAML，仅指定 checkpoint 路径。</li>
+</ul>
+<h3 id="63">6.3 输出资产</h3>
+<p>任务完成后，worker 会创建两类资产：</p>
+<ol>
+<li><strong>一个 <code>prepared_ligand_library</code></strong>：</li>
+<li><code>prepared_structure</code>：加氢后的完整 SDF。</li>
+<li><code>generated_structure</code>：原始生成 SDF。</li>
+<li><code>pocket_structure</code>：口袋 PDB。</li>
+<li><code>report</code>：生成报告 JSON。</li>
+<li><code>interaction_report</code> / <code>interaction_table</code>：几何相互作用预览。</li>
+<li><code>molecule_table</code>：每个分子的 SMILES、分子式、分子量、重原子数。</li>
+<li>
+<p><code>run_config</code> / <code>log</code>：运行配置和日志。</p>
+</li>
+<li>
+<p><strong>多个 <code>prepared_ligand</code></strong>：</p>
+</li>
+<li>每个生成构象一个独立资产。</li>
+<li>可直接用于对接、FEP、相互作用分析。</li>
+</ol>
+<h3 id="64">6.4 加氢处理</h3>
+<p>PocketXMol 生成的是重原子结构。worker 用 RDKit 的 <code>Chem.AddHs(mol, addCoords=True)</code> 加氢，保持三维坐标不变，并在 SDF 属性中记录：</p>
+<pre><code>wa_dd_hydrogen_method: rdkit_addhs_preserve_pose
+wa_dd_prepared_for: docking
+</code></pre>
+<h2 id="7">7. 分子生成的完整步骤</h2>
+<p>从用户点击提交到资产入库，流程如下：</p>
+<pre><code>1. Web 端创建 Job
+   - 校验蛋白、口袋、参考配体资产
+   - 计算 generation_radius
+   - 写入 Postgres，状态 queued
+   - 发布 Redis 事件
+
+2. PocketXMol worker 拉取 Job
+   - 只处理 job_type=molecule_generation + engine=pocketxmol
+
+3. 准备模型
+   - 检查 /modelhub/export/ms/huluxiaohuowa/pocketxmol/current
+   - 缺失则通过 modelscope download 下载
+
+4. 准备输入
+   - 解析蛋白 PDB
+   - 解析口袋资产元数据
+   - fragment_grow 模式：读取参考配体第一个分子作为 fragment
+
+5. 写入任务配置 YAML
+   - pocket_de_novo：task.name=sbdd，transform.name=ar
+   - fragment_grow：task.name=maskfill，保留 fragment 全部重原子
+
+6. 执行采样
+   - 调用 scripts/sample_use.py
+   - 正向/反向扩散循环
+   - 输出 SDF 到工作目录
+
+7. 后处理
+   - 收集所有成功 SDF
+   - 合并成一个 ligand library
+   - 加氢
+   - 生成分子信息表
+   - 计算几何相互作用预览
+
+8. 写入资产
+   - 创建 library 资产
+   - 为每个构象创建独立 prepared_ligand 资产
+   - 更新 Job 状态为 completed
+   - 发布完成事件
+</code></pre>
+<h2 id="8">8. 两种开放模式的区别</h2>
+<h3 id="81-pocket_de_novo">8.1 基于口袋从头生成（pocket_de_novo）</h3>
+<ul>
+<li>只固定蛋白口袋。</li>
+<li>分子从完全噪声开始生成。</li>
+<li>适合探索全新化学骨架。</li>
+<li>任务配置示例（简化）：</li>
+</ul>
+<pre><code class="language-yaml">task:
+  name: sbdd
+  transform:
+    name: ar
+    part1_pert: small
+noise:
+  name: maskfill
+  num_steps: 100
+  ar_config:
+    strategy: refine
+    r: 3
+    threshold_node: 0.98
+    threshold_pos: 0.91
+    threshold_bond: 0.98
+    max_ar_step: 10
+</code></pre>
+<p>这里的 <code>ar</code> 指 autoregressive-like refine，每步先生成/修正一部分原子，再逐步细化。</p>
+<h3 id="82-fragment_grow">8.2 片段生长（fragment_grow）</h3>
+<ul>
+<li>固定蛋白口袋 + 参考 fragment 的所有重原子。</li>
+<li>模型只生成 fragment 之外的扩展部分。</li>
+<li>适合在已知活性片段基础上做 SAR 扩展。</li>
+<li>WA-DD 当前采用"整个参考分子的第一个构象作为 fragment"的语义，用户不需要手动选原子。</li>
+<li>任务配置示例（简化）：</li>
+</ul>
+<pre><code class="language-yaml">transforms:
+  variable_mol_size:
+    not_remove: [0, 1, 2, 3, 4, 5, 6]  # fragment 原子索引
+task:
+  name: maskfill
+  transform:
+    name: maskfill
+    preset_partition:
+      grouped_node_p1: [[0, 1, 2, 3, 4, 5, 6]]
+    settings:
+      part1_pert:
+        fixed: 1
+</code></pre>
+<h3 id="83">8.3 暂未开放的模式</h3>
+<ul>
+<li><strong>Scaffold hopping</strong>：需要用户选择哪些原子属于要被替换的骨架。</li>
+<li><strong>Linker design</strong>：需要用户选择两个或多个片段以及连接锚点。</li>
+</ul>
+<p>这两个模式在 PocketXMol 里完全支持，但 WA-DD 页面缺少原子/锚点选择器，所以 API 直接拒绝提交，避免任务语义不清。</p>
+<h2 id="9">9. 关键参数调优指南</h2>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>影响</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>num_mols</code></td>
+<td>总候选数</td>
+<td>20-100；先小批量验证</td>
+</tr>
+<tr>
+<td><code>batch_size</code></td>
+<td>显存占用、并行度</td>
+<td>16-24 GB 显存用 20；小口袋/小半径可尝试 50</td>
+</tr>
+<tr>
+<td><code>num_steps</code></td>
+<td>每分子去噪深度</td>
+<td>20 快速验证；100 正式；200+ 更充分但慢</td>
+</tr>
+<tr>
+<td><code>generation_radius</code></td>
+<td>口袋范围、显存</td>
+<td>默认足够；盲目增大会显著增加计算量</td>
+</tr>
+<tr>
+<td><code>mean_atoms</code></td>
+<td>目标分子大小</td>
+<td>默认 28 重原子适合典型小分子；大环/肽可调</td>
+</tr>
+<tr>
+<td><code>std_atoms</code></td>
+<td>大小波动</td>
+<td>默认 2；想多样性大可增大</td>
+</tr>
+<tr>
+<td><code>min_atoms</code></td>
+<td>最小原子数</td>
+<td>默认 5；过滤掉过碎的结果</td>
+</tr>
+</tbody>
+</table>
+<p>注意：batch_size 和半径对显存的影响通常大于 num_steps。</p>
+<h2 id="10">10. 训练数据与模型能力边界</h2>
+<h3 id="101">10.1 训练数据</h3>
+<p>论文中提到 PocketXMol 在以下数据上联合训练：</p>
+<ul>
+<li>约 1200 万个小分子（用于学习一般化学规律）。</li>
+<li>约 4 万个蛋白质-多肽复合物。</li>
+<li>约 8.5 万个蛋白质-小分子复合物。</li>
+</ul>
+<p>联合训练让模型学到的不是某个任务的特解，而是原子间相互作用的通用规律，因此能在 13 个计算基准中的 11 个达到 SOTA。</p>
+<h3 id="102">10.2 能做什么</h3>
+<ul>
+<li>在已知口袋内生成全新小分子。</li>
+<li>在保留 fragment 的前提下扩展分子。</li>
+<li>生成与口袋几何互补的构象。</li>
+<li>作为下游对接/FEP 的候选输入。</li>
+</ul>
+<h3 id="103">10.3 不能做什么/注意事项</h3>
+<ul>
+<li><strong>不保证合成可及性</strong>：生成的分子在化学上合理，但不一定容易合成。</li>
+<li><strong>不替代实验验证</strong>：结合亲和力、选择性、ADMET 仍需实验或更精细计算。</li>
+<li><strong>几何相互作用预览不是能量计算</strong>：worker 输出的 interaction 表只是距离阈值几何预览，用于快速查看匹配，不是 MD 或严格能量模拟。</li>
+<li><strong>受限于训练分布</strong>：如果目标口袋或分子类型与训练数据差异很大，生成质量可能下降。</li>
+<li><strong>多肽/非天然氨基酸</strong>：PocketXMol 支持，但 WA-DD 当前小分子流程默认 <code>is_pep: False</code>。</li>
+</ul>
+<h2 id="11">11. 与下游任务的衔接</h2>
+<p>生成结果已经被 worker 标记为 <code>prepared_for: [docking, wa-dd, fep_md]</code>，可以直接进入下游：</p>
+<ul>
+<li><strong>对接</strong>：在 Docking 页面选择生成的 <code>prepared_ligand</code> 或 <code>prepared_ligand_library</code> 作为配体。</li>
+<li><strong>FEP</strong>：选择单个 <code>prepared_ligand</code> 构象作为候选配体。</li>
+<li><strong>相互作用分析</strong>：选择生成时使用的 <code>pocket</code> 资产作为受体上下文，再选 <code>prepared_ligand</code> 查看几何相互作用。</li>
+</ul>
+<p>如果下游工具需要 PDBQT 等格式，由对应的 worker 在提交时自动转换，不需要用户手动修改 SDF。</p>
+<h2 id="12">12. 参考资料</h2>
+<ol>
+<li>PocketXMol 论文：Peng, X. et al. "Unified modeling of 3D molecular generation via atomic interactions with PocketXMol." <em>Cell</em> (2026). DOI: <a href="http://dx.doi.org/10.1016/j.cell.2026.01.003">10.1016/j.cell.2026.01.003</a></li>
+<li>PocketXMol 开源代码：<a href="https://github.com/pengxingang/PocketXMol">https://github.com/pengxingang/PocketXMol</a></li>
+<li>WA-DD 集成代码：</li>
+<li>Worker: <a href="file:///Users/hulu/dev/repos/wa-dd/src/pocketxmol_worker/worker.py">src/pocketxmol_worker/worker.py</a></li>
+<li>API: <a href="file:///Users/hulu/dev/repos/wa-dd/src/wa_dd_web/main.py">src/wa_dd_web/main.py</a></li>
+<li>Schema: <a href="file:///Users/hulu/dev/repos/wa-dd/src/wa_dd_web/schemas.py">src/wa_dd_web/schemas.py</a></li>
+<li>用户指南：<a href="file:///Users/hulu/dev/repos/wa-dd/userguide/molecule-generation.md">userguide/molecule-generation.md</a></li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/huluxiaohuowa/wa-dd" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

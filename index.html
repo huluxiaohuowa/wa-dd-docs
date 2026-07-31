@@ -1,0 +1,2431 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://wa-dd.fuluwa.top/">
+      
+      
+      
+        <link rel="next" href="ictrek-webserver/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>WA-DD 文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#wa-dd" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="." title="WA-DD 文档" class="md-header__button md-logo" aria-label="WA-DD 文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WA-DD 文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              WA-DD
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="." class="md-tabs__link">
+        
+  
+  
+    
+  
+  WA-DD
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="ictrek-webserver/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  WA-DD WebServer Design
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="molecule-generation-theory/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  WA-DD 分子生成原理
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="openmm-cuda13-build/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  OpenMM 8.0 + CUDA 13 编译指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="protein-prep-worker/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Protein Preparation Worker
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="userguide/1A2C-protein-preparation/" class="md-tabs__link">
+          
+  
+  
+  Userguide
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="WA-DD 文档" class="md-nav__button md-logo" aria-label="WA-DD 文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    WA-DD 文档
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WA-DD
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WA-DD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        面向药物研发的一体化分子设计工作台
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="面向药物研发的一体化分子设计工作台">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心价值
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        功能状态
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="功能状态">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        已可用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        开发中：尚不可作为完整生产工作流使用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        规划中：尚未实现业务工作流
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交互结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        持久化路径与跨容器文件约定
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        默认账户
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        独立 Docker 部署（当前）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        快速启动
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        支持的组件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模型缓存
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API 自动化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用指南
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VOS 打包
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        来源与许可
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#english-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        English Guide
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="English Guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Values
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature status
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Feature status">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-now" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available now
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-development-not-yet-a-complete-production-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In development: not yet a complete production workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#planned-no-business-workflow-is-implemented-yet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Planned: no business workflow is implemented yet
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interaction-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interaction model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#persistent-storage-and-cross-container-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persistent storage and cross-container paths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Default account
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standalone-docker-deployment-current" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standalone Docker deployment (current)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model cache
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API automation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-guides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User guides
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vos-packaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VOS packaging
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ictrek-webserver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WA-DD WebServer Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="molecule-generation-theory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WA-DD 分子生成原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="openmm-cuda13-build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenMM 8.0 + CUDA 13 编译指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="protein-prep-worker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Protein Preparation Worker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Userguide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Userguide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/1A2C-protein-preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1A2C 蛋白准备网页端操作指南 / 1A2C Protein Preparation Web Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/admin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    管理 / Admin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/api-automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API 自动化 / API Automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/docking-tasks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    对接任务 / Docking Tasks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/example-1ta2-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Example 1TA2 完整范例 / Full Walkthrough
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/fep-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FEP 与分析 / FEP and Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/interaction-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    相互作用分析 / Interaction Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/ligand-preparation-research-and-framework/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    配体准备功能清单与开发框架 / Ligand Preparation Requirements and Development Framework
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/ligand-preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    配体处理使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/molecule-generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分子生成 / Molecule Generation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/pi-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent / Pi
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/project-and-assets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    项目与资产 / Projects and Assets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/protein-preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    蛋白处理使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/sar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SAR / 构效关系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/tpd-protac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TPD / PROTAC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        面向药物研发的一体化分子设计工作台
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="面向药物研发的一体化分子设计工作台">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心价值
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        功能状态
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="功能状态">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        已可用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        开发中：尚不可作为完整生产工作流使用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        规划中：尚未实现业务工作流
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交互结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        持久化路径与跨容器文件约定
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        默认账户
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        独立 Docker 部署（当前）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        快速启动
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        支持的组件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模型缓存
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API 自动化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用指南
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VOS 打包
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        来源与许可
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#english-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        English Guide
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="English Guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Values
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature status
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Feature status">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-now" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available now
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-development-not-yet-a-complete-production-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In development: not yet a complete production workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#planned-no-business-workflow-is-implemented-yet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Planned: no business workflow is implemented yet
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interaction-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interaction model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#persistent-storage-and-cross-container-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persistent storage and cross-container paths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Default account
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standalone-docker-deployment-current" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standalone Docker deployment (current)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model cache
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API automation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-guides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User guides
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vos-packaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VOS packaging
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="wa-dd">WA-DD</h1>
+<p><a id="chinese-guide"></a></p>
+<p align="center">
+  <img src="userguide/images/wa-dd-logo.svg" alt="WA-DD logo" width="140">
+</p>
+
+<h2 id="_1">面向药物研发的一体化分子设计工作台</h2>
+<p><img alt="WA-DD main page" src="userguide/images/wa-dd-workbench-main.png" /></p>
+<p>WA-DD 专为计算机辅助药物设计（CADD）研究人员打造，将已可用的靶点蛋白处理、配体准备、分子对接、分子生成、相互作用分析和 FEP/RBFE dry-run 工作流整合到统一的浏览器界面中；正式自由能生产模拟仍在开发。</p>
+<p>从 PDB 结构导入到配体库准备，从 Uni-Dock 对接到 PocketXMol 生成、FEP 规划和三维相互作用检查，所有中间结果都保留为可复用资产——WA-DD 让您专注于药物设计本身，而非工具链的拼凑与切换。</p>
+<p><img alt="WA-DD 相互作用分析工作台：在同一窗口中筛选构象、查看受体-配体三维作用力，并逐残基检查接触" src="userguide/images/interaction-analysis-workbench.png" /></p>
+<p><a id="core-values-zh"></a></p>
+<h3 id="_2">核心价值</h3>
+<ul>
+<li><strong>连续工作流</strong>：已覆盖蛋白准备、配体准备、对接、分子生成、FEP/RBFE dry-run 和相互作用分析</li>
+<li><strong>资产化管理</strong>：蛋白、口袋、配体、对接构象库、FEP 派生 SDF 和报告都沉淀为可复用、可追踪、可 API 调用的资产</li>
+<li><strong>灵活部署</strong>：支持 x86 NVIDIA 和 Jetson Thor ARM64 平台，兼顾性能与边缘计算</li>
+<li><strong>开放生态</strong>：对接 Uni-Dock、Vina、OpenFE、OpenMM 等主流 CADD 工具</li>
+</ul>
+<p><a id="feature-status-zh"></a></p>
+<h3 id="_3">功能状态</h3>
+<p>功能按用户能否在当前 WebApp 中完成端到端任务划分；“开发中”和“规划中”均不应视为生产可用能力。</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>模块</th>
+<th>当前可用范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>已可用</td>
+<td>项目与资产、蛋白处理、配体处理、对接任务、分子生成、相互作用分析</td>
+<td>可创建并复用资产、提交任务、查看、筛选、导出或下载输出。</td>
+</tr>
+<tr>
+<td>已可用</td>
+<td>FEP / RBFE dry-run</td>
+<td>可从 docked pose library 创建 ligand map 规划结果，生成 <code>fep_result</code> 和带 FEP 字段的 <code>fep_output</code> SDF；dry-run 不代表真实 ΔΔG。</td>
+</tr>
+<tr>
+<td>已可用</td>
+<td>Agent / Pi、管理、系统资源、用户文档、API 文档</td>
+<td>可管理个人 Agent 会话与模型配置；管理员可管理用户和任务；模块指南和 API 契约可直接浏览。</td>
+</tr>
+<tr>
+<td>开发中</td>
+<td>FEP / 自由能生产计算</td>
+<td>正式 OpenMM 生产模拟、真实 ΔG/ΔΔG、轨迹分析和长程 RBFE 科学验证仍待完成。</td>
+</tr>
+<tr>
+<td>规划中</td>
+<td>TPD / PROTAC、SAR / 构效关系</td>
+<td>目前仅保留功能定位与指南入口，尚无可提交的业务工作流。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_4">已可用</h4>
+<ul>
+<li><strong>项目与资产</strong>：按用户隔离项目、资产、任务和文件；资产支持预览、下载、重命名、删除和复制到其他项目。操作优先使用资产名称、类型和来源，不要求用户记裸 ID。</li>
+<li><strong>蛋白与配体处理</strong>：支持 PDB ID/本地 PDB、SMILES/SDF/MOL/MOL2/PDB 导入，3D 预览、口袋定义、Ketcher 2D 编辑及蛋白/配体准备。配体资产按原始配体、准备后配体、对接构象、分子生成和 FEP 输出分组，可打开 2D/3D、排序、筛选、合并、导出。</li>
+<li><strong>对接与相互作用分析</strong>：使用 Uni-Dock GPU（Vina/Vinardo 评分）提交对接任务；每组任务输出一个合并 SDF pose library 和报告。相互作用分析可从对接、生成或 FEP 输出中多选构象，检查几何接触、导出表格/SDF 或生成新资产。</li>
+<li><strong>分子生成</strong>：PocketXMol 支持口袋 de novo 生成和 fragment growing；结果保存为可复用的 <code>prepared_ligand</code> 或 <code>prepared_ligand_library</code>。<code>scaffold hopping</code> 与 <code>linker design</code> 需要原子锚点选择器，当前未开放。</li>
+<li><strong>FEP / RBFE dry-run</strong>：可基于 docked pose library 创建 RBFE 规划结果，输出 <code>fep_result</code> edge 表和带 FEP 字段的 <code>fep_output</code> SDF。dry-run 用于检查 ligand map 和结果联动，不产生真实 ΔG/ΔΔG 或轨迹。</li>
+<li><strong>Agent / Pi</strong>：每位用户拥有独立会话、上下文和加密模型配置；受控工具仅能访问该用户有权限的项目、资产和任务。</li>
+<li><strong>管理、用户文档与自动化</strong>：管理员可审核用户和管理全局任务；系统资源页显示宿主机 CPU、内存、磁盘和 GPU；Web 镜像会把 <code>userguide/*.md</code> 转换为页面内用户文档；API 文档基于 FastAPI OpenAPI，支持以 <code>project_id</code>、<code>asset_id</code> 和 <code>job_id</code> 串联自动化。</li>
+</ul>
+<p><img alt="WA-DD 管理与系统资源：管理员可管理用户、文件与项目、全局任务，并查看部署机器的 CPU、内存、GPU 和磁盘指标" src="userguide/images/admin-system-resources.png" /></p>
+<p><img alt="WA-DD Agent / Pi：用户可管理独立会话和模型配置，并在对话中调用当前项目权限范围内的 CADD 工作流" src="userguide/images/agent-pi-overview.png" /></p>
+<h4 id="_5">开发中：尚不可作为完整生产工作流使用</h4>
+<ul>
+<li><strong>FEP / 自由能生产计算</strong>：OpenFE + OpenMM（CUDA）worker 仍面向正式采样与分析补齐；真实 ΔG/ΔΔG、误差、轨迹和长程 RBFE 科学验证尚未完成，当前不应据 dry-run 作出生产级 FEP 结论。</li>
+</ul>
+<h4 id="_6">规划中：尚未实现业务工作流</h4>
+<ul>
+<li><strong>TPD / PROTAC</strong>：拟支持 POI-E3 三元复合物设计、warhead/E3 ligand/linker 设计与降解剂优化；待 FEP 稳定后启动。</li>
+<li><strong>SAR / 构效关系</strong>：拟支持活性数据表、R-group 分析、MMPA、构效关系可视化和下一轮设计候选推荐；尚未实现。</li>
+</ul>
+<p><a id="interaction-model-zh"></a></p>
+<h3 id="_7">交互结构</h3>
+<p>全局顶部只承载应用标题、项目上下文、任务中心、用户和退出。项目切换、新建、删除收进右上角项目菜单；任务进度收进任务中心，按步骤时间线显示，不在顶部铺绿色状态条。</p>
+<p>每个业务模块按 CADD 操作流分层：</p>
+<ul>
+<li>左侧：输入、参数、资产选择和提交动作。</li>
+<li>右侧：主工作区、3D/2D 预览、编辑器、输出检查和下载入口。</li>
+<li>需要大画布的功能，例如蛋白 3D 操作和 Ketcher 2D 分子编辑，提供专注编辑模式，可弹出为独立全屏窗口，完成后退出回到工作台。</li>
+</ul>
+<p><a id="deployment-zh"></a></p>
+<h3 id="_8">持久化路径与跨容器文件约定</h3>
+<p>所有业务容器必须把同一个宿主机目录挂载到容器内 <code>/data</code>：</p>
+<pre><code class="language-text">宿主机：${WA_DD_DATA_HOST_DIR}
+容器内：/data
+</code></pre>
+<p>生产环境示例：</p>
+<pre><code class="language-bash">WA_DD_DATA_HOST_DIR=/data/ssd/jhu/wa-dd-web/data
+</code></pre>
+<p>web、protein-prep worker、ligand-prep worker 和后续模型 worker 都必须使用相同的容器内路径：</p>
+<pre><code class="language-text">/data/users/&lt;user_id&gt;/projects/&lt;project_id&gt;/assets/&lt;asset_id&gt;/...
+/data/model-cache/...
+</code></pre>
+<p>数据库 <code>AssetFile.storage_path</code> 只记录容器内 <code>/data/...</code> 路径，不记录宿主机路径。这样 web 上传、worker 读取、worker 输出、web 下载和跨任务复用都使用同一套路径，不会因为不同容器看到不同目录而混乱。</p>
+<p><code>/modelhub</code> 是共享模型目录，不用于用户项目输入/输出文件。web 服务可以只读挂载用于状态查询；WA-DD 对接/模型 worker 必须读写挂载，用于 ModelScope 下载、更新和删除。</p>
+<p>系统资源监控使用同一个 <code>/data</code> 挂载路径传递宿主机指标：</p>
+<pre><code class="language-text">/data/system-metrics/host.json
+</code></pre>
+<p><code>wa-dd-host-metrics</code> runner 默认每 5 秒写入这个文件。Web 容器不需要 NVIDIA runtime；它只读取 JSON。runner 会在宿主机 namespace 中采集 GPU：Jetson/Thor/Tegra 主机优先使用 <code>tegrastats</code> 或 Jetson sysfs，不走 <code>nvidia-smi</code>；x86 NVIDIA 使用 <code>nvidia-smi</code>；ROCm 使用 <code>rocm-smi</code>。没有可用 GPU 工具时，页面会明确显示 GPU 不可见，而不是伪造占用数据。</p>
+<h3 id="_9">默认账户</h3>
+<pre><code class="language-text">username: admin
+password: admin123456
+</code></pre>
+<p>新用户可以在登录页提交注册申请，必须由管理员审核后才能使用。后续接入 VOS 账户时，可通过受 <code>WA_DD_USER_PROVISION_TOKEN</code> 保护的接口自动创建用户空间。</p>
+<h3 id="docker">独立 Docker 部署（当前）</h3>
+<p>根目录只有 <a href="compose.yaml">compose.yaml</a>，只定义 <code>amd</code>（x86_64 CUDA 12.8）和 <code>thor</code>（Jetson Thor CUDA 13+）两个 profile。FEP 已作为 profile 内 worker 服务接入。</p>
+<p>部署由 <a href="deploy.sh">deploy.sh</a> 负责：它从 SWR 查询匹配当前平台 tag 规则的最新镜像，并更新<strong>既有部署根目录</strong>的 <code>images.env</code>。<code>runtime.env</code> 是持久化运行状态的映射，部署脚本只读取和校验它，绝不自动新建或改写它。<code>images.env.example</code> 只描述变量结构；<a href="build_image.sh">build_image.sh</a> 只构建和推送镜像，不会修改仓库或部署目录中的版本记录。CPU 组件使用单一 Dockerfile；GPU 组件的 AMD CUDA 12.8 与 Thor CUDA 13+ Dockerfile 分开。</p>
+<pre><code class="language-bash">cp .env.web.example .env.web
+# 编辑 .env.web：设置密码、端口及其他部署配置
+./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime
+</code></pre>
+<p>Thor 使用 <code>--profile thor</code>。部署根目录持有 <code>images.env</code> 与既有的 <code>runtime.env</code>，后者显式指定数据、数据库、Redis 与 Model Hub 的宿主机路径，因此持久化状态不会写入源码仓库。tc232 的既定运行根是 <code>/data/vos_workspace</code>，必须始终复用它，不能用新目录替代。首次部署前可用 <code>./deploy.sh --check --profile amd|thor</code> 验证镜像发现和 Compose 渲染。</p>
+<p><strong>全量更新与单组件更新（两者都支持）：</strong></p>
+<pre><code class="language-bash"># 全量：检测所有组件的新镜像并协调整个 amd 服务组（原有用法，默认 --component all）
+./deploy.sh --profile amd --root /data/vos_workspace
+
+# 单组件：只检测 Web 镜像，只替换 Web；不重建 PostgreSQL、Redis 或其他 worker
+./deploy.sh --profile amd --root /data/vos_workspace --component web
+
+# 其他可单独替换的组件
+./deploy.sh --profile amd --root /data/vos_workspace --component ligand-prep
+./deploy.sh --profile thor --root /data/vos_workspace --component molecule-gen
+</code></pre>
+<p>可用组件为 <code>web</code>、<code>host-metrics</code>、<code>protein-prep</code>、<code>ligand-prep</code>、<code>unidock</code>、<code>molecule-gen</code>、<code>pi-agent</code>、<code>fep</code> 和 <code>all</code>。单组件模式只更新该组件对应的 <code>images.env</code> 条目，并使用 Compose 的 <code>--no-deps --force-recreate</code> 替换该服务；全量模式仍检测全部镜像并执行完整服务组更新。</p>
+<p>如需发布新镜像，请在明确指定的构建环境运行 <code>./build_image.sh --profile amd|thor --component web|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|pi-agent|fep|all</code>。标签由组件是否使用 GPU 自动决定并推送到 <code>huluxiaohuowa</code>；Pi worker 是 CPU 组件，随 <code>all</code> 构建；FEP 仍不包含在 <code>all</code> 中。下次 <code>deploy.sh</code> 会重新发现并采用匹配的最新 tag。由于当前 Compose 包含 FEP worker，首次部署前 registry 也必须已有对应平台的 FEP 镜像，否则部署脚本会明确失败。Pi 复用 <code>WA_DD_DATA_HOST_DIR</code> 下的 <code>pi/</code> 目录；首次启动会自动生成并持久化配置加密主密钥，详见 <a href="userguide/pi-agent/">Agent / Pi</a>。</p>
+<h3 id="_10">快速启动</h3>
+<p><strong>首次部署：</strong></p>
+<pre><code class="language-bash">cp .env.web.example .env.web
+# 编辑 .env.web；部署根目录必须是绝对路径
+./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime
+</code></pre>
+<p><strong>Jetson Thor 部署：</strong></p>
+<pre><code class="language-bash">./deploy.sh --profile thor --root /absolute/path/to/wa-dd-runtime
+</code></pre>
+<p>服务启动后访问 <code>http://localhost:8800</code>，使用默认账户登录：</p>
+<pre><code class="language-text">用户名: admin
+密码: admin123456
+</code></pre>
+<p><a id="components-and-models-zh"></a></p>
+<h3 id="_11">支持的组件</h3>
+<p>当前 profile 会启动以下核心组件：</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>说明</th>
+<th>依赖</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web UI/API</td>
+<td>主界面与 REST API</td>
+<td>CPU</td>
+</tr>
+<tr>
+<td>Host metrics</td>
+<td>系统资源监控</td>
+<td>CPU</td>
+</tr>
+<tr>
+<td>Protein prep</td>
+<td>蛋白准备（加氢、去溶剂化等）</td>
+<td>CPU</td>
+</tr>
+<tr>
+<td>Ligand prep</td>
+<td>配体准备（含 RDKit、OpenBabel、Meeko）</td>
+<td>CPU</td>
+</tr>
+<tr>
+<td>Uni-Dock</td>
+<td>GPU 对接引擎（Vina/Vinardo）</td>
+<td>NVIDIA GPU</td>
+</tr>
+<tr>
+<td>Molecule gen</td>
+<td>PocketXMol 分子生成</td>
+<td>NVIDIA GPU</td>
+</tr>
+<tr>
+<td>FEP</td>
+<td>OpenFE + OpenMM 自由能计算</td>
+<td>NVIDIA GPU（AMD 或 Thor）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_12">模型缓存</h3>
+<p>WA-DD 模型文件和 Model Hub 使用同一套持久化目录结构。当前主要模型包括：</p>
+<ul>
+<li><strong>PocketXMol（分子生成）</strong>：<code>/modelhub/export/ms/huluxiaohuowa/pocketxmol/current</code></li>
+</ul>
+<p>宿主机路径是 <code>${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxiaohuowa/pocketxmol/current</code>。如果按本仓库的独立部署 compose 启动，<code>${MODEL_HUB_SHARED_MODELS_PATH}</code> 会映射到 <code>/modelhub</code>。</p>
+<p>推荐通过网页"分子生成 → 模型状态"下载、检查更新或删除 PocketXMol 模型。命令行等价方式：</p>
+<pre><code class="language-bash">pip install modelscope
+mkdir -p &quot;${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxiaohuowa/pocketxmol/snapshots/manual&quot;
+modelscope download \
+  --model huluxiaohuowa/pocketxmol \
+  --local_dir &quot;${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxiaohuowa/pocketxmol/snapshots/manual&quot;
+ln -sfn snapshots/manual &quot;${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxiaohuowa/pocketxmol/current&quot;
+</code></pre>
+<p>预期包含：</p>
+<ul>
+<li><code>data/trained_models/pxm/checkpoints/pocketxmol.ckpt</code></li>
+<li><code>data/trained_models/pxm/train_config/train.yml</code></li>
+</ul>
+<p>模型更新不会在本地 <code>current</code> 已满足必需文件时盲目删除重下；worker 会优先检查 ModelScope 远端版本信息，只有需要替换时才切换到新的 snapshot。下载失败或取消时会保留同一版本的 partial snapshot，后续更新可继续补齐，不会先删除再全量重下。WA-DD 和 Model Hub 使用同一目录规范，因此任一系统下载的 <code>huluxiaohuowa/pocketxmol</code> 都能被另一方读取、更新和删除。</p>
+<p>Uni-Dock 对接引擎为传统分子对接程序，不依赖神经网络模型文件。</p>
+<p><a id="api-automation-zh"></a></p>
+<h3 id="api">API 自动化</h3>
+<p>标准 API 契约由 FastAPI 自动生成：</p>
+<ul>
+<li><code>/openapi.json</code></li>
+<li><code>/docs</code></li>
+<li><code>/redoc</code></li>
+</ul>
+<p>网页内的 API 文档页面也会读取 <code>/openapi.json</code>。自动化工作流按 <code>project_id</code>、<code>asset_id</code>、<code>job_id</code> 串联：</p>
+<pre><code class="language-text">login
+  -&gt; project_id
+  -&gt; protein asset_id
+  -&gt; pocket asset_id
+  -&gt; ligand asset_id
+  -&gt; prepared_ligand asset_id
+  -&gt; docking job
+  -&gt; job_id
+  -&gt; output_asset_ids
+  -&gt; file download
+</code></pre>
+<p><a id="user-guides-zh"></a></p>
+<h3 id="_13">使用指南</h3>
+<p>模块级使用指南在 <a href="userguide">userguide</a>：</p>
+<ul>
+<li><a href="userguide/example-1ta2-workflow/">Example 1TA2 完整范例</a></li>
+<li><a href="userguide/project-and-assets/">项目与资产</a></li>
+<li><a href="userguide/protein-preparation/">蛋白处理</a></li>
+<li><a href="userguide/1A2C-protein-preparation/">1A2C 蛋白准备示例</a></li>
+<li><a href="userguide/ligand-preparation/">配体处理</a></li>
+<li><a href="userguide/ligand-preparation-research-and-framework/">配体准备功能框架</a></li>
+<li><a href="userguide/docking-tasks/">对接任务</a></li>
+<li><a href="userguide/molecule-generation/">分子生成</a></li>
+<li><a href="userguide/fep-analysis/">FEP 与分析</a></li>
+<li><a href="userguide/interaction-analysis/">相互作用分析</a></li>
+<li><a href="userguide/tpd-protac/">TPD / PROTAC</a></li>
+<li><a href="userguide/sar/">SAR / 构效关系</a></li>
+<li><a href="userguide/admin/">管理</a></li>
+<li><a href="userguide/pi-agent/">Agent / Pi</a></li>
+<li><a href="userguide/api-automation/">API 自动化</a></li>
+</ul>
+<p><a id="vos-packaging-zh"></a></p>
+<h3 id="vos">VOS 打包</h3>
+<p>VOS 包模板位于 <code>ictrek.app/</code>，当前独立 WebApp 开发不依赖 VOS：</p>
+<pre><code class="language-bash">cd ictrek.app
+./scripts/package.sh
+</code></pre>
+<p><a id="license-zh"></a></p>
+<h3 id="_14">来源与许可</h3>
+<p>WA-DD 当前以资产管理、蛋白/配体准备、Uni-Dock 对接、PocketXMol 分子生成、FEP/RBFE dry-run 和相互作用分析为核心。</p>
+<p>项目源代码采用 <a href="LICENSE">Business Source License 1.1</a>：
+- <strong>非商业用途</strong>：可用于学术研究和教育目的，但不得分发或商业使用
+- <strong>商业用途</strong>：需联系 Licensor 获取商业授权
+- <strong>变更条款</strong>：2029-07-31 后自动变更为 Apache License 2.0</p>
+<p>第三方组件（如 deepternary/DockQ、mmrotate 等）仍分别适用其自身许可证。</p>
+<p><a id="english-guide"></a></p>
+<h2 id="english-guide">English Guide</h2>
+<p>WA-DD is an integrated molecular design workbench for Computer-Aided Drug Design (CADD) researchers. It unifies the available target-protein preparation, ligand preparation, molecular docking, molecule generation, interaction analysis, and FEP/RBFE dry-run workflows in one browser interface; formal free-energy production simulation remains in development.</p>
+<p>From PDB import and ligand-library preparation through Uni-Dock screening, PocketXMol generation, FEP planning, and 3D interaction inspection, WA-DD keeps every intermediate result as a reusable asset—so you can focus on drug design rather than toolchain integration and switching.</p>
+<p><a id="core-values-en"></a></p>
+<h3 id="core-values">Core Values</h3>
+<ul>
+<li><strong>Connected workflows</strong>: Available workflows cover protein preparation, ligand preparation, docking, molecule generation, FEP/RBFE dry-run, and interaction analysis</li>
+<li><strong>Asset-based management</strong>: Proteins, pockets, ligands, docking pose libraries, FEP-derived SDFs, and reports are reusable, traceable, API-addressable assets</li>
+<li><strong>Flexible deployment</strong>: Supports x86 NVIDIA and Jetson Thor ARM64 platforms, balancing performance and edge computing</li>
+<li><strong>Open ecosystem</strong>: Integrates with Uni-Dock, Vina, OpenFE, OpenMM, and other mainstream CADD tools</li>
+</ul>
+<p><a id="feature-status-en"></a></p>
+<h3 id="feature-status">Feature status</h3>
+<p>Status is based on whether a user can complete an end-to-end task in the current WebApp. “In development” and “planned” must not be treated as production-ready functionality.</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Modules</th>
+<th>Available scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Available</td>
+<td>Projects and assets, protein preparation, ligand preparation, docking tasks, molecule generation, interaction analysis</td>
+<td>Create and reuse assets, submit jobs, and inspect, filter, export, or download outputs.</td>
+</tr>
+<tr>
+<td>Available</td>
+<td>FEP / RBFE dry-run</td>
+<td>Create ligand-map planning results from docked pose libraries and generate <code>fep_result</code> plus FEP-annotated <code>fep_output</code> SDF assets. Dry-run results are not real ΔΔG.</td>
+</tr>
+<tr>
+<td>Available</td>
+<td>Agent / Pi, administration, system resources, user docs, API docs</td>
+<td>Manage personal Agent sessions and model settings; administer users/jobs; browse module guides and the API contract.</td>
+</tr>
+<tr>
+<td>In development</td>
+<td>FEP / free-energy production calculation</td>
+<td>Formal OpenMM production simulation, real ΔG/ΔΔG, trajectory analysis, and long-running RBFE validation remain unfinished.</td>
+</tr>
+<tr>
+<td>Planned</td>
+<td>TPD / PROTAC, SAR</td>
+<td>Documentation describes the intended scope, but no submit-ready workflow is available.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="available-now">Available now</h4>
+<ul>
+<li><strong>Projects and assets</strong>: isolate projects, assets, jobs, and files per user. Assets can be previewed, downloaded, renamed, deleted, and copied to another project. The UI is name-first: users select by asset name, type, and source instead of memorizing raw IDs.</li>
+<li><strong>Protein and ligand preparation</strong>: import PDB ID/local PDB or SMILES/SDF/MOL/MOL2/PDB, inspect structures in 3D, define pockets, edit molecules with Ketcher, and run protein or ligand preparation. Ligand assets are grouped by source, including raw ligands, prepared ligands, docking poses, molecule-generation outputs, and FEP outputs, and can be opened in 2D/3D, sorted, filtered, merged, or exported.</li>
+<li><strong>Docking and interaction analysis</strong>: submit Uni-Dock GPU docking jobs (Vina/Vinardo scoring). Each docking task emits one merged SDF pose library plus reports. Interaction analysis can compare selected poses from docking, generation, or FEP outputs, inspect geometric contacts, export tables/SDF, or save a new selected-poses asset.</li>
+<li><strong>Molecule generation</strong>: PocketXMol provides pocket de novo generation and fragment growing. Results are reusable <code>prepared_ligand</code> or <code>prepared_ligand_library</code> assets. <code>Scaffold hopping</code> and <code>linker design</code> require an atom-anchor selector and are not available yet.</li>
+<li><strong>FEP / RBFE dry-run</strong>: build RBFE planning results from docked pose libraries and emit a <code>fep_result</code> edge table plus a FEP-annotated <code>fep_output</code> SDF. Dry-run checks ligand maps and downstream UI wiring; it does not produce real ΔG/ΔΔG or trajectories.</li>
+<li><strong>Agent / Pi</strong>: each user has separate conversations, context, and encrypted model configuration. Its controlled tools can access only projects, assets, and jobs within that user's permissions.</li>
+<li><strong>Administration, user docs, and automation</strong>: administrators can approve users and manage global jobs. The system-resources view reports host CPU, memory, disk, and GPU state. The Web image converts <code>userguide/*.md</code> into in-app user documentation. API documentation is generated from FastAPI OpenAPI and supports automation chaining with <code>project_id</code>, <code>asset_id</code>, and <code>job_id</code>.</li>
+</ul>
+<h4 id="in-development-not-yet-a-complete-production-workflow">In development: not yet a complete production workflow</h4>
+<ul>
+<li><strong>FEP / free-energy production calculation</strong>: the OpenFE + OpenMM (CUDA) worker path still needs formal sampling and analysis completion. Real ΔG/ΔΔG, uncertainty, trajectories, and long-running RBFE scientific validation remain unfinished; dry-run output must not be used for production-grade FEP conclusions.</li>
+</ul>
+<h4 id="planned-no-business-workflow-is-implemented-yet">Planned: no business workflow is implemented yet</h4>
+<ul>
+<li><strong>TPD / PROTAC</strong>: intended for POI-E3 ternary-complex design, warhead/E3-ligand/linker design, and degrader optimization. Development starts after FEP stabilizes.</li>
+<li><strong>SAR / Structure-Activity Relationship</strong>: intended for activity tables, R-group analysis, MMPA, SAR visualization, and next-round candidate recommendation. It is not implemented yet.</li>
+</ul>
+<p><a id="interaction-model-en"></a></p>
+<h3 id="interaction-model">Interaction model</h3>
+<p>The global top chrome contains only the app title, project context, task center, user identity, and logout. Project switching, creation, and deletion live in the project menu near the user controls. Job progress lives in the task center as a step timeline, not as a green status bar across the top of the page.</p>
+<p>Each workflow module follows the same CADD layout:</p>
+<ul>
+<li>Left side: inputs, parameters, asset selection, and submit actions.</li>
+<li>Right side: the main workspace, 3D/2D preview, editors, output inspection, and download actions.</li>
+<li>Canvas-heavy tools such as the protein 3D editor and Ketcher 2D editor provide a focus mode. Focus mode opens a full-window editing surface and returns to the workbench after saving or exiting.</li>
+</ul>
+<p><a id="deployment-en"></a></p>
+<h3 id="persistent-storage-and-cross-container-paths">Persistent storage and cross-container paths</h3>
+<p>All business containers must mount the same host directory to <code>/data</code>:</p>
+<pre><code class="language-text">Host: ${WA_DD_DATA_HOST_DIR}
+Container: /data
+</code></pre>
+<p>Production example:</p>
+<pre><code class="language-bash">WA_DD_DATA_HOST_DIR=/data/ssd/jhu/wa-dd-web/data
+</code></pre>
+<p>The web container, protein-prep worker, ligand-prep worker, and future model workers must all use the same in-container paths:</p>
+<pre><code class="language-text">/data/users/&lt;user_id&gt;/projects/&lt;project_id&gt;/assets/&lt;asset_id&gt;/...
+/data/model-cache/...
+</code></pre>
+<p><code>AssetFile.storage_path</code> stores only <code>/data/...</code> paths, never host paths. This keeps upload, worker input, worker output, web download, and cross-step reuse consistent across containers.</p>
+<p><code>/modelhub</code> is a shared model directory and is not used for user project inputs or outputs. The web service may mount it read-only for status checks; WA-DD docking/model workers must mount it read-write for ModelScope download, update, and delete operations.</p>
+<p>System monitoring uses the same <code>/data</code> mount to pass host metrics into the Web UI:</p>
+<pre><code class="language-text">/data/system-metrics/host.json
+</code></pre>
+<p>The <code>wa-dd-host-metrics</code> runner writes this file every 5 seconds by default. The Web container does not need NVIDIA runtime; it only reads the JSON snapshot. The runner enters the host namespace and collects GPU data with <code>tegrastats</code> or Jetson sysfs first on Jetson/Thor/Tegra hosts, without using <code>nvidia-smi</code> there; x86 NVIDIA uses <code>nvidia-smi</code>, and ROCm uses <code>rocm-smi</code>. If no GPU tool is available, the page explicitly reports that GPU data is not visible instead of fabricating utilization values.</p>
+<h3 id="default-account">Default account</h3>
+<pre><code class="language-text">username: admin
+password: admin123456
+</code></pre>
+<p>New users can submit registration requests from the login page. Admin approval is required before they can use the workbench. Later VOS account integration can use the <code>WA_DD_USER_PROVISION_TOKEN</code> protected endpoint to provision user spaces automatically.</p>
+<h3 id="standalone-docker-deployment-current">Standalone Docker deployment (current)</h3>
+<p>The root <a href="compose.yaml">compose.yaml</a> is the only standalone Compose file. Its only profiles are <code>amd</code> (x86_64 CUDA 12.8) and <code>thor</code> (Jetson Thor CUDA 13+); FEP is included as a profile-specific worker service.</p>
+<p>Deployment is handled by <a href="deploy.sh">deploy.sh</a>: it queries SWR for the newest tags matching the selected platform and updates <code>images.env</code> in the <strong>existing deployment root</strong>. <code>runtime.env</code> maps persistent runtime state; deploy only reads and validates it and never creates or rewrites it. <code>images.env.example</code> defines only the variable shape. <a href="build_image.sh">build_image.sh</a> builds and pushes images, but never updates a repository or deployment-root image record. CPU components have one Dockerfile each, while GPU components retain separate AMD CUDA 12.8 and Thor CUDA 13+ Dockerfiles.</p>
+<pre><code class="language-bash">cp .env.web.example .env.web
+# Edit .env.web for passwords, ports, and other deployment settings.
+./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime
+</code></pre>
+<p>For Thor, use <code>--profile thor</code>. The deployment root owns <code>images.env</code> and an existing <code>runtime.env</code>; the latter explicitly maps data, database, Redis, and Model Hub host paths, keeping persistent state out of the source tree. tc232 always reuses <code>/data/vos_workspace</code>; it must not be replaced with a new root. Before a first deployment, <code>./deploy.sh --check --profile amd|thor</code> validates registry discovery and the rendered Compose configuration.</p>
+<p><strong>Complete and component updates are both supported:</strong></p>
+<pre><code class="language-bash"># Complete update: discover all images and reconcile the entire AMD service group.
+./deploy.sh --profile amd --root /data/vos_workspace
+
+# Component update: discover and replace Web only; database, Redis, and workers stay running.
+./deploy.sh --profile amd --root /data/vos_workspace --component web
+
+# Other independently replaceable components.
+./deploy.sh --profile amd --root /data/vos_workspace --component ligand-prep
+./deploy.sh --profile thor --root /data/vos_workspace --component molecule-gen
+</code></pre>
+<p>Components are <code>web</code>, <code>host-metrics</code>, <code>protein-prep</code>, <code>ligand-prep</code>, <code>unidock</code>, <code>molecule-gen</code>, <code>pi-agent</code>, <code>fep</code>, and <code>all</code>. Component mode updates only its matching <code>images.env</code> entry and replaces only that service with Compose <code>--no-deps --force-recreate</code>; complete mode continues to discover all images and update the complete service group.</p>
+<p>To publish a new image, run <code>./build_image.sh --profile amd|thor --component web|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|pi-agent|fep|all</code> only in an explicitly chosen build environment. Tags are derived from component GPU capability and pushed to <code>huluxiaohuowa</code>; the CPU Pi worker is included in <code>all</code>, while FEP is excluded. The next <code>deploy.sh</code> run discovers and adopts the newest matching tag. Because the current Compose group includes an FEP worker, its platform-specific image must already exist in the registry before a first deployment or the deployment script will fail clearly. Pi persists its configuration and conversations under <code>WA_DD_DATA_HOST_DIR/pi</code>; see <a href="userguide/pi-agent/">Agent / Pi</a>.</p>
+<h3 id="quick-start">Quick Start</h3>
+<p><strong>First-time deployment:</strong></p>
+<pre><code class="language-bash">cp .env.web.example .env.web
+# Edit .env.web; the deployment root must be absolute.
+./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime
+</code></pre>
+<p><strong>Jetson Thor deployment:</strong></p>
+<pre><code class="language-bash">./deploy.sh --profile thor --root /absolute/path/to/wa-dd-runtime
+</code></pre>
+<p>After startup, access <code>http://localhost:8800</code> and log in with the default account:</p>
+<pre><code class="language-text">username: admin
+password: admin123456
+</code></pre>
+<p><a id="components-and-models-en"></a></p>
+<h3 id="supported-components">Supported Components</h3>
+<p>The selected profile starts the following core components:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Description</th>
+<th>Dependency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web UI/API</td>
+<td>Main interface and REST API</td>
+<td>CPU</td>
+</tr>
+<tr>
+<td>Host metrics</td>
+<td>System resource monitoring</td>
+<td>CPU</td>
+</tr>
+<tr>
+<td>Protein prep</td>
+<td>Protein preparation (hydrogenation, desolvation, etc.)</td>
+<td>CPU</td>
+</tr>
+<tr>
+<td>Ligand prep</td>
+<td>Ligand preparation (RDKit, OpenBabel, Meeko)</td>
+<td>CPU</td>
+</tr>
+<tr>
+<td>Uni-Dock</td>
+<td>GPU docking engine (Vina/Vinardo)</td>
+<td>NVIDIA GPU</td>
+</tr>
+<tr>
+<td>Molecule gen</td>
+<td>PocketXMol molecule generation</td>
+<td>NVIDIA GPU</td>
+</tr>
+<tr>
+<td>FEP</td>
+<td>OpenFE + OpenMM free energy calculation</td>
+<td>NVIDIA GPU (AMD or Thor)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="model-cache">Model cache</h3>
+<p>WA-DD model files share the same persistent directory layout as Model Hub. Current primary models include:</p>
+<ul>
+<li><strong>PocketXMol (molecule generation)</strong>: <code>/modelhub/export/ms/huluxiaohuowa/pocketxmol/current</code></li>
+</ul>
+<p>The host path is <code>${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxiaohuowa/pocketxmol/current</code>. With the standalone compose files in this repository, <code>${MODEL_HUB_SHARED_MODELS_PATH}</code> is mounted into WA-DD containers as <code>/modelhub</code>.</p>
+<p>Prefer downloading, checking updates, and deleting the PocketXMol model from the web page under "Molecule Generation → Model Status". The command-line equivalent is:</p>
+<pre><code class="language-bash">pip install modelscope
+mkdir -p &quot;${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxiaohuowa/pocketxmol/snapshots/manual&quot;
+modelscope download \
+  --model huluxiaohuowa/pocketxmol \
+  --local_dir &quot;${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxiaohuowa/pocketxmol/snapshots/manual&quot;
+ln -sfn snapshots/manual &quot;${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxiaohuowa/pocketxmol/current&quot;
+</code></pre>
+<p>Expected files:</p>
+<ul>
+<li><code>data/trained_models/pxm/checkpoints/pocketxmol.ckpt</code></li>
+<li><code>data/trained_models/pxm/train_config/train.yml</code></li>
+</ul>
+<p>Model updates do not delete and re-download a ready <code>current</code> directory blindly. The worker checks the ModelScope remote version first and switches <code>current</code> only after a complete replacement snapshot is ready. Failed or canceled downloads keep the partial snapshot for the same remote version so the next update can resume instead of starting from zero.</p>
+<p>The Uni-Dock docking engine is a traditional molecular docking program and does not depend on neural network model files.</p>
+<p><a id="api-automation-en"></a></p>
+<h3 id="api-automation">API automation</h3>
+<p>The canonical API contract is generated by FastAPI:</p>
+<ul>
+<li><code>/openapi.json</code></li>
+<li><code>/docs</code></li>
+<li><code>/redoc</code></li>
+</ul>
+<p>The in-app API docs page also reads <code>/openapi.json</code>. Automation chains should pass <code>project_id</code>, <code>asset_id</code>, and <code>job_id</code> between steps:</p>
+<pre><code class="language-text">login
+  -&gt; project_id
+  -&gt; protein asset_id
+  -&gt; pocket asset_id
+  -&gt; ligand asset_id
+  -&gt; prepared_ligand asset_id
+  -&gt; docking job
+  -&gt; job_id
+  -&gt; output_asset_ids
+  -&gt; file download
+</code></pre>
+<p><a id="user-guides-en"></a></p>
+<h3 id="user-guides">User guides</h3>
+<p>Module guides are available under <a href="userguide">userguide</a>:</p>
+<ul>
+<li><a href="userguide/example-1ta2-workflow/">Example 1TA2 full walkthrough</a></li>
+<li><a href="userguide/project-and-assets/">Projects and assets</a></li>
+<li><a href="userguide/protein-preparation/">Protein preparation</a></li>
+<li><a href="userguide/1A2C-protein-preparation/">1A2C protein preparation example</a></li>
+<li><a href="userguide/ligand-preparation/">Ligand preparation</a></li>
+<li><a href="userguide/ligand-preparation-research-and-framework/">Ligand preparation framework</a></li>
+<li><a href="userguide/docking-tasks/">Docking tasks</a></li>
+<li><a href="userguide/molecule-generation/">Molecule generation</a></li>
+<li><a href="userguide/fep-analysis/">FEP and analysis</a></li>
+<li><a href="userguide/interaction-analysis/">Interaction analysis</a></li>
+<li><a href="userguide/tpd-protac/">TPD / PROTAC</a></li>
+<li><a href="userguide/sar/">SAR</a></li>
+<li><a href="userguide/admin/">Admin</a></li>
+<li><a href="userguide/pi-agent/">Agent / Pi</a></li>
+<li><a href="userguide/api-automation/">API automation</a></li>
+</ul>
+<p><a id="vos-packaging-en"></a></p>
+<h3 id="vos-packaging">VOS packaging</h3>
+<p>The VOS package scaffold lives in <code>ictrek.app/</code>. The standalone WebApp workflow does not depend on VOS:</p>
+<pre><code class="language-bash">cd ictrek.app
+./scripts/package.sh
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/huluxiaohuowa/wa-dd" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "search.suggest", "search.highlight"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

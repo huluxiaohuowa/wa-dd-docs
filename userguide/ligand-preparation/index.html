@@ -1,0 +1,1623 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://wa-dd.fuluwa.top/userguide/ligand-preparation/">
+      
+      
+        <link rel="prev" href="../ligand-preparation-research-and-framework/">
+      
+      
+        <link rel="next" href="../molecule-generation/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>配体处理使用指南 - WA-DD 文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="WA-DD 文档" class="md-header__button md-logo" aria-label="WA-DD 文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WA-DD 文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              配体处理使用指南
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  WA-DD
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../ictrek-webserver/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  WA-DD WebServer Design
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../molecule-generation-theory/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  WA-DD 分子生成原理
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../openmm-cuda13-build/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  OpenMM 8.0 + CUDA 13 编译指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../protein-prep-worker/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Protein Preparation Worker
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../1A2C-protein-preparation/" class="md-tabs__link">
+          
+  
+  
+  Userguide
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="WA-DD 文档" class="md-nav__button md-logo" aria-label="WA-DD 文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    WA-DD 文档
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WA-DD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ictrek-webserver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WA-DD WebServer Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../molecule-generation-theory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WA-DD 分子生成原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../openmm-cuda13-build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenMM 8.0 + CUDA 13 编译指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protein-prep-worker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Protein Preparation Worker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Userguide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Userguide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1A2C-protein-preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1A2C 蛋白准备网页端操作指南 / 1A2C Protein Preparation Web Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../admin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    管理 / Admin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API 自动化 / API Automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docking-tasks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    对接任务 / Docking Tasks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example-1ta2-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Example 1TA2 完整范例 / Full Walkthrough
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fep-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FEP 与分析 / FEP and Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interaction-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    相互作用分析 / Interaction Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ligand-preparation-research-and-framework/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    配体准备功能清单与开发框架 / Ligand Preparation Requirements and Development Framework
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    配体处理使用指南
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    配体处理使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本模块完成什么
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-1a2c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 从 1A2C 共晶结构提取配体库
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 在配体处理页面选择当前配体资产
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 编辑已有分子
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 编辑已有分子">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3D 构象预览
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-ketcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 使用 Ketcher 画新分子或修改分子
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 运行配体准备
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 用于对接任务
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. API 自动化衔接
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-server6-examplefep-2d3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Server6 Example：同系物库、FEP 输出和 2D/3D 查看
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../molecule-generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分子生成 / Molecule Generation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pi-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent / Pi
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project-and-assets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    项目与资产 / Projects and Assets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../protein-preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    蛋白处理使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SAR / 构效关系
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tpd-protac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TPD / PROTAC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本模块完成什么
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-1a2c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 从 1A2C 共晶结构提取配体库
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 在配体处理页面选择当前配体资产
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 编辑已有分子
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 编辑已有分子">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3D 构象预览
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-ketcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 使用 Ketcher 画新分子或修改分子
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 运行配体准备
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 用于对接任务
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. API 自动化衔接
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-server6-examplefep-2d3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Server6 Example：同系物库、FEP 输出和 2D/3D 查看
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">配体处理使用指南</h1>
+<p>本指南继续使用固定项目 <code>tutorial-1A2C-thrombin</code>。目标是从 1A2C 共晶结构中提取配体片段，合并成配体库，完成配体准备，并生成可供 Uni-Dock 对接、SAR、分子生成和后续 FEP 使用的配体资产。</p>
+<h2 id="_2">本模块完成什么</h2>
+<ul>
+<li>从 SMILES、SDF、MOL/MOL2/PDB 或空白库创建 ligand asset。</li>
+<li>在配体资产内查看分子列表，并对单个或多个分子执行选择、复制、删除、编辑。</li>
+<li>使用 Ketcher 2D 编辑器画新分子或修改已有分子。</li>
+<li>将分子追加到当前配体资产、替换当前分子位置，或另存为新的配体资产。</li>
+<li>调用 <code>wa-dd-ligand-prep-worker</code> 生成 <code>prepared_ligand</code> 资产。</li>
+<li>为 Uni-Dock/Vina、FEP/MD 等下游工作流准备兼容的配体输入。</li>
+</ul>
+<h2 id="1-1a2c">1. 从 1A2C 共晶结构提取配体库</h2>
+<p>在 <code>蛋白处理</code> 的链/组分或专注编辑窗口中，可以把共晶配体对象提取到当前项目的配体资产。对 <code>1A2C</code>，建议提取：</p>
+<pre><code class="language-text">34H J:1
+PRJ J:3
+OAR J:4
+TYS I:363（如需要记录 hirudin 相关修饰片段）
+</code></pre>
+<p>推荐配体库资产名称：</p>
+<pre><code class="language-text">1A2C co-crystal ligand library
+</code></pre>
+<p>这一步的输出是 <code>ligand</code> 资产。该资产后续可以继续追加、编辑、准备或复制到其他项目。</p>
+<h2 id="2">2. 在配体处理页面选择当前配体资产</h2>
+<p>进入 <code>配体处理</code> 页面。在左侧 <code>配体资产</code> 列表中选择：</p>
+<pre><code class="language-text">1A2C co-crystal ligand library
+</code></pre>
+<p>右侧主工作区会显示当前配体资产、资产内分子列表、当前分子编辑区和结构文本区。先确认 <code>当前配体资产</code> 显示的是要追加或替换的资产，避免把分子写到错误库里。</p>
+<p><img alt="配体资产、分子列表和编辑区" src="../images/tutorial-1a2c-ligand-01-assets-editor.png" /></p>
+<p>资产来源会按原始配体、准备后配体、对接构象、分子生成和 FEP 输出分组。对每个 SDF 资产可直接选择 <code>3D 打开</code> 或 <code>2D 打开</code>；勾选多个资产后可合并为一个新的 SDF 资产。</p>
+<p><img alt="按来源浏览配体资产，并从资产卡片打开 2D 或 3D 预览" src="../images/ligand-asset-browser.png" /></p>
+<p>2D 主工作区支持选择显示的 SDF 属性、按属性排序或筛选，并可下载所选记录或导出为新的 SDF 资产。这些展示和筛选操作不修改原始 SDF。</p>
+<p><img alt="2D 主工作区：SDF 属性、排序筛选、分子卡片和选中记录导出" src="../images/ligand-2d-workspace.png" /></p>
+<h2 id="3">3. 编辑已有分子</h2>
+<p>在 <code>资产内分子</code> 列表中选择一个分子，例如 <code>PRJ J:3</code> 或 <code>OAR J:4</code>。</p>
+<p>常用操作：</p>
+<ul>
+<li><code>用于对接</code>：将这个分子设为当前对接任务的配体。</li>
+<li><code>编辑</code>：把该分子加载到 Ketcher。</li>
+<li><code>复制</code>：在同一 ligand asset 中新增一个相同分子，再载入 Ketcher 修改。</li>
+<li>勾选一个或多个分子后点击 <code>删除</code>：批量删除不需要的分子。</li>
+</ul>
+<p>复制后再编辑是推荐做法：原始共晶分子保留，副本用于修改。</p>
+<h3 id="3d">3D 构象预览</h3>
+<p>点击资产卡片的 <code>3D 打开</code> 可查看 SDF 内的构象。右侧列表可多选要同时显示的分子；<code>平铺选中</code> 将选中的构象分开排布，便于比较，而不会改变存储的坐标或氢原子。</p>
+<p><img alt="3D 构象预览：多选构象并使用平铺选中进行比较" src="../images/ligand-3d-conformer-preview.png" /></p>
+<h2 id="4-ketcher">4. 使用 Ketcher 画新分子或修改分子</h2>
+<p>打开 <code>2D 编辑</code> 选项卡或点击 <code>弹出专注编辑</code>。Ketcher 左侧和底部是绘图工具，中间是分子画布，右侧是结构文本和保存策略。</p>
+<p>保存策略：</p>
+<ul>
+<li><code>追加到当前配体资产</code>：把当前画布中的分子作为新分子追加到当前 ligand asset，成功后画布应清空，方便继续画下一个分子。</li>
+<li><code>替换当前分子位置</code>：用当前画布分子覆盖分子列表中当前选中的 index。</li>
+<li><code>另存为新配体资产</code>：生成一个新的 ligand asset，不修改原始配体库。</li>
+</ul>
+<p>如果 Ketcher 不能直接生成 SMILES，系统会使用 MolBlock；后端会用 RDKit/Open Babel 解析并标准化。</p>
+<p><img alt="Ketcher 2D 编辑与保存策略" src="../images/tutorial-1a2c-ligand-02-ketcher.png" /></p>
+<h2 id="5">5. 运行配体准备</h2>
+<p>在左侧 <code>配体准备</code> 中选择：</p>
+<pre><code class="language-text">1A2C co-crystal ligand library
+</code></pre>
+<p>在 <code>目标用途 / 导出配置</code> 中按下游任务选择：</p>
+<ul>
+<li><code>Uni-Dock/Vina</code>：自动启用 3D 构象、显式氢、Gasteiger 电荷、可旋转键和 PDBQT 兼容导出。</li>
+<li><code>FEP/MD</code>：自动启用 3D 构象和显式氢，保留力场参数化交接 metadata。</li>
+</ul>
+<p>推荐输出名称：</p>
+<pre><code class="language-text">1A2C co-crystal ligands prepared
+</code></pre>
+<p>点击 <code>生成准备后配体资产</code>。生产部署使用 <code>wa-dd-ligand-prep-worker</code>，这是 CPU worker，不需要 GPU 或 PyTorch。它包含 RDKit、Open Babel、Meeko、Dimorphite-DL 和 gemmi。</p>
+<p>当前准备流程包括：</p>
+<ul>
+<li>盐拆分。</li>
+<li>按目标用途选择是否中和、加氢、分配电荷。</li>
+<li>按目标用途选择是否生成 3D 构象。</li>
+<li>MMFF/UFF 优化。</li>
+<li>互变异构体记录。</li>
+<li>立体异构体记录。</li>
+<li>Vina/AutoDock 路线会额外尝试生成 PDBQT；如果底层工具失败，任务会保留 SDF 并在 metadata 中记录原因。</li>
+</ul>
+<p>完成后输出 <code>prepared_ligand</code> 资产：</p>
+<pre><code class="language-text">1A2C co-crystal ligands prepared
+</code></pre>
+<h2 id="6">6. 用于对接任务</h2>
+<p>准备好的 <code>prepared_ligand</code> 资产可以直接在对接任务页面使用。在"对接任务"页面：</p>
+<ul>
+<li>蛋白资产：选择对应的 <code>prepared_protein</code></li>
+<li>配体资产：选择刚生成的 <code>prepared_ligand</code> 或 <code>prepared_ligand_library</code></li>
+<li>口袋资产：选择对应的 <code>pocket</code></li>
+<li>对接方法：默认 Uni-Dock GPU</li>
+</ul>
+<p>点击"提交对接任务"即可开始对接计算。</p>
+<p><img alt="对接/后续页面按资产名称选择输入" src="../images/tutorial-1a2c-docking-01-dropdowns.png" /></p>
+<h2 id="7-api">7. API 自动化衔接</h2>
+<p>配体处理的关键 API：</p>
+<pre><code class="language-http">POST /api/v1/assets/ligands/empty
+POST /api/v1/assets/ligands/smiles
+POST /api/v1/assets/upload
+POST /api/v1/assets/ligands/{asset_id}/molecules
+PUT  /api/v1/assets/ligands/{asset_id}/molecules/{index}
+POST /api/v1/assets/ligands/merge
+POST /api/v1/preparations/ligand
+POST /api/v1/jobs
+</code></pre>
+<p>自动化顺序：</p>
+<pre><code class="language-text">ligand asset_id
+  -&gt; prepared_ligand asset_id
+  -&gt; prepared_protein asset_id + pocket asset_id
+  -&gt; docking job_id
+  -&gt; downstream result assets
+</code></pre>
+<h2 id="8-server6-examplefep-2d3d">8. Server6 Example：同系物库、FEP 输出和 2D/3D 查看</h2>
+<p>本例在 server6 的 <code>Example</code> 项目完成，配体处理页面用于检查原始同系物库、准备后库、对接 pose library、分子生成库和 FEP 输出 SDF。</p>
+<p><img alt="配体处理：按来源管理配体资产" src="../images/example2-step-08-ligand-source-groups-boxed.png" /></p>
+<p><img alt="配体处理：选择配体、目标用途和准备参数" src="../images/example2-step-09-ligand-2d-sort-filter-export-boxed.png" /></p>
+<p>操作步骤：</p>
+<ol>
+<li>进入“配体处理”。</li>
+<li>左侧“配体来源 / 资产”按来源展开：</li>
+<li><code>原始导入 / 编辑</code></li>
+<li><code>准备后配体</code></li>
+<li><code>对接构象</code></li>
+<li><code>分子生成</code></li>
+<li><code>FEP / MD 输出</code></li>
+<li>选择 <code>Example 1TA2 ligand 176 congeneric 72 analog library</code>，点击“生成准备后配体资产”。</li>
+<li>推荐准备参数：显式加氢、生成 3D 构象、pH 7.4、MMFF/UFF 优化、计算化学属性。</li>
+<li>准备完成后得到 <code>Example 1TA2 congeneric 72 analog library prepared for docking</code>。</li>
+<li>对接和 FEP 完成后，回到配体处理页面可继续打开：</li>
+<li><code>docking_pose_library</code>：查看每个对接 pose 的 3D 构象和 docking score。</li>
+<li><code>fep_output</code>：查看带 FEP 字段的派生 SDF。</li>
+</ol>
+<p><img alt="3D 独立构象预览：右侧可单选或多选 SDF 内分子记录" src="../images/example2-08-ligand-3d-popup-boxed.png" /></p>
+<p>2D/3D 结果怎么用：</p>
+<ul>
+<li><code>2D 打开</code>：按页查看二维结构；属性来自 SDF properties，可用于排序、筛选、下载选中 SDF 或导出新资产。</li>
+<li><code>3D 打开</code>：查看 SDF 内构象。右侧列表支持单选/多选，适合比较构象是否叠到合理口袋位置。</li>
+<li><code>载入分子表</code>：将 SDF 内每条记录加载到主工作区，便于按属性选择和编辑。</li>
+</ul>
+<p>结果解读：</p>
+<ul>
+<li>对接分数来自 <code>WA_DD_DOCKING_SCORE</code> 等 SDF property。</li>
+<li>FEP dry-run 输出的 <code>fep_output</code> 会保留结构并标注 planned edge 信息；真实 ΔΔG 需要正式生产 FEP 任务。</li>
+<li>页面显示的 <code>heavy / H</code> 可快速确认是否含显式氢。分子生成启用 <code>prepare_for_docking</code> 后，本例生成资产已带氢。</li>
+</ul>
+<hr />
+<h1 id="ligand-preparation-guide">Ligand Preparation Guide</h1>
+<p>This guide continues with the fixed project <code>tutorial-1A2C-thrombin</code>. The goal is to extract ligands from the 1A2C co-crystal structure, merge them into a ligand library, run ligand preparation, and produce reusable ligand assets for Uni-Dock docking, SAR, molecule generation, and downstream FEP workflows.</p>
+<h2 id="what-this-module-does">What this module does</h2>
+<ul>
+<li>Creates ligand assets from SMILES, SDF, MOL/MOL2/PDB uploads, or an empty library.</li>
+<li>Displays molecules inside a ligand asset and supports single/multi-molecule selection, copy, delete, and edit actions.</li>
+<li>Uses Ketcher 2D for drawing new molecules or modifying existing molecules.</li>
+<li>Appends molecules to the current ligand asset, replaces the current molecule index, or saves a new ligand asset.</li>
+<li>Runs <code>wa-dd-ligand-prep-worker</code> to generate <code>prepared_ligand</code> assets.</li>
+<li>Prepares compatible ligand inputs for Uni-Dock/Vina, FEP/MD, and other downstream workflows.</li>
+</ul>
+<h2 id="1-extract-a-ligand-library-from-the-1a2c-co-crystal-structure">1. Extract a ligand library from the 1A2C co-crystal structure</h2>
+<p>From the protein component list or focused 3D editor, extract co-crystal ligand components into a ligand asset. For <code>1A2C</code>, use:</p>
+<pre><code class="language-text">34H J:1
+PRJ J:3
+OAR J:4
+TYS I:363 (optional, for recording the hirudin-related modified fragment)
+</code></pre>
+<p>Recommended ligand asset name:</p>
+<pre><code class="language-text">1A2C co-crystal ligand library
+</code></pre>
+<p>The output is a <code>ligand</code> asset that can be extended, edited, prepared, or copied to another project.</p>
+<h2 id="2-select-the-current-ligand-asset">2. Select the current ligand asset</h2>
+<p>Open <code>Ligand Preparation</code>. In the left-side ligand asset list, select:</p>
+<pre><code class="language-text">1A2C co-crystal ligand library
+</code></pre>
+<p>The right workspace shows the current ligand asset, molecules inside the asset, the current molecule editor, and structure text. Always confirm the current ligand asset before appending or replacing molecules.</p>
+<p><img alt="Ligand asset, molecule list, and editor" src="../images/tutorial-1a2c-ligand-01-assets-editor.png" /></p>
+<p>Asset sources are grouped as raw ligands, prepared ligands, docking poses, molecule-generation output, and FEP output. Each SDF asset can be opened directly in <code>3D</code> or <code>2D</code>; selected assets can be merged into one new SDF asset.</p>
+<p><img alt="Browse ligand assets by source and open 2D or 3D previews from an asset card" src="../images/ligand-asset-browser.png" /></p>
+<p>The 2D workspace can choose displayed SDF properties, sort or filter by them, download selected records, and export them as a new SDF asset. Display and filtering do not modify the stored SDF.</p>
+<p><img alt="2D workspace with SDF properties, sorting, filtering, molecule cards, and selected-record export" src="../images/ligand-2d-workspace.png" /></p>
+<h2 id="3-edit-an-existing-molecule">3. Edit an existing molecule</h2>
+<p>Choose a molecule in the <code>Molecules in asset</code> list, such as <code>PRJ J:3</code> or <code>OAR J:4</code>.</p>
+<p>Common actions:</p>
+<ul>
+<li><code>Use for docking</code>: set this molecule as the current docking ligand.</li>
+<li><code>Edit</code>: load the molecule into Ketcher.</li>
+<li><code>Copy</code>: append an identical molecule to the same ligand asset and load the copy into Ketcher.</li>
+<li>Select one or more molecules and click <code>Delete</code>: remove unnecessary molecules in batch.</li>
+</ul>
+<p>Copy-before-edit is the recommended workflow because it preserves the original co-crystal molecule.</p>
+<h3 id="3d-conformer-preview">3D conformer preview</h3>
+<p>Select <code>Open 3D</code> on an asset card to inspect conformers in its SDF. The right-side list supports selecting several molecules for simultaneous display; <code>Tile selected</code> separates those conformers for comparison without changing stored coordinates or hydrogens.</p>
+<p><img alt="3D conformer preview with selected conformers tiled for comparison" src="../images/ligand-3d-conformer-preview.png" /></p>
+<h2 id="4-draw-or-modify-molecules-with-ketcher">4. Draw or modify molecules with Ketcher</h2>
+<p>Open the <code>2D Edit</code> tab or the focused editor. Ketcher tools are on the left and bottom; the canvas is in the center; structure text and save actions are on the right.</p>
+<p>Save strategies:</p>
+<ul>
+<li><code>Append to current ligand asset</code>: append the current drawing as a new molecule. After success, the canvas should clear so the next molecule can be drawn immediately.</li>
+<li><code>Replace current molecule position</code>: overwrite the selected molecule index with the current drawing.</li>
+<li><code>Save as new ligand asset</code>: create a new ligand asset without changing the original library.</li>
+</ul>
+<p>If Ketcher cannot provide SMILES directly, the system keeps the MolBlock and lets RDKit/Open Babel parse and standardize it on the backend.</p>
+<p><img alt="Ketcher 2D editing and save strategy" src="../images/tutorial-1a2c-ligand-02-ketcher.png" /></p>
+<h2 id="5-run-ligand-preparation">5. Run ligand preparation</h2>
+<p>In <code>Ligand Preparation</code>, select:</p>
+<pre><code class="language-text">1A2C co-crystal ligand library
+</code></pre>
+<p>In <code>Target use / export profile</code>, choose the downstream route:</p>
+<ul>
+<li><code>Uni-Dock/Vina</code>: enable 3D conformers, explicit hydrogens, Gasteiger charges, torsion preparation, and PDBQT compatibility output.</li>
+<li><code>FEP/MD</code>: enable 3D conformers and explicit hydrogens, and keep force-field handoff metadata.</li>
+</ul>
+<p>Recommended output name:</p>
+<pre><code class="language-text">1A2C co-crystal ligands prepared
+</code></pre>
+<p>Click <code>Generate prepared ligand asset</code>. Production deployments use <code>wa-dd-ligand-prep-worker</code>, a CPU worker that does not require GPU or PyTorch. It bundles RDKit, Open Babel, Meeko, Dimorphite-DL, and gemmi.</p>
+<p>The preparation workflow covers:</p>
+<ul>
+<li>Salt stripping.</li>
+<li>Target-specific neutralization, hydrogen handling, and charge assignment.</li>
+<li>Target-specific 3D conformer generation.</li>
+<li>MMFF/UFF optimization.</li>
+<li>Tautomer recording.</li>
+<li>Vina/AutoDock mode additionally attempts PDBQT export; if the underlying tool fails, the SDF is kept and the reason is recorded in metadata.</li>
+<li>Stereoisomer recording.</li>
+</ul>
+<p>The output is a <code>prepared_ligand</code> asset:</p>
+<pre><code class="language-text">1A2C co-crystal ligands prepared
+</code></pre>
+<h2 id="6-use-in-docking-tasks">6. Use in docking tasks</h2>
+<p>Prepared <code>prepared_ligand</code> assets can be used directly on the Docking Tasks page. On the "Docking Tasks" page:</p>
+<ul>
+<li>Protein asset: select the corresponding <code>prepared_protein</code></li>
+<li>Ligand asset: select the newly generated <code>prepared_ligand</code> or <code>prepared_ligand_library</code></li>
+<li>Pocket asset: select the corresponding <code>pocket</code></li>
+<li>Docking method: default Uni-Dock GPU</li>
+</ul>
+<p>Click "Submit docking job" to start the docking calculation.</p>
+<p><img alt="Name-based downstream asset selection" src="../images/tutorial-1a2c-docking-01-dropdowns.png" /></p>
+<h2 id="7-api-automation-chaining">7. API automation chaining</h2>
+<p>Key ligand APIs:</p>
+<pre><code class="language-http">POST /api/v1/assets/ligands/empty
+POST /api/v1/assets/ligands/smiles
+POST /api/v1/assets/upload
+POST /api/v1/assets/ligands/{asset_id}/molecules
+PUT  /api/v1/assets/ligands/{asset_id}/molecules/{index}
+POST /api/v1/assets/ligands/merge
+POST /api/v1/preparations/ligand
+POST /api/v1/jobs
+</code></pre>
+<p>Automation chain:</p>
+<pre><code class="language-text">ligand asset_id
+  -&gt; prepared_ligand asset_id
+  -&gt; prepared_protein asset_id + pocket asset_id
+  -&gt; docking job_id
+  -&gt; downstream result assets
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/huluxiaohuowa/wa-dd" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
