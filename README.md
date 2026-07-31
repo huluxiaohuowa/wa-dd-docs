@@ -3,12 +3,12 @@
 <a id="chinese-guide"></a>
 
 <p align="center">
-  <img src="docs/images/wa-dd-logo.svg" alt="WA-DD logo" width="140">
+  <img src="userguide/images/wa-dd-logo.svg" alt="WA-DD logo" width="140">
 </p>
 
 ## 面向药物研发的一体化分子设计工作台
 
-![WA-DD main page](./README.assets/wa-dd-workbench-main.png)
+![WA-DD main page](userguide/images/wa-dd-workbench-main.png)
 
 WA-DD 专为计算机辅助药物设计（CADD）研究人员打造，将已可用的靶点蛋白处理、配体准备、分子对接、分子生成、相互作用分析和 FEP/RBFE dry-run 工作流整合到统一的浏览器界面中；正式自由能生产模拟仍在开发。
 
