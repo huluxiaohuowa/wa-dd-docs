@@ -40,15 +40,15 @@ TYS I:363（如需要记录 hirudin 相关修饰片段）
 
 右侧主工作区会显示当前配体资产、资产内分子列表、当前分子编辑区和结构文本区。先确认 `当前配体资产` 显示的是要追加或替换的资产，避免把分子写到错误库里。
 
-![配体资产、分子列表和编辑区](images/tutorial-1a2c-ligand-01-assets-editor.png)
+![配体资产、分子列表和编辑区](images/tutorial-1a2c-ligand-01-assets-editor.jpg)
 
 资产来源会按原始配体、准备后配体、对接构象、分子生成和 FEP 输出分组。对每个 SDF 资产可直接选择 `3D 打开` 或 `2D 打开`；勾选多个资产后可合并为一个新的 SDF 资产。
 
-![按来源浏览配体资产，并从资产卡片打开 2D 或 3D 预览](images/ligand-asset-browser.png)
+![按来源浏览配体资产，并从资产卡片打开 2D 或 3D 预览](images/ligand-asset-browser.jpg)
 
 2D 主工作区支持选择显示的 SDF 属性、按属性排序或筛选，并可下载所选记录或导出为新的 SDF 资产。这些展示和筛选操作不修改原始 SDF。
 
-![2D 主工作区：SDF 属性、排序筛选、分子卡片和选中记录导出](images/ligand-2d-workspace.png)
+![2D 主工作区：SDF 属性、排序筛选、分子卡片和选中记录导出](images/ligand-2d-workspace.jpg)
 
 ## 3. 编辑已有分子
 
@@ -67,7 +67,7 @@ TYS I:363（如需要记录 hirudin 相关修饰片段）
 
 点击资产卡片的 `3D 打开` 可查看 SDF 内的构象。右侧列表可多选要同时显示的分子；`平铺选中` 将选中的构象分开排布，便于比较，而不会改变存储的坐标或氢原子。
 
-![3D 构象预览：多选构象并使用平铺选中进行比较](images/ligand-3d-conformer-preview.png)
+![3D 构象预览：多选构象并使用平铺选中进行比较](images/ligand-3d-conformer-preview.jpg)
 
 ## 4. 使用 Ketcher 画新分子或修改分子
 
@@ -81,7 +81,7 @@ TYS I:363（如需要记录 hirudin 相关修饰片段）
 
 如果 Ketcher 不能直接生成 SMILES，系统会使用 MolBlock；后端会用 RDKit/Open Babel 解析并标准化。
 
-![Ketcher 2D 编辑与保存策略](images/tutorial-1a2c-ligand-02-ketcher.png)
+![Ketcher 2D 编辑与保存策略](images/tutorial-1a2c-ligand-02-ketcher.jpg)
 
 ## 5. 运行配体准备
 
@@ -131,7 +131,7 @@ TYS I:363（如需要记录 hirudin 相关修饰片段）
 
 点击"提交对接任务"即可开始对接计算。
 
-![对接/后续页面按资产名称选择输入](images/tutorial-1a2c-docking-01-dropdowns.png)
+![对接/后续页面按资产名称选择输入](images/tutorial-1a2c-docking-01-dropdowns.jpg)
 
 ## 7. API 自动化衔接
 
@@ -162,9 +162,9 @@ ligand asset_id
 
 本例在 server6 的 `Example` 项目完成，配体处理页面用于检查原始同系物库、准备后库、对接 pose library、分子生成库和 FEP 输出 SDF。
 
-![配体处理：按来源管理配体资产](images/example2-step-08-ligand-source-groups-boxed.png)
+![配体处理：按来源管理配体资产](images/example2-step-08-ligand-source-groups-boxed.jpg)
 
-![配体处理：选择配体、目标用途和准备参数](images/example2-step-09-ligand-2d-sort-filter-export-boxed.png)
+![配体处理：选择配体、目标用途和准备参数](images/example2-step-09-ligand-2d-sort-filter-export-boxed.jpg)
 
 操作步骤：
 
@@ -182,7 +182,7 @@ ligand asset_id
    - `docking_pose_library`：查看每个对接 pose 的 3D 构象和 docking score。
    - `fep_output`：查看带 FEP 字段的派生 SDF。
 
-![3D 独立构象预览：右侧可单选或多选 SDF 内分子记录](images/example2-08-ligand-3d-popup-boxed.png)
+![3D 独立构象预览：右侧可单选或多选 SDF 内分子记录](images/example2-08-ligand-3d-popup-boxed.jpg)
 
 2D/3D 结果怎么用：
 
@@ -240,15 +240,15 @@ Open `Ligand Preparation`. In the left-side ligand asset list, select:
 
 The right workspace shows the current ligand asset, molecules inside the asset, the current molecule editor, and structure text. Always confirm the current ligand asset before appending or replacing molecules.
 
-![Ligand asset, molecule list, and editor](images/tutorial-1a2c-ligand-01-assets-editor.png)
+![Ligand asset, molecule list, and editor](images/tutorial-1a2c-ligand-01-assets-editor.jpg)
 
 Asset sources are grouped as raw ligands, prepared ligands, docking poses, molecule-generation output, and FEP output. Each SDF asset can be opened directly in `3D` or `2D`; selected assets can be merged into one new SDF asset.
 
-![Browse ligand assets by source and open 2D or 3D previews from an asset card](images/ligand-asset-browser.png)
+![Browse ligand assets by source and open 2D or 3D previews from an asset card](images/ligand-asset-browser.jpg)
 
 The 2D workspace can choose displayed SDF properties, sort or filter by them, download selected records, and export them as a new SDF asset. Display and filtering do not modify the stored SDF.
 
-![2D workspace with SDF properties, sorting, filtering, molecule cards, and selected-record export](images/ligand-2d-workspace.png)
+![2D workspace with SDF properties, sorting, filtering, molecule cards, and selected-record export](images/ligand-2d-workspace.jpg)
 
 ## 3. Edit an existing molecule
 
@@ -267,7 +267,7 @@ Copy-before-edit is the recommended workflow because it preserves the original c
 
 Select `Open 3D` on an asset card to inspect conformers in its SDF. The right-side list supports selecting several molecules for simultaneous display; `Tile selected` separates those conformers for comparison without changing stored coordinates or hydrogens.
 
-![3D conformer preview with selected conformers tiled for comparison](images/ligand-3d-conformer-preview.png)
+![3D conformer preview with selected conformers tiled for comparison](images/ligand-3d-conformer-preview.jpg)
 
 ## 4. Draw or modify molecules with Ketcher
 
@@ -281,7 +281,7 @@ Save strategies:
 
 If Ketcher cannot provide SMILES directly, the system keeps the MolBlock and lets RDKit/Open Babel parse and standardize it on the backend.
 
-![Ketcher 2D editing and save strategy](images/tutorial-1a2c-ligand-02-ketcher.png)
+![Ketcher 2D editing and save strategy](images/tutorial-1a2c-ligand-02-ketcher.jpg)
 
 ## 5. Run ligand preparation
 
@@ -331,7 +331,7 @@ Prepared `prepared_ligand` assets can be used directly on the Docking Tasks page
 
 Click "Submit docking job" to start the docking calculation.
 
-![Name-based downstream asset selection](images/tutorial-1a2c-docking-01-dropdowns.png)
+![Name-based downstream asset selection](images/tutorial-1a2c-docking-01-dropdowns.jpg)
 
 ## 7. API automation chaining
 

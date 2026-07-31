@@ -60,15 +60,15 @@ chain J: 34H J:1 + LEU J:2 + PRJ J:3 + OAR J:4
 
 导入前页面如下：
 
-![1A2C import form](images/1a2c-01-import-pdb.png)
+![1A2C import form](images/1a2c-01-import-pdb.jpg)
 
 导入完成后，左侧会出现 `1A2C` 蛋白资产：
 
-![1A2C protein asset](images/1a2c-02-protein-assets.png)
+![1A2C protein asset](images/1a2c-02-protein-assets.jpg)
 
 右侧 3D 工作区应显示蛋白结构，并能看到链、配体、水、金属等对象。
 
-![1A2C viewer and components](images/1a2c-03-viewer-components.png)
+![1A2C viewer and components](images/1a2c-03-viewer-components.jpg)
 
 ## 3. 选择参考配体并定义口袋
 
@@ -82,7 +82,7 @@ chain J: 34H J:1 + LEU J:2 + PRJ J:3 + OAR J:4
 
 专注编辑窗口中，底部横向对象条会列出蛋白链、配体、金属、水等 PDB 对象：
 
-![1A2C focus editor](images/1a2c-04-focus-editor.png)
+![1A2C focus editor](images/1a2c-04-focus-editor.jpg)
 
 6. 打开 `Pocket` 显示开关，确认 3D 视图里出现蓝色口袋 box。
 7. 在右侧口袋参数中把 box 调整为：
@@ -98,7 +98,7 @@ chain J: 34H J:1 + LEU J:2 + PRJ J:3 + OAR J:4
 
 选择 `PRJ J:3` 后，用它作为口袋参考：
 
-![PRJ pocket reference](images/1a2c-05-prj-pocket.png)
+![PRJ pocket reference](images/1a2c-05-prj-pocket.jpg)
 
 创建后，这个口袋资产会出现在项目资产里，并会自动填入后续对接任务的口袋输入。
 
@@ -139,7 +139,7 @@ chain J: 34H J:1 + LEU J:2 + PRJ J:3 + OAR J:4
 
 准备参数确认页面：
 
-![1A2C protein preparation form](images/1a2c-06-prep-form.png)
+![1A2C protein preparation form](images/1a2c-06-prep-form.jpg)
 
 ## 5. 执行蛋白准备任务
 
@@ -158,7 +158,7 @@ chain J: 34H J:1 + LEU J:2 + PRJ J:3 + OAR J:4
 
 任务完成后，可以在项目总览看到任务卡片和输出资产：
 
-![1A2C task output](images/1a2c-07-task-output.png)
+![1A2C task output](images/1a2c-07-task-output.jpg)
 
 ## 6. 查看、下载和复用输出
 

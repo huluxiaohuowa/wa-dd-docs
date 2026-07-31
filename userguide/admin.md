@@ -35,7 +35,7 @@ The admin page is restricted to administrators. It manages users, project files,
 - `host-metrics` runner 默认每 5 秒写入一次宿主机采样；页面支持自动刷新和立即刷新。
 - 支持 x86 NVIDIA（`nvidia-smi`）、Jetson Thor（`tegrastats`/sysfs）和 ROCm（`rocm-smi`）指标来源。
 
-![管理与系统资源页面：用户、文件/项目、任务管理和系统资源四个模块](images/admin-system-resources.png)
+![管理与系统资源页面：用户、文件/项目、任务管理和系统资源四个模块](images/admin-system-resources.jpg)
 
 ## 使用方式 / Workflow
 

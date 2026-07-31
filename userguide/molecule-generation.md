@@ -157,9 +157,9 @@ GPU/显存敏感。留空时使用口袋资产中的 `generation_radius`，或�
 
 本例在 server6 的 `Example` 项目完成，输入为准备后 1TA2 thrombin 和 176 配体所在口袋。
 
-![分子生成：选择蛋白、口袋、生成数量、batch 和 GPU 参数](images/example2-step-12-generation-inputs-gpu-params-boxed.png)
+![分子生成：选择蛋白、口袋、生成数量、batch 和 GPU 参数](images/example2-step-12-generation-inputs-gpu-params-boxed.jpg)
 
-![分子生成：任务完成后检查输出配体资产](images/example2-step-13-generation-results-assets-boxed.png)
+![分子生成：任务完成后检查输出配体资产](images/example2-step-13-generation-results-assets-boxed.jpg)
 
 操作步骤：
 

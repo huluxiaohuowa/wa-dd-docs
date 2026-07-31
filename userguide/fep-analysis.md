@@ -28,9 +28,9 @@ FEP/analysis is reserved for free-energy calculations, trajectory inspection, un
 
 本例在 server6 的 `Example` 项目完成，对两组对接结果分别创建 FEP/RBFE 规划结果。
 
-![FEP：选择输入、reference 和 dry-run/正式运行参数](images/example2-step-14-fep-inputs-reference-dryrun-boxed.png)
+![FEP：选择输入、reference 和 dry-run/正式运行参数](images/example2-step-14-fep-inputs-reference-dryrun-boxed.jpg)
 
-![FEP：查看 edge 表、下载报告或分析派生 SDF](images/example2-step-15-fep-results-buttons-edge-table-boxed.png)
+![FEP：查看 edge 表、下载报告或分析派生 SDF](images/example2-step-15-fep-results-buttons-edge-table-boxed.jpg)
 
 输入资产：
 

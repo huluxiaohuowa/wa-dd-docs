@@ -22,7 +22,7 @@ tutorial-1A2C-thrombin
 
 进入 `蛋白处理` 页面。左侧是导入和准备参数，右侧是 3D 主工作区。
 
-![固定 tutorial 项目与蛋白导入](images/tutorial-1a2c-protein-01-project-import.png)
+![固定 tutorial 项目与蛋白导入](images/tutorial-1a2c-protein-01-project-import.jpg)
 
 ## 2. 导入 1A2C 并选择蛋白资产
 
@@ -56,7 +56,7 @@ tutorial-1A2C-thrombin
 | `NA H:626` | 金属离子 | 默认保留 |
 | `HOH/WAT` | 结晶水 | 默认删除，关键水另行保留 |
 
-![链、组分和共晶配体检查](images/tutorial-1a2c-protein-02-components.png)
+![链、组分和共晶配体检查](images/tutorial-1a2c-protein-02-components.jpg)
 
 ## 4. 用 PRJ J:3 定义口袋
 
@@ -76,7 +76,7 @@ box    = 20, 20, 20 Å
 
 如果要更保守覆盖整个 Aeruginosin 298-A 链，可改为 `22, 22, 22 Å`。调整中心和大小时应实时看到蓝色 box 覆盖共晶配体所在区域。
 
-![专注编辑窗口和横向 PDB 成分条](images/tutorial-1a2c-protein-03-focus-components.png)
+![专注编辑窗口和横向 PDB 成分条](images/tutorial-1a2c-protein-03-focus-components.jpg)
 
 ## 5. 准备受体
 
@@ -103,7 +103,7 @@ box    = 20, 20, 20 Å
 
 这些资产会在 `对接任务` 中以下拉列表按名称选择，不需要手填 ID。
 
-![对接页面按名称选择蛋白、口袋和配体资产](images/tutorial-1a2c-docking-01-dropdowns.png)
+![对接页面按名称选择蛋白、口袋和配体资产](images/tutorial-1a2c-docking-01-dropdowns.jpg)
 
 ## 7. 失败任务处理
 
@@ -118,15 +118,15 @@ box    = 20, 20, 20 Å
 
 本例在 server6 的 `Example` 项目完成，靶点为 thrombin 复合物 `1TA2`，选择共晶小分子 `176 A:401` 作为参考配体和口袋中心。
 
-![蛋白处理：从 RCSB 导入 PDB](images/example2-step-02-protein-import-pdb-boxed.png)
+![蛋白处理：从 RCSB 导入 PDB](images/example2-step-02-protein-import-pdb-boxed.jpg)
 
-![蛋白处理：选择蛋白资产并确认准备入口](images/example2-step-04-protein-select-asset-and-options-boxed.png)
+![蛋白处理：选择蛋白资产并确认准备入口](images/example2-step-04-protein-select-asset-and-options-boxed.jpg)
 
-![蛋白处理：预览准备后受体结构](images/example2-step-05-protein-preview-selected-boxed.png)
+![蛋白处理：预览准备后受体结构](images/example2-step-05-protein-preview-selected-boxed.jpg)
 
-![蛋白处理：在链/组分页定位共晶配体和 HETATM 组分](images/example2-step-06-protein-components-tab-boxed.png)
+![蛋白处理：在链/组分页定位共晶配体和 HETATM 组分](images/example2-step-06-protein-components-tab-boxed.jpg)
 
-![蛋白处理：在口袋页确认保存的 pocket 资产](images/example2-step-07-protein-pocket-tab-boxed.png)
+![蛋白处理：在口袋页确认保存的 pocket 资产](images/example2-step-07-protein-pocket-tab-boxed.jpg)
 
 操作步骤：
 
@@ -179,7 +179,7 @@ tutorial-1A2C-thrombin
 
 Open `Protein Preparation`. The left side contains import and preparation controls; the right side is the 3D workspace.
 
-![Fixed tutorial project and protein import](images/tutorial-1a2c-protein-01-project-import.png)
+![Fixed tutorial project and protein import](images/tutorial-1a2c-protein-01-project-import.jpg)
 
 ## 2. Import 1A2C and select the protein asset
 
@@ -213,7 +213,7 @@ Open the `Chains / Components` tab. Key objects in this structure are:
 | `NA H:626` | metal ion | Keep by default |
 | `HOH/WAT` | crystallographic waters | Remove by default unless specific waters are required |
 
-![Chain and co-crystal component inspection](images/tutorial-1a2c-protein-02-components.png)
+![Chain and co-crystal component inspection](images/tutorial-1a2c-protein-02-components.jpg)
 
 ## 4. Define the pocket from PRJ J:3
 
@@ -233,7 +233,7 @@ box    = 20, 20, 20 Å
 
 Use `22, 22, 22 Å` if you want a more conservative box covering the full Aeruginosin 298-A chain.
 
-![Focused editor and horizontal PDB component strip](images/tutorial-1a2c-protein-03-focus-components.png)
+![Focused editor and horizontal PDB component strip](images/tutorial-1a2c-protein-03-focus-components.jpg)
 
 ## 5. Prepare the receptor
 
@@ -260,7 +260,7 @@ The completed workflow produces:
 
 Downstream docking pages should select these by asset name from dropdown lists, not by manually typed IDs.
 
-![Name-based protein, pocket, and ligand selection in docking](images/tutorial-1a2c-docking-01-dropdowns.png)
+![Name-based protein, pocket, and ligand selection in docking](images/tutorial-1a2c-docking-01-dropdowns.jpg)
 
 ## 7. Failed job handling
 

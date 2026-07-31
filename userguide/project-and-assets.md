@@ -34,7 +34,7 @@ DELETE /api/v1/assets/{asset_id}
 
 本例使用 server6 部署页面 `http://123.207.15.89:45103`，项目名为 `Example`。
 
-![项目总览：选择 Example 项目，并检查资产和任务两栏](images/example2-step-01-project-select-and-overview-boxed.png)
+![项目总览：选择 Example 项目，并检查资产和任务两栏](images/example2-step-01-project-select-and-overview-boxed.jpg)
 
 检查顺序：
 

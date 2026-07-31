@@ -2,7 +2,7 @@
 
 相互作用分析将受体、已选配体构象和几何接触结果放在同一个独立窗口中，便于从对接或分子生成结果快速检查结合模式。
 
-![相互作用分析工作台：左侧筛选分子与 Pose，中间查看三维受体-配体作用力，右侧按残基检查接触](images/interaction-analysis-workbench.png)
+![相互作用分析工作台：左侧筛选分子与 Pose，中间查看三维受体-配体作用力，右侧按残基检查接触](images/interaction-analysis-workbench.jpg)
 
 ## 输入 / Inputs
 
@@ -23,9 +23,9 @@
 
 本例在 server6 的 `Example` 项目完成。页面把不同来源统一按组显示：FEP/MD 输出、对接构象、分子生成、准备后配体、原始导入/编辑。
 
-![相互作用分析：先选择受体，再按来源展开配体/pose 组](images/example2-step-16-interaction-receptor-and-source-groups-boxed.png)
+![相互作用分析：先选择受体，再按来源展开配体/pose 组](images/example2-step-16-interaction-receptor-and-source-groups-boxed.jpg)
 
-![相互作用分析：选中最佳分子后查看 3D、分数和残基接触](images/example2-step-17-interaction-select-best-and-view-boxed.png)
+![相互作用分析：选中最佳分子后查看 3D、分数和残基接触](images/example2-step-17-interaction-select-best-and-view-boxed.jpg)
 
 操作步骤：
 
@@ -42,7 +42,7 @@
    - `导出 SDF`：选中分子的构象和 SDF properties。
    - `生成资产`：把已选分子保存为新的 SDF 资产。
 
-![相互作用分析独立窗口：多选、导出表格、导出 SDF、生成资产和退出](images/example2-step-18-interaction-independent-window-full-controls-boxed.png)
+![相互作用分析独立窗口：多选、导出表格、导出 SDF、生成资产和退出](images/example2-step-18-interaction-independent-window-full-controls-boxed.jpg)
 
 独立窗口：
 
@@ -50,7 +50,7 @@
 2. 点击 `打开独立分析窗口`。
 3. 独立窗口中保留全选、清空、导出表格、导出 SDF、生成资产和退出按钮。
 
-![相互作用分析独立窗口：未选配体时会提示先选择构象](images/example2-09-interaction-popup-boxed.png)
+![相互作用分析独立窗口：未选配体时会提示先选择构象](images/example2-09-interaction-popup-boxed.jpg)
 
 结果解读：
 

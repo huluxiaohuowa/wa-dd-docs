@@ -62,9 +62,9 @@ For automation, call the compatibility endpoint first. Submit a docking task onl
 
 本例在 server6 的 `Example` 项目完成，使用 1TA2 thrombin 的 176 配体口袋。
 
-![对接任务：选择受体、口袋、配体和 Uni-Dock 参数](images/example2-step-10-docking-inputs-and-parameters-boxed.png)
+![对接任务：选择受体、口袋、配体和 Uni-Dock 参数](images/example2-step-10-docking-inputs-and-parameters-boxed.jpg)
 
-![对接任务：完成后查看报表或进入相互作用分析](images/example2-step-11-docking-results-report-analysis-boxed.png)
+![对接任务：完成后查看报表或进入相互作用分析](images/example2-step-11-docking-results-report-analysis-boxed.jpg)
 
 操作要点：
 

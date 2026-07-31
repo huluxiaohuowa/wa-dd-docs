@@ -8,7 +8,7 @@
 
 进入页面后，使用管理员账户登录，在右上角项目菜单选择 `Example`。每一步截图中的红框是用户需要关注或点击的位置。
 
-![步骤 1：选择 Example 项目，并检查项目总览中的资产和任务两栏](images/example2-step-01-project-select-and-overview-boxed.png)
+![步骤 1：选择 Example 项目，并检查项目总览中的资产和任务两栏](images/example2-step-01-project-select-and-overview-boxed.jpg)
 
 应看到以下关键资产：
 
@@ -25,17 +25,17 @@
 
 进入“蛋白处理”，从 PDB 下载 `1TA2`。在组分列表中找到 `176 A:401`。
 
-![步骤 2：在蛋白处理页输入 PDB ID，然后从 RCSB 导入](images/example2-step-02-protein-import-pdb-boxed.png)
+![步骤 2：在蛋白处理页输入 PDB ID，然后从 RCSB 导入](images/example2-step-02-protein-import-pdb-boxed.jpg)
 
-![步骤 3：确认蛋白准备入口和默认参数区](images/example2-step-03-protein-prep-form-boxed.png)
+![步骤 3：确认蛋白准备入口和默认参数区](images/example2-step-03-protein-prep-form-boxed.jpg)
 
-![步骤 4：从蛋白资产列表选择受体，并确认预览、下载和准备入口](images/example2-step-04-protein-select-asset-and-options-boxed.png)
+![步骤 4：从蛋白资产列表选择受体，并确认预览、下载和准备入口](images/example2-step-04-protein-select-asset-and-options-boxed.jpg)
 
-![步骤 5：预览准备后的受体结构，确认 3D 区和右侧显示控制](images/example2-step-05-protein-preview-selected-boxed.png)
+![步骤 5：预览准备后的受体结构，确认 3D 区和右侧显示控制](images/example2-step-05-protein-preview-selected-boxed.jpg)
 
-![步骤 6：进入链/组分页，定位共晶配体、金属、水等组分](images/example2-step-06-protein-components-tab-boxed.png)
+![步骤 6：进入链/组分页，定位共晶配体、金属、水等组分](images/example2-step-06-protein-components-tab-boxed.jpg)
 
-![步骤 7：进入口袋页，确认以参考配体保存的 pocket 资产](images/example2-step-07-protein-pocket-tab-boxed.png)
+![步骤 7：进入口袋页，确认以参考配体保存的 pocket 资产](images/example2-step-07-protein-pocket-tab-boxed.jpg)
 
 操作：
 
@@ -49,9 +49,9 @@
 
 进入“配体处理”，选择同系物库，生成准备后配体资产。
 
-![步骤 8：配体来源按 FEP 输出、对接构象、分子生成、准备后配体和原始导入分组](images/example2-step-08-ligand-source-groups-boxed.png)
+![步骤 8：配体来源按 FEP 输出、对接构象、分子生成、准备后配体和原始导入分组](images/example2-step-08-ligand-source-groups-boxed.jpg)
 
-![步骤 9：选择当前配体资产、目标用途和准备参数，然后提交准备任务](images/example2-step-09-ligand-2d-sort-filter-export-boxed.png)
+![步骤 9：选择当前配体资产、目标用途和准备参数，然后提交准备任务](images/example2-step-09-ligand-2d-sort-filter-export-boxed.jpg)
 
 本例同系物库：
 
@@ -70,7 +70,7 @@
 
 进入“对接任务”，选择准备后蛋白、准备后同系物库和 176 口袋。
 
-![步骤 10：选择受体、口袋、配体库和 Uni-Dock 参数](images/example2-step-10-docking-inputs-and-parameters-boxed.png)
+![步骤 10：选择受体、口袋、配体库和 Uni-Dock 参数](images/example2-step-10-docking-inputs-and-parameters-boxed.jpg)
 
 本例参数：
 
@@ -88,7 +88,7 @@
 - 失败/跳过：0 个
 - 输出 pose library：`Example 1TA2 congeneric Uni-Dock screening result docked pose library`
 
-![步骤 11：对接完成后，点击查看报表或分析构象库](images/example2-step-11-docking-results-report-analysis-boxed.png)
+![步骤 11：对接完成后，点击查看报表或分析构象库](images/example2-step-11-docking-results-report-analysis-boxed.jpg)
 
 点击 `查看报表 · 194 poses` 查看打分表；点击 `分析构象库 · 194 poses` 进入相互作用分析。
 
@@ -96,7 +96,7 @@
 
 进入“分子生成”，选择同一个准备后蛋白和同一个口袋。
 
-![步骤 12：设置分子生成数量、batch、口袋半径和 GPU 参数](images/example2-step-12-generation-inputs-gpu-params-boxed.png)
+![步骤 12：设置分子生成数量、batch、口袋半径和 GPU 参数](images/example2-step-12-generation-inputs-gpu-params-boxed.jpg)
 
 本例参数：
 
@@ -117,7 +117,7 @@
 - 输出 SDF：`generated_ligands_h.sdf`
 - 资产已显式加氢，页面显示每个分子的 `heavy / H` 数。
 
-![步骤 13：生成任务完成后检查输出资产](images/example2-step-13-generation-results-assets-boxed.png)
+![步骤 13：生成任务完成后检查输出资产](images/example2-step-13-generation-results-assets-boxed.jpg)
 
 ## 6. 对 de novo 生成物继续对接
 
@@ -134,7 +134,7 @@
 
 进入“FEP / 分析”，分别选择两组 docked pose library 创建 RBFE 任务。
 
-![步骤 14：选择 FEP 输入、reference ligand 和 dry-run/正式运行参数](images/example2-step-14-fep-inputs-reference-dryrun-boxed.png)
+![步骤 14：选择 FEP 输入、reference ligand 和 dry-run/正式运行参数](images/example2-step-14-fep-inputs-reference-dryrun-boxed.jpg)
 
 本例为 dry-run，用于检查 ligand map 和结果展示，不代表真实 ΔΔG。
 
@@ -143,7 +143,7 @@
 - 同系物库：193 条 planned edge，派生 SDF `Example 1TA2 congeneric docking-pose RBFE plan clean annotated SDF`，194 条记录。
 - de novo 库：68 条 planned edge，派生 SDF `Example 1TA2 de novo docking-pose RBFE plan clean annotated SDF`，69 条记录。
 
-![步骤 15：查看 FEP edge 表、下载报告，或分析带 FEP 字段的派生 SDF](images/example2-step-15-fep-results-buttons-edge-table-boxed.png)
+![步骤 15：查看 FEP edge 表、下载报告，或分析带 FEP 字段的派生 SDF](images/example2-step-15-fep-results-buttons-edge-table-boxed.jpg)
 
 点击 `查看 FEP · N edges` 看 edge 表；点击 `分析 FEP SDF · N 分子` 把带 FEP 字段的 SDF 送入相互作用分析。
 
@@ -151,7 +151,7 @@
 
 进入“相互作用分析”，受体选择 `Example 1TA2 receptor prepared ligand-removed`。左侧按来源展开 FEP 输出、对接构象、分子生成和准备后配体。
 
-![步骤 16：先选择受体，再按来源展开配体/pose 组](images/example2-step-16-interaction-receptor-and-source-groups-boxed.png)
+![步骤 16：先选择受体，再按来源展开配体/pose 组](images/example2-step-16-interaction-receptor-and-source-groups-boxed.jpg)
 
 操作：
 
@@ -161,15 +161,15 @@
 4. 在右侧查看 docking score、FEP 字段、作用力数量和接触残基。
 5. 使用导出按钮保存表格、SDF，或把选中分子生成新资产。
 
-![步骤 17：点击“最佳 1 个”或逐个勾选分子，并查看 3D、分数和右侧残基接触](images/example2-step-17-interaction-select-best-and-view-boxed.png)
+![步骤 17：点击“最佳 1 个”或逐个勾选分子，并查看 3D、分数和右侧残基接触](images/example2-step-17-interaction-select-best-and-view-boxed.jpg)
 
 独立窗口：
 
-![步骤 18：打开独立相互作用分析窗口，使用多选、导出表格、导出 SDF、生成资产和退出按钮](images/example2-step-18-interaction-independent-window-full-controls-boxed.png)
+![步骤 18：打开独立相互作用分析窗口，使用多选、导出表格、导出 SDF、生成资产和退出按钮](images/example2-step-18-interaction-independent-window-full-controls-boxed.jpg)
 
 注意：点击 `打开独立分析窗口` 前必须先选中至少一个分子/pose；否则页面会提示先选择构象。
 
-![未选配体时的独立窗口前置提示](images/example2-09-interaction-popup-boxed.png)
+![未选配体时的独立窗口前置提示](images/example2-09-interaction-popup-boxed.jpg)
 
 结果解释：
 
@@ -181,7 +181,7 @@
 
 配体处理页面可以直接打开任意 ligand SDF、docking pose library 或 fep_output。
 
-![独立 3D 构象预览：右侧单选/多选分子记录](images/example2-08-ligand-3d-popup-boxed.png)
+![独立 3D 构象预览：右侧单选/多选分子记录](images/example2-08-ligand-3d-popup-boxed.jpg)
 
 使用建议：
 
@@ -193,6 +193,6 @@
 
 菜单中的“用户文档”会展示构建时从 `userguide/*.md` 转换出的 HTML。
 
-![步骤 19：用户文档左侧显示文档标题，当前文档标题下方展开目录](images/example2-step-19-userguide-title-and-toc-boxed.png)
+![步骤 19：用户文档左侧显示文档标题，当前文档标题下方展开目录](images/example2-step-19-userguide-title-and-toc-boxed.jpg)
 
 每次 web 镜像构建时会重新转换文档和图片；更新文档后需要重新构建 web 镜像并部署，线上页面才会看到新内容。
