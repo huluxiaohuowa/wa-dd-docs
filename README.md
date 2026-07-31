@@ -6,6 +6,8 @@
   <img src="userguide/images/wa-dd-logo.svg" alt="WA-DD logo" width="140">
 </p>
 
+> **开发者**：[huluxiaohuowa](https://github.com/huluxiaohuowa) · 本项目仍处于开发中，如需测试请联系 qhulu@outlook.com（仅接受学术科研机构和大专院校的测试申请，暂不接受公司商业化合作）。
+
 ## 面向药物研发的一体化分子设计工作台
 
 ![WA-DD main page](userguide/images/wa-dd-workbench-main.png)
@@ -292,6 +294,8 @@ WA-DD 当前以资产管理、蛋白/配体准备、Uni-Dock 对接、PocketXMol
 <a id="english-guide"></a>
 
 ## English Guide
+
+> **Developer**: [huluxiaohuowa](https://github.com/huluxiaohuowa) · This project is still under development. For testing access, contact qhulu@outlook.com (only academic/research institutions and universities are accepted; commercial use is not available at this time).
 
 WA-DD is an integrated molecular design workbench for Computer-Aided Drug Design (CADD) researchers. It unifies the available target-protein preparation, ligand preparation, molecular docking, molecule generation, interaction analysis, and FEP/RBFE dry-run workflows in one browser interface; formal free-energy production simulation remains in development.
 
