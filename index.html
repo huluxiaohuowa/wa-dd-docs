@@ -1911,12 +1911,12 @@
 </tr>
 <tr>
 <td>已可用</td>
-<td>Model Zoo、Agent / Pi、管理、系统资源、用户文档、API 文档</td>
-<td>可集中下载和更新项目模型；可管理个人 Agent 会话与模型配置；管理员可管理用户和任务；模块指南和 API 契约可直接浏览。</td>
+<td>Model Zoo、TPD / PROTAC、Agent / Pi、管理、系统资源、用户文档、API 文档</td>
+<td>可集中下载和更新项目模型；TPD 可提交 DeepTernary 结构建模任务；可管理个人 Agent 会话与模型配置；管理员可管理用户和任务；模块指南和 API 契约可直接浏览。</td>
 </tr>
 <tr>
 <td>规划中</td>
-<td>TPD / PROTAC、SAR / 构效关系</td>
+<td>SAR / 构效关系</td>
 <td>目前仅保留功能定位与指南入口，尚无可提交的业务工作流。</td>
 </tr>
 </tbody>
@@ -1929,6 +1929,7 @@
 <li><strong>分子生成</strong>：PocketXMol 支持口袋 de novo 生成和 fragment growing；结果保存为可复用的 <code>prepared_ligand</code> 或 <code>prepared_ligand_library</code>。<code>scaffold hopping</code> 与 <code>linker design</code> 需要原子锚点选择器，当前未开放。</li>
 <li><strong>FEP / RBFE 生产计算</strong>：基于 OpenFE + OpenMM（CUDA）执行真实相对结合自由能计算。支持 star 拓扑网络、Lomap 原子映射、dry-run 规划预览和完整生产模拟。每个 edge 输出 ΔΔG (kcal/mol)、误差和轨迹文件（DCD），结果汇总为 <code>fep_result</code> edge 表和带 FEP 字段的 <code>fep_output</code> SDF。支持从对接姿势库或准备好的配体 SDF 直接启动。</li>
 <li><strong>Model Zoo</strong>：集中管理项目模型，置顶 PocketXMol 和 DeepTernary，并支持自选 ModelScope / HuggingFace 仓库下载。模型路径采用 <code>/data/export/ms|hf/.../current</code> 兼容结构，便于后续与 VOS 中的 model-hub 对接。</li>
+<li><strong>TPD / PROTAC</strong>：DeepTernary 任务以 POI、E3、degrader/MGD 和 PROTAC 辅助 PDB 资产为输入，输出 <code>ternary_complex</code> 结构假设。binary ligand/mask PDB 可从蛋白页共晶配体生成 TPD PDB 资产，或在配体页上传 PDB 后选择。</li>
 <li><strong>Agent / Pi</strong>：每位用户拥有独立会话、上下文和加密模型配置；受控工具仅能访问该用户有权限的项目、资产和任务。</li>
 <li><strong>管理、用户文档与自动化</strong>：管理员可审核用户和管理全局任务；系统资源页显示宿主机 CPU、内存、磁盘和 GPU；Web 镜像会把 <code>userguide/*.md</code> 转换为页面内用户文档；API 文档基于 FastAPI OpenAPI，支持以 <code>project_id</code>、<code>asset_id</code> 和 <code>job_id</code> 串联自动化。</li>
 </ul>
@@ -1936,7 +1937,6 @@
 <p><img alt="WA-DD Agent / Pi：用户可管理独立会话和模型配置，并在对话中调用当前项目权限范围内的 CADD 工作流" src="userguide/images/agent-pi-overview.jpg" /></p>
 <h4 id="_5">规划中：尚未实现业务工作流</h4>
 <ul>
-<li><strong>TPD / PROTAC</strong>：拟支持 POI-E3 三元复合物设计、warhead/E3 ligand/linker 设计与降解剂优化。</li>
 <li><strong>SAR / 构效关系</strong>：拟支持活性数据表、R-group 分析、MMPA、构效关系可视化和下一轮设计候选推荐。</li>
 </ul>
 <p><a id="interaction-model-zh"></a></p>
