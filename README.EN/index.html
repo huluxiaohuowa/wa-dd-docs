@@ -1244,6 +1244,62 @@
   
   
     <li class="md-nav__item">
+      <a href="../userguide/model-zoo.EN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    model zoo.EN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/model-zoo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model zoo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../userguide/molecule-generation.EN/" class="md-nav__link">
         
   
@@ -1855,8 +1911,8 @@
 </tr>
 <tr>
 <td>Available</td>
-<td>Agent / Pi, administration, system resources, user docs, API docs</td>
-<td>Manage personal Agent sessions and model settings; administer users/jobs; browse module guides and the API contract.</td>
+<td>Model Zoo, Agent / Pi, administration, system resources, user docs, API docs</td>
+<td>Download and update project models centrally; manage personal Agent sessions and model settings; administer users/jobs; browse module guides and the API contract.</td>
 </tr>
 <tr>
 <td>Planned</td>
@@ -1872,6 +1928,7 @@
 <li><strong>Docking and interaction analysis</strong>: submit Uni-Dock GPU docking jobs (Vina/Vinardo scoring). Each docking task emits one merged SDF pose library plus reports. Interaction analysis can compare selected poses from docking, generation, or FEP outputs, inspect geometric contacts, export tables/SDF, or save a new selected-poses asset.</li>
 <li><strong>Molecule generation</strong>: PocketXMol provides pocket de novo generation and fragment growing. Results are reusable <code>prepared_ligand</code> or <code>prepared_ligand_library</code> assets. <code>Scaffold hopping</code> and <code>linker design</code> require an atom-anchor selector and are not available yet.</li>
 <li><strong>FEP / RBFE production calculation</strong>: real relative binding free energy calculations via OpenFE + OpenMM (CUDA). Supports star-topology networks, Lomap atom mapping, dry-run planning preview, and full production simulation. Each edge outputs ΔΔG (kcal/mol), uncertainty, and trajectory files (DCD). Results are summarized as an <code>fep_result</code> edge table plus an FEP-annotated <code>fep_output</code> SDF. Launch directly from docking pose libraries or prepared ligand SDFs.</li>
+<li><strong>Model Zoo</strong>: centrally manages project models, pins PocketXMol and DeepTernary at the top, and supports custom ModelScope / HuggingFace repository downloads. Model paths follow the same <code>/data/export/ms|hf/.../current</code> layout as VAI ModelHub.</li>
 <li><strong>Agent / Pi</strong>: each user has separate conversations, context, and encrypted model configuration. Its controlled tools can access only projects, assets, and jobs within that user's permissions.</li>
 <li><strong>Administration, user docs, and automation</strong>: administrators can approve users and manage global jobs. The system-resources view reports host CPU, memory, disk, and GPU state. The Web image converts <code>userguide/*.md</code> into in-app user documentation. API documentation is generated from FastAPI OpenAPI and supports automation chaining with <code>project_id</code>, <code>asset_id</code>, and <code>job_id</code>.</li>
 </ul>
@@ -1903,7 +1960,7 @@ Container: /data
 /data/model-cache/...
 </code></pre>
 <p><code>AssetFile.storage_path</code> stores only <code>/data/...</code> paths, never host paths. This keeps upload, worker input, worker output, web download, and cross-step reuse consistent across containers.</p>
-<p><code>/modelhub</code> is a shared model directory and is not used for user project inputs or outputs. The web service may mount it read-only for status checks; WA-DD docking/model workers must mount it read-write for ModelScope download, update, and delete operations.</p>
+<p><code>/modelhub</code> is a shared model directory and is not used for user project inputs or outputs. The Model Zoo service mounts the same host directory as <code>/data</code> and maintains the VAI ModelHub-compatible <code>export/ms|hf/&lt;org&gt;/&lt;repo&gt;/snapshots/...</code> plus stable <code>current</code> entry. Web and model workers read those models through <code>/modelhub/export/.../current</code>.</p>
 <p>System monitoring uses the same <code>/data</code> mount to pass host metrics into the Web UI:</p>
 <pre><code class="language-text">/data/system-metrics/host.json
 </code></pre>
@@ -1932,8 +1989,8 @@ password: admin123456
 ./deploy.sh --profile amd --root /data/vos_workspace --component ligand-prep
 ./deploy.sh --profile thor --root /data/vos_workspace --component molecule-gen
 </code></pre>
-<p>Components are <code>web</code>, <code>host-metrics</code>, <code>protein-prep</code>, <code>ligand-prep</code>, <code>unidock</code>, <code>molecule-gen</code>, <code>pi-agent</code>, <code>fep</code>, and <code>all</code>. Component mode updates only its matching <code>images.env</code> entry and replaces only that service with Compose <code>--no-deps --force-recreate</code>; complete mode continues to discover all images and update the complete service group.</p>
-<p>To publish a new image, run <code>./build_image.sh --profile amd|thor --component web|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|pi-agent|fep|all</code> only in an explicitly chosen build environment. Tags are derived from component GPU capability and pushed to <code>huluxiaohuowa</code>; the CPU Pi worker is included in <code>all</code>, while FEP is excluded. The next <code>deploy.sh</code> run discovers and adopts the newest matching tag. Because the current Compose group includes an FEP worker, its platform-specific image must already exist in the registry before a first deployment or the deployment script will fail clearly. Pi persists its configuration and conversations under <code>WA_DD_DATA_HOST_DIR/pi</code>; see <a href="../userguide/pi-agent.EN/">Agent / Pi</a>.</p>
+<p>Components are <code>web</code>, <code>model-zoo</code>, <code>host-metrics</code>, <code>protein-prep</code>, <code>ligand-prep</code>, <code>unidock</code>, <code>molecule-gen</code>, <code>deepternary</code> (amd only), <code>pi-agent</code>, <code>fep</code>, and <code>all</code>. Component mode updates only its matching <code>images.env</code> entry and replaces only that service with Compose <code>--no-deps --force-recreate</code>; complete mode continues to discover all images and update the complete service group.</p>
+<p>To publish a new image, run <code>./build_image.sh --profile amd|thor --component web|model-zoo|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|deepternary|pi-agent|fep|all</code> only in an explicitly chosen build environment. Tags are derived from component GPU capability and pushed to <code>huluxiaohuowa</code>; <code>model-zoo</code> is a CPU component, uses the same <code>Dockerfile.model-zoo</code>, and is tagged only by amd/arm platform; the CPU Pi worker is also included in <code>all</code>, while FEP is excluded. The next <code>deploy.sh</code> run discovers and adopts the newest matching tag. Because the current Compose group includes an FEP worker, its platform-specific image must already exist in the registry before a first deployment or the deployment script will fail clearly. Pi persists its configuration and conversations under <code>WA_DD_DATA_HOST_DIR/pi</code>; see <a href="../userguide/pi-agent.EN/">Agent / Pi</a>.</p>
 <h3 id="quick-start">Quick Start</h3>
 <p><strong>First-time deployment:</strong></p>
 <pre><code class="language-bash">cp .env.web.example .env.web
@@ -1961,6 +2018,11 @@ password: admin123456
 <tr>
 <td>Web UI/API</td>
 <td>Main interface and REST API</td>
+<td>CPU</td>
+</tr>
+<tr>
+<td>Model Zoo</td>
+<td>Model download, update, and ModelHub-compatible path management</td>
 <td>CPU</td>
 </tr>
 <tr>
@@ -1999,9 +2061,10 @@ password: admin123456
 <p>WA-DD model files share the same persistent directory layout as Model Hub. Current primary models include:</p>
 <ul>
 <li><strong>PocketXMol (molecule generation)</strong>: <code>/modelhub/export/ms/huluxiaohuowa/pocketxmol/current</code></li>
+<li><strong>DeepTernary (TPD / PROTAC)</strong>: <code>/modelhub/export/ms/huluxiaohuowa/deepternary/current</code></li>
 </ul>
-<p>The host path is <code>${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxiaohuowa/pocketxmol/current</code>. With the standalone compose files in this repository, <code>${MODEL_HUB_SHARED_MODELS_PATH}</code> is mounted into WA-DD containers as <code>/modelhub</code>.</p>
-<p>Prefer downloading, checking updates, and deleting the PocketXMol model from the web page under "Molecule Generation → Model Status". The command-line equivalent is:</p>
+<p>The host path is <code>${MODEL_HUB_SHARED_MODELS_PATH}/export/ms|hf/&lt;org&gt;/&lt;repo&gt;/current</code>. With the standalone compose files in this repository, <code>${MODEL_HUB_SHARED_MODELS_PATH}</code> is mounted into web/worker containers as <code>/modelhub</code> and into the <code>wa-dd-model-zoo</code> container as <code>/data</code>.</p>
+<p>Prefer downloading and updating PocketXMol, DeepTernary, or custom models from the <code>Model Zoo</code> page. The small model cards on the molecule generation and TPD pages still show whether the corresponding model is ready. The command-line equivalent is:</p>
 <pre><code class="language-bash">pip install modelscope
 mkdir -p &quot;${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxiaohuowa/pocketxmol/snapshots/manual&quot;
 modelscope download \
@@ -2014,7 +2077,7 @@ ln -sfn snapshots/manual &quot;${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxia
 <li><code>data/trained_models/pxm/checkpoints/pocketxmol.ckpt</code></li>
 <li><code>data/trained_models/pxm/train_config/train.yml</code></li>
 </ul>
-<p>Model updates do not delete and re-download a ready <code>current</code> directory blindly. The worker checks the ModelScope remote version first and switches <code>current</code> only after a complete replacement snapshot is ready. Failed or canceled downloads keep the partial snapshot for the same remote version so the next update can resume instead of starting from zero.</p>
+<p>Model updates do not delete and re-download a ready <code>current</code> directory blindly. Model Zoo writes new downloads into a new snapshot and switches <code>current</code> only after the required files are present. WA-DD and Model Hub use the same directory convention, so models such as <code>huluxiaohuowa/pocketxmol</code> and <code>huluxiaohuowa/deepternary</code> can be read and updated by either system.</p>
 <p>The Uni-Dock docking engine is a traditional molecular docking program and does not depend on neural network model files.</p>
 <h3 id="api-automation">API automation</h3>
 <p>The canonical API contract is generated by FastAPI:</p>
@@ -2046,6 +2109,7 @@ ln -sfn snapshots/manual &quot;${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxia
 <li><a href="../userguide/ligand-preparation-research-and-framework.EN/">Ligand preparation framework</a></li>
 <li><a href="../userguide/docking-tasks.EN/">Docking tasks</a></li>
 <li><a href="../userguide/molecule-generation.EN/">Molecule generation</a></li>
+<li><a href="../userguide/model-zoo.EN/">Model Zoo</a></li>
 <li><a href="../userguide/fep-analysis.EN/">FEP and analysis</a></li>
 <li><a href="../userguide/interaction-analysis.EN/">Interaction analysis</a></li>
 <li><a href="../userguide/tpd-protac.EN/">TPD / PROTAC</a></li>

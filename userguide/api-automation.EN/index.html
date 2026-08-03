@@ -713,6 +713,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#model-zoo-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Zoo automation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#api-endpoints" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1094,6 +1105,62 @@
     
   
     Ligand preparation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model-zoo.EN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    model zoo.EN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model-zoo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model zoo
   
 
     
@@ -1510,6 +1577,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#model-zoo-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Zoo automation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#api-endpoints" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1572,6 +1650,15 @@ POST /api/v1/docking/unidock
 GET /api/v1/jobs/{job_id}/events
 </code></pre>
 <p><code>/api/v1/docking/compatibility</code> is the gate for automated workflows. Submit docking only when <code>compatible=true</code>; otherwise follow <code>errors</code>, <code>warnings</code>, and <code>recommendations</code>.</p>
+<h2 id="model-zoo-automation">Model Zoo automation</h2>
+<pre><code class="language-http">GET /api/v1/model-zoo/catalog
+GET /api/v1/model-zoo/models/{model_id}
+POST /api/v1/model-zoo/models/{model_id}/download
+POST /api/v1/model-zoo/models/{model_id}/update
+POST /api/v1/model-zoo/custom/download
+POST /api/v1/model-zoo/custom/update
+</code></pre>
+<p><code>catalog</code> returns pinned project models and custom model status. Download and update are global operations and require an administrator token. Model paths follow the ModelHub-compatible layout: <code>/data/export/ms|hf/&lt;org&gt;/&lt;repo&gt;/current</code>.</p>
 <h2 id="api-endpoints">API / Endpoints</h2>
 <p>The canonical API contract is generated from FastAPI OpenAPI:</p>
 <ul>

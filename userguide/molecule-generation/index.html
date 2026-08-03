@@ -1012,6 +1012,62 @@
   
   
     <li class="md-nav__item">
+      <a href="../model-zoo.EN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    model zoo.EN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model-zoo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model zoo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../molecule-generation.EN/" class="md-nav__link">
         
   
@@ -1170,7 +1226,7 @@
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
-        模型管理
+        模型状态
       
     </span>
   </a>
@@ -1724,7 +1780,7 @@
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
-        模型管理
+        模型状态
       
     </span>
   </a>
@@ -1915,7 +1971,7 @@
 <ul>
 <li>蛋白资产：<code>protein</code>、<code>prepared_protein</code> 或 <code>complex</code>。</li>
 <li>口袋资产：<code>pocket</code>，必须包含 <code>center</code>、<code>box_size</code> 和 <code>pocket_structure</code>。</li>
-<li>PocketXMol 模型：路径固定为 <code>/modelhub/export/ms/huluxiaohuowa/pocketxmol/current</code>，不要手动改到其他目录，否则 ModelHub 无法识别和更新。页面上的模型管理按钮会使用 ModelScope CLI 下载、更新或删除这个受管目录。</li>
+<li>PocketXMol 模型：路径固定为 <code>/modelhub/export/ms/huluxiaohuowa/pocketxmol/current</code>，不要手动改到其他目录，否则 ModelHub / Model Zoo 无法识别和更新。推荐在 <code>Model Zoo</code> 页面集中下载和更新；本页面的小卡片仍会显示模型是否就绪。</li>
 </ul>
 <p>口袋资产应同时满足三类用途：</p>
 <ul>
@@ -1944,23 +2000,23 @@
 <p>选择参考配体资产后，页面会加载该资产内的具体分子/构象，并在 <code>参考分子 / 构象</code> 下拉框中列出 <code>#index</code>、名称和 SMILES。预览框会显示当前选中的分子编号、名称、重原子数和 SMILES。</p>
 <p>Fragment growing 当前采用“整个所选分子作为 fragment”的语义：worker 会读取所选资产中的指定分子/构象，保留它的全部重原子，再生成扩展部分。用户不需要知道原子序号，也不需要理解 SMILES 中的原子编号。</p>
 <p>如果只想增长某个局部片段，应先在配体页面把该片段画成或上传成单独 ligand asset，再回到这里选择这个 fragment 资产。</p>
-<h3 id="_7">模型管理</h3>
-<p>分子生成页面的模型管理卡会显示：</p>
+<h3 id="_7">模型状态</h3>
+<p>分子生成页面的模型卡会显示：</p>
 <ul>
 <li>模型是否就绪；</li>
 <li>ModelHub 兼容路径；</li>
 <li>已占用大小；</li>
 <li>最新 snapshot；</li>
-<li><code>modelscope</code> CLI 是否可用；</li>
 <li>必要的 <code>pocketxmol.ckpt</code> 和 <code>train.yml</code> 是否存在。</li>
 </ul>
-<p>按钮含义：</p>
-<ul>
-<li><code>下载模型</code>：当前模型不完整时，用 <code>modelscope download --model huluxiaohuowa/pocketxmol --local_dir &lt;snapshot&gt;</code> 下载，校验完整后切换 <code>current</code>。</li>
-<li><code>更新模型</code>：强制重新下载到新的 snapshot，校验完整后切换 <code>current</code>。</li>
-<li><code>删除模型文件</code>：删除 <code>/modelhub/export/ms/huluxiaohuowa/pocketxmol</code> 这个受管模型目录。不会删除 <code>/modelhub</code> 根目录或其他模型。</li>
-</ul>
-<p>下载、更新和删除是全局模型操作，需要管理员权限。</p>
+<p>模型下载和更新推荐到 <code>Model Zoo</code> 页面完成。Model Zoo 会把模型写入与 VAI ModelHub 相同的结构：</p>
+<pre><code class="language-text">/data/export/ms/huluxiaohuowa/pocketxmol/snapshots/&lt;snapshot&gt;
+/data/export/ms/huluxiaohuowa/pocketxmol/current
+</code></pre>
+<p>在 web 和 worker 容器中，同一宿主目录映射为：</p>
+<pre><code class="language-text">/modelhub/export/ms/huluxiaohuowa/pocketxmol/current
+</code></pre>
+<p>下载和更新是全局模型操作，需要管理员权限。</p>
 <h3 id="_8">生成模式</h3>
 <p>可提交模式：</p>
 <ul>

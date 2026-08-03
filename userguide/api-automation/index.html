@@ -741,6 +741,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#model-zoo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Zoo 自动化
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#api_1" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1094,6 +1105,62 @@
     
   
     Ligand preparation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model-zoo.EN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    model zoo.EN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model-zoo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model zoo
   
 
     
@@ -1510,6 +1577,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#model-zoo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Zoo 自动化
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#api_1" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1572,6 +1650,15 @@ POST /api/v1/docking/unidock
 GET /api/v1/jobs/{job_id}/events
 </code></pre>
 <p><code>/api/v1/docking/compatibility</code> 是自动化工作流的前置检查。只有 <code>compatible=true</code> 时才提交对接任务；否则按 <code>errors</code>、<code>warnings</code> 和 <code>recommendations</code> 补齐输入。</p>
+<h2 id="model-zoo">Model Zoo 自动化</h2>
+<pre><code class="language-http">GET /api/v1/model-zoo/catalog
+GET /api/v1/model-zoo/models/{model_id}
+POST /api/v1/model-zoo/models/{model_id}/download
+POST /api/v1/model-zoo/models/{model_id}/update
+POST /api/v1/model-zoo/custom/download
+POST /api/v1/model-zoo/custom/update
+</code></pre>
+<p><code>catalog</code> 返回置顶项目模型和自选模型状态。下载和更新是全局操作，需要管理员 token。模型路径遵循 ModelHub 兼容结构：<code>/data/export/ms|hf/&lt;org&gt;/&lt;repo&gt;/current</code>。</p>
 <h2 id="api_1">API 端点</h2>
 <p>标准 API 契约由 FastAPI OpenAPI 自动生成：</p>
 <ul>

@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://wa-dd.fuluwa.top/userguide/molecule-generation.EN/">
       
       
-        <link rel="prev" href="../ligand-preparation/">
+        <link rel="prev" href="../model-zoo/">
       
       
         <link rel="next" href="../molecule-generation/">
@@ -1009,6 +1009,62 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../model-zoo.EN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    model zoo.EN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model-zoo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model zoo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1139,10 +1195,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#model-management" class="md-nav__link">
+  <a href="#model-status" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Model management
+        Model status
       
     </span>
   </a>
@@ -1721,10 +1777,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#model-management" class="md-nav__link">
+  <a href="#model-status" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Model management
+        Model status
       
     </span>
   </a>
@@ -1915,7 +1971,7 @@
 <ul>
 <li>Protein asset: <code>protein</code>, <code>prepared_protein</code>, or <code>complex</code>.</li>
 <li>Pocket asset: <code>pocket</code>, must include <code>center</code>, <code>box_size</code>, and <code>pocket_structure</code>.</li>
-<li>PocketXMol model: the path is fixed at <code>/modelhub/export/ms/huluxiaohuowa/pocketxmol/current</code>. Do not manually change it to another directory, or ModelHub will not be able to recognize and update it. The model management button on the page uses the ModelScope CLI to download, update, or delete this managed directory.</li>
+<li>PocketXMol model: the path is fixed at <code>/modelhub/export/ms/huluxiaohuowa/pocketxmol/current</code>. Do not manually change it to another directory, or ModelHub / Model Zoo will not be able to recognize and update it. Prefer downloading and updating the model from the <code>Model Zoo</code> page; the small card on this page still shows whether the model is ready.</li>
 </ul>
 <p>The pocket asset should simultaneously serve three types of use cases:</p>
 <ul>
@@ -1944,23 +2000,23 @@
 <p>After selecting a reference ligand asset, the page loads the specific molecules/conformations within that asset and lists them in the <code>Reference molecule / conformation</code> dropdown with <code>#index</code>, name, and SMILES. The preview box displays the currently selected molecule's index, name, heavy atom count, and SMILES.</p>
 <p>Fragment growing currently uses the semantics of "the entire selected molecule as the fragment": the worker reads the specified molecule/conformation from the selected asset, retains all its heavy atoms, and then generates the extension. Users do not need to know atom indices or understand atom numbering in SMILES.</p>
 <p>If you only want to grow a specific local fragment, you should first draw or upload that fragment as a separate ligand asset on the ligand page, then come back here and select this fragment asset.</p>
-<h3 id="model-management">Model management</h3>
-<p>The model management card on the molecule generation page displays:</p>
+<h3 id="model-status">Model status</h3>
+<p>The model card on the molecule generation page displays:</p>
 <ul>
 <li>Whether the model is ready;</li>
 <li>ModelHub-compatible path;</li>
 <li>Occupied size;</li>
 <li>Latest snapshot;</li>
-<li>Whether the <code>modelscope</code> CLI is available;</li>
 <li>Whether the required <code>pocketxmol.ckpt</code> and <code>train.yml</code> exist.</li>
 </ul>
-<p>Button meanings:</p>
-<ul>
-<li><code>Download model</code>: when the current model is incomplete, downloads using <code>modelscope download --model huluxiaohuowa/pocketxmol --local_dir &lt;snapshot&gt;</code>, verifies integrity, and then switches <code>current</code>.</li>
-<li><code>Update model</code>: forces a re-download to a new snapshot, verifies integrity, and then switches <code>current</code>.</li>
-<li><code>Delete model files</code>: deletes the managed model directory at <code>/modelhub/export/ms/huluxiaohuowa/pocketxmol</code>. It does not delete the <code>/modelhub</code> root directory or other models.</li>
-</ul>
-<p>Download, update, and delete are global model operations that require administrator privileges.</p>
+<p>Model download and update should normally be done from the <code>Model Zoo</code> page. Model Zoo writes the model into the same structure as VAI ModelHub:</p>
+<pre><code class="language-text">/data/export/ms/huluxiaohuowa/pocketxmol/snapshots/&lt;snapshot&gt;
+/data/export/ms/huluxiaohuowa/pocketxmol/current
+</code></pre>
+<p>In web and worker containers, the same host directory is mounted as:</p>
+<pre><code class="language-text">/modelhub/export/ms/huluxiaohuowa/pocketxmol/current
+</code></pre>
+<p>Download and update are global model operations that require administrator privileges.</p>
 <h3 id="generation-mode">Generation mode</h3>
 <p>Submittable modes:</p>
 <ul>
