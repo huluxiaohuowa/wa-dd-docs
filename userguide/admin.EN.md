@@ -4,7 +4,7 @@
 
 ## Role
 
-The admin page is restricted to administrators. It manages users, project files, global jobs, and host resources. Standard users can access only their own projects, assets, and jobs.
+The admin page is opened from the user menu in the top-right corner; it is no longer shown as a top module navigation button. The page still manages users, project files, global jobs, and host resources. Standard users can access only their own projects, assets, and jobs.
 
 ## Implemented features
 
@@ -39,7 +39,7 @@ The admin page is restricted to administrators. It manages users, project files,
 
 ## Workflow
 
-1. After logging in as an administrator, open "Admin".
+1. After logging in as an administrator, open the top-right user menu, then click "Admin".
 2. In "User management", review accounts, change passwords, or open a user's data summary.
 3. In "Files / Projects", inspect project assets and files, and download files as needed.
 4. In "Job management", view global jobs and events; only perform cancel, clean-up, or delete when truly necessary.

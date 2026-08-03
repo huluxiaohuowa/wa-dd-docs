@@ -37,7 +37,7 @@ WA-DD 专为计算机辅助药物设计（CADD）研究人员打造，将靶点�
 | --- | --- | --- |
 | 已可用 | 项目与资产、蛋白处理、配体处理、对接任务、分子生成、相互作用分析 | 可创建并复用资产、提交任务、查看、筛选、导出或下载输出。 |
 | 已可用 | FEP / RBFE 生产计算 | 支持 OpenFE + OpenMM（CUDA）进行真实 ΔG/ΔΔG 自由能计算；可选择 dry-run 规划或完整生产模拟；输出 edge 结果表、带 FEP 字段的 SDF 和轨迹文件。 |
-| 已可用 | Agent / Pi、管理、系统资源、用户文档、API 文档 | 可管理个人 Agent 会话与模型配置；管理员可管理用户和任务；模块指南和 API 契约可直接浏览。 |
+| 已可用 | Model Zoo、Agent / Pi、管理、系统资源、用户文档、API 文档 | 可集中下载和更新项目模型；可管理个人 Agent 会话与模型配置；管理员可管理用户和任务；模块指南和 API 契约可直接浏览。 |
 | 规划中 | TPD / PROTAC、SAR / 构效关系 | 目前仅保留功能定位与指南入口，尚无可提交的业务工作流。 |
 
 #### 已可用
@@ -47,6 +47,7 @@ WA-DD 专为计算机辅助药物设计（CADD）研究人员打造，将靶点�
 - **对接与相互作用分析**：使用 Uni-Dock GPU（Vina/Vinardo 评分）提交对接任务；每组任务输出一个合并 SDF pose library 和报告。相互作用分析可从对接、生成或 FEP 输出中多选构象，检查几何接触、导出表格/SDF 或生成新资产。
 - **分子生成**：PocketXMol 支持口袋 de novo 生成和 fragment growing；结果保存为可复用的 `prepared_ligand` 或 `prepared_ligand_library`。`scaffold hopping` 与 `linker design` 需要原子锚点选择器，当前未开放。
 - **FEP / RBFE 生产计算**：基于 OpenFE + OpenMM（CUDA）执行真实相对结合自由能计算。支持 star 拓扑网络、Lomap 原子映射、dry-run 规划预览和完整生产模拟。每个 edge 输出 ΔΔG (kcal/mol)、误差和轨迹文件（DCD），结果汇总为 `fep_result` edge 表和带 FEP 字段的 `fep_output` SDF。支持从对接姿势库或准备好的配体 SDF 直接启动。
+- **Model Zoo**：集中管理项目模型，置顶 PocketXMol 和 DeepTernary，并支持自选 ModelScope / HuggingFace 仓库下载。模型路径与 VAI ModelHub 保持同一套 `/data/export/ms|hf/.../current` 结构。
 - **Agent / Pi**：每位用户拥有独立会话、上下文和加密模型配置；受控工具仅能访问该用户有权限的项目、资产和任务。
 - **管理、用户文档与自动化**：管理员可审核用户和管理全局任务；系统资源页显示宿主机 CPU、内存、磁盘和 GPU；Web 镜像会把 `userguide/*.md` 转换为页面内用户文档；API 文档基于 FastAPI OpenAPI，支持以 `project_id`、`asset_id` 和 `job_id` 串联自动化。
 
@@ -97,7 +98,7 @@ web、protein-prep worker、ligand-prep worker 和后续模型 worker 都必须�
 
 数据库 `AssetFile.storage_path` 只记录容器内 `/data/...` 路径，不记录宿主机路径。这样 web 上传、worker 读取、worker 输出、web 下载和跨任务复用都使用同一套路径，不会因为不同容器看到不同目录而混乱。
 
-`/modelhub` 是共享模型目录，不用于用户项目输入/输出文件。web 服务可以只读挂载用于状态查询；WA-DD 对接/模型 worker 必须读写挂载，用于 ModelScope 下载、更新和删除。
+`/modelhub` 是共享模型目录，不用于用户项目输入/输出文件。Model Zoo 服务把同一宿主目录挂载为 `/data`，并维护与 VAI ModelHub 一致的 `export/ms|hf/<org>/<repo>/snapshots/...` 与 `current` 稳定入口；web 和模型 worker 通过 `/modelhub/export/.../current` 读取。
 
 系统资源监控使用同一个 `/data` 挂载路径传递宿主机指标：
 
@@ -144,9 +145,9 @@ Thor 使用 `--profile thor`。部署根目录持有 `images.env` 与既有的 `
 ./deploy.sh --profile thor --root /data/vos_workspace --component molecule-gen
 ```
 
-可用组件为 `web`、`host-metrics`、`protein-prep`、`ligand-prep`、`unidock`、`molecule-gen`、`pi-agent`、`fep` 和 `all`。单组件模式只更新该组件对应的 `images.env` 条目，并使用 Compose 的 `--no-deps --force-recreate` 替换该服务；全量模式仍检测全部镜像并执行完整服务组更新。
+可用组件为 `web`、`model-zoo`、`host-metrics`、`protein-prep`、`ligand-prep`、`unidock`、`molecule-gen`、`deepternary`（仅 amd）、`pi-agent`、`fep` 和 `all`。单组件模式只更新该组件对应的 `images.env` 条目，并使用 Compose 的 `--no-deps --force-recreate` 替换该服务；全量模式仍检测全部镜像并执行完整服务组更新。
 
-如需发布新镜像，请在明确指定的构建环境运行 `./build_image.sh --profile amd|thor --component web|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|pi-agent|fep|all`。标签由组件是否使用 GPU 自动决定并推送到 `huluxiaohuowa`；Pi worker 是 CPU 组件，随 `all` 构建；FEP 仍不包含在 `all` 中。下次 `deploy.sh` 会重新发现并采用匹配的最新 tag。由于当前 Compose 包含 FEP worker，首次部署前 registry 也必须已有对应平台的 FEP 镜像，否则部署脚本会明确失败。Pi 复用 `WA_DD_DATA_HOST_DIR` 下的 `pi/` 目录；首次启动会自动生成并持久化配置加密主密钥，详见 [Agent / Pi](userguide/pi-agent.md)。
+如需发布新镜像，请在明确指定的构建环境运行 `./build_image.sh --profile amd|thor --component web|model-zoo|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|deepternary|pi-agent|fep|all`。标签由组件是否使用 GPU 自动决定并推送到 `huluxiaohuowa`；`model-zoo` 是 CPU 组件，使用同一个 `Dockerfile.model-zoo`，只按 amd/arm 平台区分标签；Pi worker 也是 CPU 组件，随 `all` 构建；FEP 仍不包含在 `all` 中。下次 `deploy.sh` 会重新发现并采用匹配的最新 tag。由于当前 Compose 包含 FEP worker，首次部署前 registry 也必须已有对应平台的 FEP 镜像，否则部署脚本会明确失败。Pi 复用 `WA_DD_DATA_HOST_DIR` 下的 `pi/` 目录；首次启动会自动生成并持久化配置加密主密钥，详见 [Agent / Pi](userguide/pi-agent.md)。
 
 ### 快速启动
 
@@ -180,6 +181,7 @@ cp .env.web.example .env.web
 | 组件 | 说明 | 依赖 |
 | --- | --- | --- |
 | Web UI/API | 主界面与 REST API | CPU |
+| Model Zoo | 模型下载、更新和 ModelHub 兼容路径管理 | CPU |
 | Host metrics | 系统资源监控 | CPU |
 | Protein prep | 蛋白准备（加氢、去溶剂化等） | CPU |
 | Ligand prep | 配体准备（含 RDKit、OpenBabel、Meeko） | CPU |
@@ -192,10 +194,11 @@ cp .env.web.example .env.web
 WA-DD 模型文件和 Model Hub 使用同一套持久化目录结构。当前主要模型包括：
 
 - **PocketXMol（分子生成）**：`/modelhub/export/ms/huluxiaohuowa/pocketxmol/current`
+- **DeepTernary（TPD / PROTAC）**：`/modelhub/export/ms/huluxiaohuowa/deepternary/current`
 
-宿主机路径是 `${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxiaohuowa/pocketxmol/current`。如果按本仓库的独立部署 compose 启动，`${MODEL_HUB_SHARED_MODELS_PATH}` 会映射到 `/modelhub`。
+宿主机路径是 `${MODEL_HUB_SHARED_MODELS_PATH}/export/ms|hf/<org>/<repo>/current`。如果按本仓库的独立部署 compose 启动，`${MODEL_HUB_SHARED_MODELS_PATH}` 会映射到 web/worker 容器的 `/modelhub`，并映射到 `wa-dd-model-zoo` 容器的 `/data`。
 
-推荐通过网页"分子生成 → 模型状态"下载、检查更新或删除 PocketXMol 模型。命令行等价方式：
+推荐通过网页 `Model Zoo` 下载和更新 PocketXMol、DeepTernary 或自选模型；分子生成和 TPD 页面内的小卡片仍可查看对应模型是否就绪。命令行等价方式：
 
 ```bash
 pip install modelscope
@@ -211,7 +214,7 @@ ln -sfn snapshots/manual "${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxiaohuow
 - `data/trained_models/pxm/checkpoints/pocketxmol.ckpt`
 - `data/trained_models/pxm/train_config/train.yml`
 
-模型更新不会在本地 `current` 已满足必需文件时盲目删除重下；worker 会优先检查 ModelScope 远端版本信息，只有需要替换时才切换到新的 snapshot。下载失败或取消时会保留同一版本的 partial snapshot，后续更新可继续补齐，不会先删除再全量重下。WA-DD 和 Model Hub 使用同一目录规范，因此任一系统下载的 `huluxiaohuowa/pocketxmol` 都能被另一方读取、更新和删除。
+模型更新不会在本地 `current` 已满足必需文件时盲目删除重下；Model Zoo 会把新下载内容放入新的 snapshot，校验必需文件后再切换 `current`。WA-DD 和 Model Hub 使用同一目录规范，因此任一系统下载的 `huluxiaohuowa/pocketxmol` 或 `huluxiaohuowa/deepternary` 都能被另一方读取和更新。
 
 Uni-Dock 对接引擎为传统分子对接程序，不依赖神经网络模型文件。
 
@@ -254,6 +257,7 @@ login
 - [配体准备功能框架](userguide/ligand-preparation-research-and-framework.md)
 - [对接任务](userguide/docking-tasks.md)
 - [分子生成](userguide/molecule-generation.md)
+- [Model Zoo](userguide/model-zoo.md)
 - [FEP 与分析](userguide/fep-analysis.md)
 - [相互作用分析](userguide/interaction-analysis.md)
 - [TPD / PROTAC](userguide/tpd-protac.md)

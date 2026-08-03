@@ -16,7 +16,7 @@
 
 - 蛋白资产：`protein`、`prepared_protein` 或 `complex`。
 - 口袋资产：`pocket`，必须包含 `center`、`box_size` 和 `pocket_structure`。
-- PocketXMol 模型：路径固定为 `/modelhub/export/ms/huluxiaohuowa/pocketxmol/current`，不要手动改到其他目录，否则 ModelHub 无法识别和更新。页面上的模型管理按钮会使用 ModelScope CLI 下载、更新或删除这个受管目录。
+- PocketXMol 模型：路径固定为 `/modelhub/export/ms/huluxiaohuowa/pocketxmol/current`，不要手动改到其他目录，否则 ModelHub / Model Zoo 无法识别和更新。推荐在 `Model Zoo` 页面集中下载和更新；本页面的小卡片仍会显示模型是否就绪。
 
 口袋资产应同时满足三类用途：
 
@@ -55,24 +55,30 @@ Fragment growing 当前采用“整个所选分子作为 fragment”的语义：
 
 如果只想增长某个局部片段，应先在配体页面把该片段画成或上传成单独 ligand asset，再回到这里选择这个 fragment 资产。
 
-### 模型管理
+### 模型状态
 
-分子生成页面的模型管理卡会显示：
+分子生成页面的模型卡会显示：
 
 - 模型是否就绪；
 - ModelHub 兼容路径；
 - 已占用大小；
 - 最新 snapshot；
-- `modelscope` CLI 是否可用；
 - 必要的 `pocketxmol.ckpt` 和 `train.yml` 是否存在。
 
-按钮含义：
+模型下载和更新推荐到 `Model Zoo` 页面完成。Model Zoo 会把模型写入与 VAI ModelHub 相同的结构：
 
-- `下载模型`：当前模型不完整时，用 `modelscope download --model huluxiaohuowa/pocketxmol --local_dir <snapshot>` 下载，校验完整后切换 `current`。
-- `更新模型`：强制重新下载到新的 snapshot，校验完整后切换 `current`。
-- `删除模型文件`：删除 `/modelhub/export/ms/huluxiaohuowa/pocketxmol` 这个受管模型目录。不会删除 `/modelhub` 根目录或其他模型。
+```text
+/data/export/ms/huluxiaohuowa/pocketxmol/snapshots/<snapshot>
+/data/export/ms/huluxiaohuowa/pocketxmol/current
+```
 
-下载、更新和删除是全局模型操作，需要管理员权限。
+在 web 和 worker 容器中，同一宿主目录映射为：
+
+```text
+/modelhub/export/ms/huluxiaohuowa/pocketxmol/current
+```
+
+下载和更新是全局模型操作，需要管理员权限。
 
 ### 生成模式
 

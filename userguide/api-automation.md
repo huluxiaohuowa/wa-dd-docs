@@ -31,6 +31,19 @@ GET /api/v1/jobs/{job_id}/events
 
 `/api/v1/docking/compatibility` 是自动化工作流的前置检查。只有 `compatible=true` 时才提交对接任务；否则按 `errors`、`warnings` 和 `recommendations` 补齐输入。
 
+## Model Zoo 自动化
+
+```http
+GET /api/v1/model-zoo/catalog
+GET /api/v1/model-zoo/models/{model_id}
+POST /api/v1/model-zoo/models/{model_id}/download
+POST /api/v1/model-zoo/models/{model_id}/update
+POST /api/v1/model-zoo/custom/download
+POST /api/v1/model-zoo/custom/update
+```
+
+`catalog` 返回置顶项目模型和自选模型状态。下载和更新是全局操作，需要管理员 token。模型路径遵循 ModelHub 兼容结构：`/data/export/ms|hf/<org>/<repo>/current`。
+
 ## API 端点
 
 标准 API 契约由 FastAPI OpenAPI 自动生成：

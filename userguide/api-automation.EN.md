@@ -31,6 +31,19 @@ GET /api/v1/jobs/{job_id}/events
 
 `/api/v1/docking/compatibility` is the gate for automated workflows. Submit docking only when `compatible=true`; otherwise follow `errors`, `warnings`, and `recommendations`.
 
+## Model Zoo automation
+
+```http
+GET /api/v1/model-zoo/catalog
+GET /api/v1/model-zoo/models/{model_id}
+POST /api/v1/model-zoo/models/{model_id}/download
+POST /api/v1/model-zoo/models/{model_id}/update
+POST /api/v1/model-zoo/custom/download
+POST /api/v1/model-zoo/custom/update
+```
+
+`catalog` returns pinned project models and custom model status. Download and update are global operations and require an administrator token. Model paths follow the ModelHub-compatible layout: `/data/export/ms|hf/<org>/<repo>/current`.
+
 ## API / Endpoints
 
 The canonical API contract is generated from FastAPI OpenAPI:

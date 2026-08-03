@@ -16,7 +16,7 @@ Before starting, prepare the following in the same project:
 
 - Protein asset: `protein`, `prepared_protein`, or `complex`.
 - Pocket asset: `pocket`, must include `center`, `box_size`, and `pocket_structure`.
-- PocketXMol model: the path is fixed at `/modelhub/export/ms/huluxiaohuowa/pocketxmol/current`. Do not manually change it to another directory, or ModelHub will not be able to recognize and update it. The model management button on the page uses the ModelScope CLI to download, update, or delete this managed directory.
+- PocketXMol model: the path is fixed at `/modelhub/export/ms/huluxiaohuowa/pocketxmol/current`. Do not manually change it to another directory, or ModelHub / Model Zoo will not be able to recognize and update it. Prefer downloading and updating the model from the `Model Zoo` page; the small card on this page still shows whether the model is ready.
 
 The pocket asset should simultaneously serve three types of use cases:
 
@@ -55,24 +55,30 @@ Fragment growing currently uses the semantics of "the entire selected molecule a
 
 If you only want to grow a specific local fragment, you should first draw or upload that fragment as a separate ligand asset on the ligand page, then come back here and select this fragment asset.
 
-### Model management
+### Model status
 
-The model management card on the molecule generation page displays:
+The model card on the molecule generation page displays:
 
 - Whether the model is ready;
 - ModelHub-compatible path;
 - Occupied size;
 - Latest snapshot;
-- Whether the `modelscope` CLI is available;
 - Whether the required `pocketxmol.ckpt` and `train.yml` exist.
 
-Button meanings:
+Model download and update should normally be done from the `Model Zoo` page. Model Zoo writes the model into the same structure as VAI ModelHub:
 
-- `Download model`: when the current model is incomplete, downloads using `modelscope download --model huluxiaohuowa/pocketxmol --local_dir <snapshot>`, verifies integrity, and then switches `current`.
-- `Update model`: forces a re-download to a new snapshot, verifies integrity, and then switches `current`.
-- `Delete model files`: deletes the managed model directory at `/modelhub/export/ms/huluxiaohuowa/pocketxmol`. It does not delete the `/modelhub` root directory or other models.
+```text
+/data/export/ms/huluxiaohuowa/pocketxmol/snapshots/<snapshot>
+/data/export/ms/huluxiaohuowa/pocketxmol/current
+```
 
-Download, update, and delete are global model operations that require administrator privileges.
+In web and worker containers, the same host directory is mounted as:
+
+```text
+/modelhub/export/ms/huluxiaohuowa/pocketxmol/current
+```
+
+Download and update are global model operations that require administrator privileges.
 
 ### Generation mode
 
