@@ -145,9 +145,9 @@ Thor 使用 `--profile thor`。部署根目录持有 `images.env` 与既有的 `
 ./deploy.sh --profile thor --root /data/vos_workspace --component molecule-gen
 ```
 
-可用组件为 `web`、`model-zoo`、`host-metrics`、`protein-prep`、`ligand-prep`、`unidock`、`molecule-gen`、`deepternary`（仅 amd）、`pi-agent`、`fep` 和 `all`。单组件模式只更新该组件对应的 `images.env` 条目，并使用 Compose 的 `--no-deps --force-recreate` 替换该服务；全量模式仍检测全部镜像并执行完整服务组更新。
+可用组件为 `web`、`model-zoo`、`host-metrics`、`protein-prep`、`ligand-prep`、`unidock`、`molecule-gen`、`deepternary`、`pi-agent`、`fep` 和 `all`。单组件模式只更新该组件对应的 `images.env` 条目，并使用 Compose 的 `--no-deps --force-recreate` 替换该服务；全量模式仍检测全部镜像并执行完整服务组更新。
 
-如需发布新镜像，请在明确指定的构建环境运行 `./build_image.sh --profile amd|thor --component web|model-zoo|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|deepternary|pi-agent|fep|all`。标签由组件是否使用 GPU 自动决定并推送到 `huluxiaohuowa`；`model-zoo` 是 CPU 组件，使用同一个 `Dockerfile.model-zoo`，只按 amd/arm 平台区分标签；Pi worker 也是 CPU 组件，随 `all` 构建；FEP 仍不包含在 `all` 中。下次 `deploy.sh` 会重新发现并采用匹配的最新 tag。由于当前 Compose 包含 FEP worker，首次部署前 registry 也必须已有对应平台的 FEP 镜像，否则部署脚本会明确失败。Pi 复用 `WA_DD_DATA_HOST_DIR` 下的 `pi/` 目录；首次启动会自动生成并持久化配置加密主密钥，详见 [Agent / Pi](userguide/pi-agent.md)。
+如需发布新镜像，请在明确指定的构建环境运行 `./build_image.sh --profile amd|thor --component web|model-zoo|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|deepternary|pi-agent|fep|all`。标签由组件是否使用 GPU 自动决定并推送到 `huluxiaohuowa`；`model-zoo` 是 CPU 组件，使用同一个 `Dockerfile.model-zoo`，只按 amd/arm 平台区分标签；Pi worker 也是 CPU 组件，随 `all` 构建；DeepTernary 与 FEP 为 GPU 大镜像，仍需显式指定组件构建。下次 `deploy.sh` 会重新发现并采用匹配的最新 tag。由于当前 Compose 包含 FEP 和 DeepTernary worker，首次部署前 registry 也必须已有对应平台的 FEP/DeepTernary 镜像，否则部署脚本会明确失败；thor DeepTernary 暂无 tag 时，`deploy.sh --check` 会先写入保留的完整镜像名，便于后续在 tc81 构建补齐。Pi 复用 `WA_DD_DATA_HOST_DIR` 下的 `pi/` 目录；首次启动会自动生成并持久化配置加密主密钥，详见 [Agent / Pi](userguide/pi-agent.md)。
 
 ### 快速启动
 
