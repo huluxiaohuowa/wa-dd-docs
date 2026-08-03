@@ -100,7 +100,7 @@ Model Zoo 是独立 CPU 服务：
 
 ```bash
 ./build_image.sh --profile amd --component model-zoo
-./deploy.sh --profile amd --root /data/vos_workspace --component model-zoo
+./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime --component model-zoo
 ```
 
 Thor / ARM 平台使用同一个 Dockerfile，只按平台生成 `arm_YYYYMMDD` 标签：

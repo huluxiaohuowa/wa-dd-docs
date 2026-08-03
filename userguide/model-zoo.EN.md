@@ -100,7 +100,7 @@ Model Zoo is an independent CPU service:
 
 ```bash
 ./build_image.sh --profile amd --component model-zoo
-./deploy.sh --profile amd --root /data/vos_workspace --component model-zoo
+./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime --component model-zoo
 ```
 
 Thor / ARM uses the same Dockerfile and only changes the platform tag to `arm_YYYYMMDD`:

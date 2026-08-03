@@ -121,7 +121,7 @@ password: admin123456
 
 根目录只有 [compose.yaml](compose.yaml)，只定义 `amd`（x86_64 CUDA 12.8）和 `thor`（Jetson Thor CUDA 13+）两个 profile。FEP 已作为 profile 内 worker 服务接入。
 
-部署由 [deploy.sh](deploy.sh) 负责：它从 SWR 查询匹配当前平台 tag 规则的最新镜像，并更新**既有部署根目录**的 `images.env`。`runtime.env` 是持久化运行状态的映射，部署脚本只读取和校验它，绝不自动新建或改写它。`images.env.example` 只描述变量结构；[build_image.sh](build_image.sh) 只构建和推送镜像，不会修改仓库或部署目录中的版本记录。CPU 组件使用单一 Dockerfile；GPU 组件的 AMD CUDA 12.8 与 Thor CUDA 13+ Dockerfile 分开。
+部署由 [deploy.sh](deploy.sh) 负责：它从 SWR 查询匹配当前平台 tag 规则的最新镜像，并更新部署根目录的 `images.env`。显式传入 `--root` 时，脚本完全使用用户指定的目录；未传 `--root` 时，脚本才会从当前正在运行的 `wa-dd` 容器挂载中推断既有部署根目录。`runtime.env` 是持久化运行状态的映射，部署脚本不会覆盖已存在的运行配置。`images.env.example` 只描述变量结构；[build_image.sh](build_image.sh) 只构建和推送镜像，不会修改仓库或部署目录中的版本记录。CPU 组件使用单一 Dockerfile；GPU 组件的 AMD CUDA 12.8 与 Thor CUDA 13+ Dockerfile 分开。
 
 ```bash
 cp .env.web.example .env.web
@@ -129,20 +129,20 @@ cp .env.web.example .env.web
 ./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime
 ```
 
-Thor 使用 `--profile thor`。部署根目录持有 `images.env` 与既有的 `runtime.env`，后者显式指定数据、数据库、Redis 与 Model Hub 的宿主机路径，因此持久化状态不会写入源码仓库。tc232 的既定运行根是 `/data/vos_workspace`，必须始终复用它，不能用新目录替代。首次部署前可用 `./deploy.sh --check --profile amd|thor` 验证镜像发现和 Compose 渲染。
+Thor 使用 `--profile thor`。部署根目录持有 `images.env` 与既有的 `runtime.env`，后者显式指定数据、数据库、Redis 与 Model Hub 的宿主机路径，因此持久化状态不会写入源码仓库。升级已有部署时，推荐先从当前运行容器的挂载或既有运行目录确认 root；如果确认无误，可以继续显式传入同一个 `--root`，也可以省略 `--root` 让脚本从正在运行的 `wa-dd` 容器中推断。首次部署前可用 `./deploy.sh --check --profile amd|thor` 验证镜像发现和 Compose 渲染。
 
 **全量更新与单组件更新（两者都支持）：**
 
 ```bash
 # 全量：检测所有组件的新镜像并协调整个 amd 服务组（原有用法，默认 --component all）
-./deploy.sh --profile amd --root /data/vos_workspace
+./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime
 
 # 单组件：只检测 Web 镜像，只替换 Web；不重建 PostgreSQL、Redis 或其他 worker
-./deploy.sh --profile amd --root /data/vos_workspace --component web
+./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime --component web
 
 # 其他可单独替换的组件
-./deploy.sh --profile amd --root /data/vos_workspace --component ligand-prep
-./deploy.sh --profile thor --root /data/vos_workspace --component molecule-gen
+./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime --component ligand-prep
+./deploy.sh --profile thor --root /absolute/path/to/wa-dd-runtime --component molecule-gen
 ```
 
 可用组件为 `web`、`model-zoo`、`host-metrics`、`protein-prep`、`ligand-prep`、`unidock`、`molecule-gen`、`deepternary`、`pi-agent`、`fep` 和 `all`。单组件模式只更新该组件对应的 `images.env` 条目，并使用 Compose 的 `--no-deps --force-recreate` 替换该服务；全量模式仍检测全部镜像并执行完整服务组更新。
