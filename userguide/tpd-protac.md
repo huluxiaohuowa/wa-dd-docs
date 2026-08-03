@@ -21,7 +21,9 @@ PROTAC 任务还需要四个 PDB 辅助资产：
 - POI 侧 mask PDB。
 - E3 侧 mask PDB。
 
-界面会按“来源 → 资产 → 文件”展示当前选择。POI、E3 和 degrader/MGD 是可复用上游资产；binary ligand 和 mask PDB 是本次 DeepTernary 运行的辅助输入。
+这些辅助 PDB 不是新的蛋白输出。binary ligand 通常来自 POI-warhead 或 E3-ligand 二元结构中的共晶小分子；mask PDB 是用于匹配 PROTAC 全分子和两端 anchor/warhead 原子的子结构。需要用户提供时，请先在蛋白处理页从 PDB 组分生成 TPD PDB 资产，或在配体处理页上传 PDB 形式的配体/mask 资产，再回到 TPD 页面选择。界面会按“来源 → 资产 → 文件”展示当前选择，后端任务只接收资产 ID，不接收容器内路径。
+
+POI、E3 和 degrader/MGD 是可复用上游资产；binary ligand 和 mask PDB 是可追踪的 PDB 辅助资产。系统能保存、关联和传递这些文件，但不会替用户判断哪个共晶配体或 mask 子结构在科学上正确。
 
 ## 输出与复用
 

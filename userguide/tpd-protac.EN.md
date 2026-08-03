@@ -21,7 +21,9 @@ PROTAC jobs also require four auxiliary PDB assets:
 - POI-side mask PDB.
 - E3-side mask PDB.
 
-The UI presents the selection as "source → asset → file". POI, E3, and degrader/MGD are reusable upstream assets; binary ligand and mask PDB assets are auxiliary inputs for the DeepTernary run.
+These auxiliary PDB files are not new protein outputs. A binary ligand usually comes from the cocrystal small molecule in a POI-warhead or E3-ligand binary structure. A mask PDB is the substructure used to match the full PROTAC to the anchor/warhead atoms on each side. When users need to provide them, first create a TPD PDB asset from a PDB component in the protein-processing page, or upload a ligand/mask PDB asset in the ligand-processing page, then select that asset in the TPD page. The backend accepts asset IDs, not container file paths.
+
+POI, E3, and degrader/MGD are reusable upstream assets; binary ligand and mask PDB files are traceable auxiliary PDB assets. WA-DD can save, associate, and pass these files, but it does not decide which cocrystal ligand or mask substructure is scientifically correct for the user.
 
 ## Outputs and reuse
 
