@@ -4,7 +4,7 @@
 
 ## Purpose
 
-Model Zoo centrally downloads and updates models used by WA-DD. It reuses the VAI ModelHub path design and keeps only model download, update, and path management. It does not include model runtime instance management.
+Model Zoo centrally downloads and updates models used by WA-DD. It uses a path layout compatible with later VOS model-hub integration and keeps only model download, update, and path management. It does not include model runtime instance management.
 
 Pinned project models are shown at the top:
 
@@ -31,7 +31,7 @@ The web and worker containers mount the same host directory as `/modelhub` and r
 /modelhub/export/hf/<org>/<repo>/current
 ```
 
-Do not place models in another directory manually. Otherwise Model Zoo, ModelHub, and workers cannot recognize and update them through the same rules.
+Do not place models in another directory manually. Otherwise Model Zoo, the later integrated model-hub, and workers cannot recognize and update them through the same rules.
 
 ## Workflow
 

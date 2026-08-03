@@ -4,7 +4,7 @@
 
 ## 作用
 
-Model Zoo 用于集中下载和更新 WA-DD 使用的模型。它复用 VAI ModelHub 的路径设计，只保留模型下载、更新和路径管理，不包含模型运行实例管理。
+Model Zoo 用于集中下载和更新 WA-DD 使用的模型。它采用与后续 VOS model-hub 对接兼容的路径设计，只保留模型下载、更新和路径管理，不包含模型运行实例管理。
 
 固定项目模型会置顶显示：
 
@@ -31,7 +31,7 @@ web 和 worker 容器把同一个宿主目录挂载为 `/modelhub`，读取路�
 /modelhub/export/hf/<org>/<repo>/current
 ```
 
-不要把模型手动放到其他目录，否则 Model Zoo、ModelHub 和 worker 无法用同一套规则识别和更新。
+不要把模型手动放到其他目录，否则 Model Zoo、后续对接的 model-hub 和 worker 无法用同一套规则识别和更新。
 
 ## 使用方式
 

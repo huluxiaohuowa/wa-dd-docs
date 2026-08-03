@@ -47,7 +47,7 @@ WA-DD 专为计算机辅助药物设计（CADD）研究人员打造，将靶点�
 - **对接与相互作用分析**：使用 Uni-Dock GPU（Vina/Vinardo 评分）提交对接任务；每组任务输出一个合并 SDF pose library 和报告。相互作用分析可从对接、生成或 FEP 输出中多选构象，检查几何接触、导出表格/SDF 或生成新资产。
 - **分子生成**：PocketXMol 支持口袋 de novo 生成和 fragment growing；结果保存为可复用的 `prepared_ligand` 或 `prepared_ligand_library`。`scaffold hopping` 与 `linker design` 需要原子锚点选择器，当前未开放。
 - **FEP / RBFE 生产计算**：基于 OpenFE + OpenMM（CUDA）执行真实相对结合自由能计算。支持 star 拓扑网络、Lomap 原子映射、dry-run 规划预览和完整生产模拟。每个 edge 输出 ΔΔG (kcal/mol)、误差和轨迹文件（DCD），结果汇总为 `fep_result` edge 表和带 FEP 字段的 `fep_output` SDF。支持从对接姿势库或准备好的配体 SDF 直接启动。
-- **Model Zoo**：集中管理项目模型，置顶 PocketXMol 和 DeepTernary，并支持自选 ModelScope / HuggingFace 仓库下载。模型路径与 VAI ModelHub 保持同一套 `/data/export/ms|hf/.../current` 结构。
+- **Model Zoo**：集中管理项目模型，置顶 PocketXMol 和 DeepTernary，并支持自选 ModelScope / HuggingFace 仓库下载。模型路径采用 `/data/export/ms|hf/.../current` 兼容结构，便于后续与 VOS 中的 model-hub 对接。
 - **Agent / Pi**：每位用户拥有独立会话、上下文和加密模型配置；受控工具仅能访问该用户有权限的项目、资产和任务。
 - **管理、用户文档与自动化**：管理员可审核用户和管理全局任务；系统资源页显示宿主机 CPU、内存、磁盘和 GPU；Web 镜像会把 `userguide/*.md` 转换为页面内用户文档；API 文档基于 FastAPI OpenAPI，支持以 `project_id`、`asset_id` 和 `job_id` 串联自动化。
 
@@ -98,7 +98,7 @@ web、protein-prep worker、ligand-prep worker 和后续模型 worker 都必须�
 
 数据库 `AssetFile.storage_path` 只记录容器内 `/data/...` 路径，不记录宿主机路径。这样 web 上传、worker 读取、worker 输出、web 下载和跨任务复用都使用同一套路径，不会因为不同容器看到不同目录而混乱。
 
-`/modelhub` 是共享模型目录，不用于用户项目输入/输出文件。Model Zoo 服务把同一宿主目录挂载为 `/data`，并维护与 VAI ModelHub 一致的 `export/ms|hf/<org>/<repo>/snapshots/...` 与 `current` 稳定入口；web 和模型 worker 通过 `/modelhub/export/.../current` 读取。
+`/modelhub` 是共享模型目录，不用于用户项目输入/输出文件。Model Zoo 服务把同一宿主目录挂载为 `/data`，并维护 `export/ms|hf/<org>/<repo>/snapshots/...` 与 `current` 稳定入口；web 和模型 worker 通过 `/modelhub/export/.../current` 读取。该结构与 VOS 中的 model-hub 对接路径兼容。
 
 系统资源监控使用同一个 `/data` 挂载路径传递宿主机指标：
 
