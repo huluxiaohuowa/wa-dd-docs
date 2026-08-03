@@ -1448,7 +1448,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        输入
+        输入资产链
       
     </span>
   </a>
@@ -1459,7 +1459,18 @@
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        输出
+        输出与复用
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        结果查看
       
     </span>
   </a>
@@ -1534,7 +1545,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        输入
+        输入资产链
       
     </span>
   </a>
@@ -1545,7 +1556,18 @@
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        输出
+        输出与复用
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        结果查看
       
     </span>
   </a>
@@ -1585,21 +1607,40 @@
 </blockquote>
 <h1 id="tpd-protac">TPD / PROTAC</h1>
 <h2 id="_1">作用</h2>
-<p>TPD/PROTAC 模块用于后续 POI-E3 三元复合物、warhead、E3 ligand 和 linker 设计。</p>
-<h2 id="_2">输入</h2>
+<p>TPD/PROTAC 模块用于 POI-E3 三元复合物建模、warhead、E3 ligand 和 linker 设计。</p>
+<h2 id="_2">输入资产链</h2>
+<p>TPD 不是“蛋白输入、蛋白输出”的单一流程。DeepTernary 输入由三类来源组成：</p>
 <ul>
-<li>POI 口袋资产</li>
-<li>E3 连接酶结构</li>
-<li>POI warhead</li>
-<li>E3 ligand</li>
+<li>POI 蛋白资产：<code>protein</code>、<code>prepared_protein</code> 或复合物结构。</li>
+<li>E3 ligase 蛋白资产：<code>protein</code>、<code>prepared_protein</code> 或复合物结构。</li>
+<li>Degrader / MGD 配体资产：<code>ligand</code> 或 <code>prepared_ligand</code>。</li>
 </ul>
-<h2 id="_3">输出</h2>
+<p>PROTAC 任务还需要四个 PDB 辅助资产：</p>
 <ul>
-<li>PROTAC 候选分子资产</li>
-<li>三元复合物结果资产</li>
+<li>POI 侧 binary ligand PDB。</li>
+<li>E3 侧 binary ligand PDB。</li>
+<li>POI 侧 mask PDB。</li>
+<li>E3 侧 mask PDB。</li>
 </ul>
+<p>界面会按“来源 → 资产 → 文件”展示当前选择。POI、E3 和 degrader/MGD 是可复用上游资产；binary ligand 和 mask PDB 是本次 DeepTernary 运行的辅助输入。</p>
+<h2 id="_3">输出与复用</h2>
+<p>DeepTernary 的可复用输出资产是 <code>ternary_complex</code>。它代表一次三元复合物预测结果，通常包含：</p>
+<ul>
+<li>PDB ensemble：三元复合物结构，可进入相互作用分析或作为复合物结构继续复用。</li>
+<li>summary CSV：候选构象、seed 和运行摘要。</li>
+<li>运行日志：用于排查输入、GPU 和 ligand correction 问题。</li>
+</ul>
+<p>后续流程应引用 <code>ternary_complex</code> 资产本身，而不是要求用户手工复制 PDB 或 CSV 文件路径。</p>
+<h2 id="_4">结果查看</h2>
+<p>推荐交互顺序：</p>
+<ol>
+<li>先在输出资产链中确认 <code>ternary_complex</code> 的来源：POI、E3、ligand 是否是本次预期输入。</li>
+<li>打开或下载 PDB ensemble，检查 POI/E3/degrader 的相对构象。</li>
+<li>查看 summary CSV，比较候选构象数量、seed 和失败记录。</li>
+<li>如需解释结合界面，把三元复合物资产送入相互作用分析页面。</li>
+</ol>
 <h2 id="api">API 自动化</h2>
-<p>当前为规划入口；后续任务会复用 <code>project_id</code>、<code>asset_id</code>、<code>job_id</code> 的统一自动化模型。</p>
+<p>任务提交和结果查询复用 <code>project_id</code>、<code>asset_id</code>、<code>job_id</code> 的统一自动化模型。自动化调用也应保存并传递资产 ID，而不是容器内文件路径。</p>
 
 
 

@@ -1928,7 +1928,7 @@
 <li><strong>对接与相互作用分析</strong>：使用 Uni-Dock GPU（Vina/Vinardo 评分）提交对接任务；每组任务输出一个合并 SDF pose library 和报告。相互作用分析可从对接、生成或 FEP 输出中多选构象，检查几何接触、导出表格/SDF 或生成新资产。</li>
 <li><strong>分子生成</strong>：PocketXMol 支持口袋 de novo 生成和 fragment growing；结果保存为可复用的 <code>prepared_ligand</code> 或 <code>prepared_ligand_library</code>。<code>scaffold hopping</code> 与 <code>linker design</code> 需要原子锚点选择器，当前未开放。</li>
 <li><strong>FEP / RBFE 生产计算</strong>：基于 OpenFE + OpenMM（CUDA）执行真实相对结合自由能计算。支持 star 拓扑网络、Lomap 原子映射、dry-run 规划预览和完整生产模拟。每个 edge 输出 ΔΔG (kcal/mol)、误差和轨迹文件（DCD），结果汇总为 <code>fep_result</code> edge 表和带 FEP 字段的 <code>fep_output</code> SDF。支持从对接姿势库或准备好的配体 SDF 直接启动。</li>
-<li><strong>Model Zoo</strong>：集中管理项目模型，置顶 PocketXMol 和 DeepTernary，并支持自选 ModelScope / HuggingFace 仓库下载。模型路径与 VAI ModelHub 保持同一套 <code>/data/export/ms|hf/.../current</code> 结构。</li>
+<li><strong>Model Zoo</strong>：集中管理项目模型，置顶 PocketXMol 和 DeepTernary，并支持自选 ModelScope / HuggingFace 仓库下载。模型路径采用 <code>/data/export/ms|hf/.../current</code> 兼容结构，便于后续与 VOS 中的 model-hub 对接。</li>
 <li><strong>Agent / Pi</strong>：每位用户拥有独立会话、上下文和加密模型配置；受控工具仅能访问该用户有权限的项目、资产和任务。</li>
 <li><strong>管理、用户文档与自动化</strong>：管理员可审核用户和管理全局任务；系统资源页显示宿主机 CPU、内存、磁盘和 GPU；Web 镜像会把 <code>userguide/*.md</code> 转换为页面内用户文档；API 文档基于 FastAPI OpenAPI，支持以 <code>project_id</code>、<code>asset_id</code> 和 <code>job_id</code> 串联自动化。</li>
 </ul>
@@ -1962,7 +1962,7 @@
 /data/model-cache/...
 </code></pre>
 <p>数据库 <code>AssetFile.storage_path</code> 只记录容器内 <code>/data/...</code> 路径，不记录宿主机路径。这样 web 上传、worker 读取、worker 输出、web 下载和跨任务复用都使用同一套路径，不会因为不同容器看到不同目录而混乱。</p>
-<p><code>/modelhub</code> 是共享模型目录，不用于用户项目输入/输出文件。Model Zoo 服务把同一宿主目录挂载为 <code>/data</code>，并维护与 VAI ModelHub 一致的 <code>export/ms|hf/&lt;org&gt;/&lt;repo&gt;/snapshots/...</code> 与 <code>current</code> 稳定入口；web 和模型 worker 通过 <code>/modelhub/export/.../current</code> 读取。</p>
+<p><code>/modelhub</code> 是共享模型目录，不用于用户项目输入/输出文件。Model Zoo 服务把同一宿主目录挂载为 <code>/data</code>，并维护 <code>export/ms|hf/&lt;org&gt;/&lt;repo&gt;/snapshots/...</code> 与 <code>current</code> 稳定入口；web 和模型 worker 通过 <code>/modelhub/export/.../current</code> 读取。该结构与 VOS 中的 model-hub 对接路径兼容。</p>
 <p>系统资源监控使用同一个 <code>/data</code> 挂载路径传递宿主机指标：</p>
 <pre><code class="language-text">/data/system-metrics/host.json
 </code></pre>

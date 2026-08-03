@@ -1419,10 +1419,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inputs" class="md-nav__link">
+  <a href="#input-asset-chain" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Inputs
+        Input asset chain
       
     </span>
   </a>
@@ -1430,10 +1430,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#outputs" class="md-nav__link">
+  <a href="#outputs-and-reuse" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Outputs
+        Outputs and reuse
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result-inspection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result inspection
       
     </span>
   </a>
@@ -1533,10 +1544,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inputs" class="md-nav__link">
+  <a href="#input-asset-chain" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Inputs
+        Input asset chain
       
     </span>
   </a>
@@ -1544,10 +1555,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#outputs" class="md-nav__link">
+  <a href="#outputs-and-reuse" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Outputs
+        Outputs and reuse
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result-inspection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result inspection
       
     </span>
   </a>
@@ -1587,21 +1609,40 @@
 </blockquote>
 <h1 id="tpd-protac">TPD / PROTAC</h1>
 <h2 id="role">Role</h2>
-<p>The TPD/PROTAC module is reserved for subsequent POI-E3 ternary complex, warhead, E3 ligand, and linker design workflows.</p>
-<h2 id="inputs">Inputs</h2>
+<p>The TPD/PROTAC module supports POI-E3 ternary-complex modeling, warhead, E3 ligand, and linker design workflows.</p>
+<h2 id="input-asset-chain">Input asset chain</h2>
+<p>TPD is not a simple "protein in, protein out" workflow. DeepTernary inputs come from three source types:</p>
 <ul>
-<li>POI pocket asset</li>
-<li>E3 ligase structure</li>
-<li>POI warhead</li>
-<li>E3 ligand</li>
+<li>POI protein asset: <code>protein</code>, <code>prepared_protein</code>, or a complex structure.</li>
+<li>E3 ligase protein asset: <code>protein</code>, <code>prepared_protein</code>, or a complex structure.</li>
+<li>Degrader / MGD ligand asset: <code>ligand</code> or <code>prepared_ligand</code>.</li>
 </ul>
-<h2 id="outputs">Outputs</h2>
+<p>PROTAC jobs also require four auxiliary PDB assets:</p>
 <ul>
-<li>PROTAC candidate assets</li>
-<li>ternary complex result assets</li>
+<li>POI-side binary ligand PDB.</li>
+<li>E3-side binary ligand PDB.</li>
+<li>POI-side mask PDB.</li>
+<li>E3-side mask PDB.</li>
 </ul>
+<p>The UI presents the selection as "source → asset → file". POI, E3, and degrader/MGD are reusable upstream assets; binary ligand and mask PDB assets are auxiliary inputs for the DeepTernary run.</p>
+<h2 id="outputs-and-reuse">Outputs and reuse</h2>
+<p>The reusable DeepTernary output asset is <code>ternary_complex</code>. It represents one ternary-complex prediction result and usually contains:</p>
+<ul>
+<li>PDB ensemble: ternary-complex structures that can enter interaction analysis or be reused as complex structures.</li>
+<li>Summary CSV: candidate conformations, seeds, and run summaries.</li>
+<li>Run logs: useful for diagnosing input, GPU, or ligand-correction issues.</li>
+</ul>
+<p>Downstream workflows should reference the <code>ternary_complex</code> asset itself instead of asking users to manually copy PDB or CSV file paths.</p>
+<h2 id="result-inspection">Result inspection</h2>
+<p>Recommended interaction order:</p>
+<ol>
+<li>Confirm the <code>ternary_complex</code> source chain: POI, E3, and ligand should match the intended inputs.</li>
+<li>Open or download the PDB ensemble to inspect the POI/E3/degrader relative conformation.</li>
+<li>Inspect the summary CSV for candidate count, seed details, and failures.</li>
+<li>For binding-interface interpretation, send the ternary-complex asset to the interaction-analysis page.</li>
+</ol>
 <h2 id="api-automation">API / Automation</h2>
-<p>This is currently a planning entry point; subsequent tasks will reuse the unified automation model of <code>project_id</code>, <code>asset_id</code>, and <code>job_id</code>.</p>
+<p>Job submission and result lookup reuse the unified automation model of <code>project_id</code>, <code>asset_id</code>, and <code>job_id</code>. Automation should persist and pass asset IDs, not container file paths.</p>
 
 
 

@@ -1687,7 +1687,7 @@
 </blockquote>
 <h1 id="model-zoo">Model Zoo</h1>
 <h2 id="_1">作用</h2>
-<p>Model Zoo 用于集中下载和更新 WA-DD 使用的模型。它复用 VAI ModelHub 的路径设计，只保留模型下载、更新和路径管理，不包含模型运行实例管理。</p>
+<p>Model Zoo 用于集中下载和更新 WA-DD 使用的模型。它采用与后续 VOS model-hub 对接兼容的路径设计，只保留模型下载、更新和路径管理，不包含模型运行实例管理。</p>
 <p>固定项目模型会置顶显示：</p>
 <ul>
 <li>PocketXMol：分子生成使用。</li>
@@ -1705,7 +1705,7 @@
 <pre><code class="language-text">/modelhub/export/ms/&lt;org&gt;/&lt;repo&gt;/current
 /modelhub/export/hf/&lt;org&gt;/&lt;repo&gt;/current
 </code></pre>
-<p>不要把模型手动放到其他目录，否则 Model Zoo、ModelHub 和 worker 无法用同一套规则识别和更新。</p>
+<p>不要把模型手动放到其他目录，否则 Model Zoo、后续对接的 model-hub 和 worker 无法用同一套规则识别和更新。</p>
 <h2 id="_3">使用方式</h2>
 <ol>
 <li>打开顶部导航中的 <code>Model Zoo</code>。</li>

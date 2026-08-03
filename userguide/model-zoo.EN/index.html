@@ -1687,7 +1687,7 @@
 </blockquote>
 <h1 id="model-zoo">Model Zoo</h1>
 <h2 id="purpose">Purpose</h2>
-<p>Model Zoo centrally downloads and updates models used by WA-DD. It reuses the VAI ModelHub path design and keeps only model download, update, and path management. It does not include model runtime instance management.</p>
+<p>Model Zoo centrally downloads and updates models used by WA-DD. It uses a path layout compatible with later VOS model-hub integration and keeps only model download, update, and path management. It does not include model runtime instance management.</p>
 <p>Pinned project models are shown at the top:</p>
 <ul>
 <li>PocketXMol: used by molecule generation.</li>
@@ -1705,7 +1705,7 @@
 <pre><code class="language-text">/modelhub/export/ms/&lt;org&gt;/&lt;repo&gt;/current
 /modelhub/export/hf/&lt;org&gt;/&lt;repo&gt;/current
 </code></pre>
-<p>Do not place models in another directory manually. Otherwise Model Zoo, ModelHub, and workers cannot recognize and update them through the same rules.</p>
+<p>Do not place models in another directory manually. Otherwise Model Zoo, the later integrated model-hub, and workers cannot recognize and update them through the same rules.</p>
 <h2 id="workflow">Workflow</h2>
 <ol>
 <li>Open <code>Model Zoo</code> from the top navigation.</li>
