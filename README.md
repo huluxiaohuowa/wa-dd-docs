@@ -119,22 +119,23 @@ password: admin123456
 
 ### 独立 Docker 部署（当前）
 
-根目录只有 [compose.yaml](compose.yaml)，只定义 `amd`（x86_64 CUDA 12.8）和 `thor`（Jetson Thor CUDA 13+）两个 profile。FEP 已作为 profile 内 worker 服务接入。
+部署包目录是 [deploy/](deploy/)。该目录里的 [compose.yaml](deploy/compose.yaml) 只定义 `amd`（x86_64 CUDA 12.8）和 `thor`（Jetson Thor CUDA 13+）两个 profile。FEP 已作为 profile 内 worker 服务接入。
 
-部署由 [deploy.sh](deploy.sh) 负责：它从 SWR 查询匹配当前平台 tag 规则的最新镜像，并更新部署根目录的 `images.env`。显式传入 `--root` 时，脚本完全使用用户指定的目录；未传 `--root` 时，脚本才会从当前正在运行的 `wa-dd` 容器挂载中推断既有部署根目录。`runtime.env` 是持久化运行状态的映射，部署脚本不会覆盖已存在的运行配置。`images.env.example` 只描述变量结构；[build_image.sh](build_image.sh) 只构建和推送镜像，不会修改仓库或部署目录中的版本记录。CPU 组件使用单一 Dockerfile；GPU 组件的 AMD CUDA 12.8 与 Thor CUDA 13+ Dockerfile 分开。
+部署由 [deploy/deploy.sh](deploy/deploy.sh) 负责：它从 SWR 查询匹配当前平台 tag 规则的最新镜像，并更新部署根目录的 `images.env`。显式传入 `--root` 时，脚本完全使用用户指定的目录；未传 `--root` 时，脚本才会从当前正在运行的 `wa-dd` 容器挂载中推断既有部署根目录。`runtime.env` 是持久化运行状态的映射，部署脚本不会覆盖已存在的运行配置。[deploy/images.env.example](deploy/images.env.example) 只描述变量结构；[build_image.sh](build_image.sh) 只构建和推送镜像，不会修改仓库或部署目录中的版本记录。CPU 组件使用单一 Dockerfile；GPU 组件的 AMD CUDA 12.8 与 Thor CUDA 13+ Dockerfile 分开。部署逻辑、Compose 模板、镜像变量模板和默认 Web 环境配置后续都统一维护在 [deploy/](deploy/) 目录。
 
 ```bash
-cp .env.web.example .env.web
-# 编辑 .env.web：设置密码、端口及其他部署配置
+cd deploy
+# 首次部署前可编辑 env.web：设置密码、端口及其他部署配置
 ./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime
 ```
 
-Thor 使用 `--profile thor`。部署根目录持有 `images.env` 与既有的 `runtime.env`，后者显式指定数据、数据库、Redis 与 Model Hub 的宿主机路径，因此持久化状态不会写入源码仓库。升级已有部署时，推荐先从当前运行容器的挂载或既有运行目录确认 root；如果确认无误，可以继续显式传入同一个 `--root`，也可以省略 `--root` 让脚本从正在运行的 `wa-dd` 容器中推断。首次部署前可用 `./deploy.sh --check --profile amd|thor` 验证镜像发现和 Compose 渲染。
+Thor 使用 `--profile thor`。部署根目录持有 `images.env` 与既有的 `runtime.env`，后者显式指定数据、数据库、Redis 与 Model Hub 的宿主机路径，因此持久化状态不会写入源码仓库。升级已有部署时，推荐先从当前运行容器的挂载或既有运行目录确认 root；如果确认无误，可以继续显式传入同一个 `--root`，也可以省略 `--root` 让脚本从正在运行的 `wa-dd` 容器中推断。首次部署前可在 `deploy/` 目录运行 `./deploy.sh --check --profile amd|thor` 验证镜像发现和 Compose 渲染。
 
 **全量更新与单组件更新（两者都支持）：**
 
 ```bash
 # 全量：检测所有组件的新镜像并协调整个 amd 服务组（原有用法，默认 --component all）
+cd deploy
 ./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime
 
 # 单组件：只检测 Web 镜像，只替换 Web；不重建 PostgreSQL、Redis 或其他 worker
@@ -154,14 +155,15 @@ Thor 使用 `--profile thor`。部署根目录持有 `images.env` 与既有的 `
 **首次部署：**
 
 ```bash
-cp .env.web.example .env.web
-# 编辑 .env.web；部署根目录必须是绝对路径
+cd deploy
+# 首次部署前可编辑 env.web；部署根目录必须是绝对路径
 ./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime
 ```
 
 **Jetson Thor 部署：**
 
 ```bash
+cd deploy
 ./deploy.sh --profile thor --root /absolute/path/to/wa-dd-runtime
 ```
 
@@ -261,6 +263,7 @@ login
 - [FEP 与分析](userguide/fep-analysis.md)
 - [相互作用分析](userguide/interaction-analysis.md)
 - [TPD / PROTAC](userguide/tpd-protac.md)
+- [TPD / PROTAC 5T35 案例](userguide/tpd-protac-5t35-case.md)
 - [SAR / 构效关系](userguide/sar.md)
 - [管理](userguide/admin.md)
 - [Agent / Pi](userguide/pi-agent.md)

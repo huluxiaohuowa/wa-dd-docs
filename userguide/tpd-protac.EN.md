@@ -2,6 +2,8 @@
 
 # TPD / PROTAC
 
+For a complete hands-on case, see [TPD / PROTAC 5T35 case: BRD4-MZ1-VHL ternary complex](tpd-protac-5t35-case.EN.md).
+
 ## Role
 
 The TPD/PROTAC module supports POI-E3 ternary-complex modeling, warhead, E3 ligand, and linker design workflows.

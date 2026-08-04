@@ -2,6 +2,8 @@
 
 # TPD / PROTAC
 
+完整可操作案例见：[TPD / PROTAC 5T35 案例：BRD4-MZ1-VHL 三元复合物](tpd-protac-5t35-case.md)。
+
 ## 作用
 
 TPD/PROTAC 模块用于 POI-E3 三元复合物建模、warhead、E3 ligand 和 linker 设计。
