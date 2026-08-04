@@ -125,4 +125,20 @@ DeepTernary 输出不是普通蛋白，也不是普通配体；它是 `ternary_c
 
 在 **TPD / PROTAC → 三元复合物** 页，上方的 `DeepTernary 输出资产` 下拉只列出 `ternary_complex` 输出资产。选择一个资产后，系统会默认渲染第一个 PDB 个体；在 **输出资产** 页可以展开任务来源、资产和个体文件，单选或多选个体进行操作。
 
+![步骤 9：在三元复合物页选择输出资产，打开资产或进入独立查看窗口](images/tpd-case-09-output-selector-and-viewer-boxed.png)
+
+点击 `独立查看输出` 会打开专门的 TPD 输出查看窗口。左侧是资产内的 PDB/CSV/log 个体文件层，中央是 3D 结构窗口，右侧是链和 HETATM 组分定位区。PDB 个体可点击 `渲染/定位` 单独切换，勾选框用于多选后批量下载；右侧链和组分的 `定位` 会把 3D 视角直接拉到对应对象。
+
+![步骤 10：独立查看窗口按个体文件、3D 结构、链/组分三栏管理输出](images/tpd-case-10-independent-output-viewer-boxed.png)
+
+在 **输出资产** 页，输出按 `任务来源 → ternary_complex 资产 → 资产内个体` 三层展示。这里适合批量检查一批 PDB ensemble，也可以单独下载 CSV 摘要和运行日志。单个 PDB 被选中或点击渲染后，会同步到上方三元复合物 3D 窗口。
+
+![步骤 11：输出资产页按任务、资产和个体文件分层管理](images/tpd-case-11-output-hierarchy-multiselect-boxed.png)
+
 同一个 `ternary_complex` 也会在 **蛋白处理 → 结构资产** 中以 `TPD 输出 / 三元复合物` 来源层出现。点击“结构预览”会把该资产的 PDB 加载到蛋白 3D 窗口，随后可使用专注编辑窗口查看链、组分、配体、金属、水分子和表面等结构元素。这样可以把 TPD 输出当作结构复合物复用，但不会把它混入 POI/E3 输入选择器。
+
+![步骤 12：TPD 输出在蛋白处理页作为单独来源层复用，并可进入蛋白 3D 窗口](images/tpd-case-12-protein-output-reuse-boxed.png)
+
+任务中心里的 `查看 TPD 输出` 只是入口：点击后会关闭任务浮层，跳到 TPD 页面并选中对应输出资产；不要在任务浮层里直接塞完整输出列表，否则会遮挡主工作区。
+
+![步骤 13：从任务中心进入 TPD 输出资产](images/tpd-case-13-task-center-view-output-boxed.png)
