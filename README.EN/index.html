@@ -1580,6 +1580,62 @@
   
   
     <li class="md-nav__item">
+      <a href="../userguide/tpd-protac-5t35-case.EN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tpd protac 5t35 case.EN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../userguide/tpd-protac-5t35-case/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tpd protac 5t35 case
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../userguide/tpd-protac.EN/" class="md-nav__link">
         
   
@@ -1971,15 +2027,16 @@ password: admin123456
 </code></pre>
 <p>New users can submit registration requests from the login page. Admin approval is required before they can use the workbench. Later VOS account integration can use the <code>WA_DD_USER_PROVISION_TOKEN</code> protected endpoint to provision user spaces automatically.</p>
 <h3 id="standalone-docker-deployment-current">Standalone Docker deployment (current)</h3>
-<p>The root <a href="compose.yaml">compose.yaml</a> is the only standalone Compose file. Its only profiles are <code>amd</code> (x86_64 CUDA 12.8) and <code>thor</code> (Jetson Thor CUDA 13+); FEP is included as a profile-specific worker service.</p>
-<p>Deployment is handled by <a href="deploy.sh">deploy.sh</a>: it queries SWR for the newest tags matching the selected platform and updates <code>images.env</code> in the <strong>existing deployment root</strong>. <code>runtime.env</code> maps persistent runtime state; deploy only reads and validates it and never creates or rewrites it. <code>images.env.example</code> defines only the variable shape. <a href="build_image.sh">build_image.sh</a> builds and pushes images, but never updates a repository or deployment-root image record. CPU components have one Dockerfile each, while GPU components retain separate AMD CUDA 12.8 and Thor CUDA 13+ Dockerfiles.</p>
-<pre><code class="language-bash">cp .env.web.example .env.web
-# Edit .env.web for passwords, ports, and other deployment settings.
+<p>The standalone deployment package is <a href="deploy/">deploy/</a>. <a href="deploy/compose.yaml">deploy/compose.yaml</a> is the only standalone Compose file. Its only profiles are <code>amd</code> (x86_64 CUDA 12.8) and <code>thor</code> (Jetson Thor CUDA 13+); FEP is included as a profile-specific worker service.</p>
+<p>Deployment is handled by <a href="deploy/deploy.sh">deploy/deploy.sh</a>: it queries SWR for the newest tags matching the selected platform and updates <code>images.env</code> in the <strong>existing deployment root</strong>. <code>runtime.env</code> maps persistent runtime state; deploy only reads and validates it and never creates or rewrites it. <a href="deploy/images.env.example">deploy/images.env.example</a> defines only the variable shape. <a href="build_image.sh">build_image.sh</a> builds and pushes images, but never updates a repository or deployment-root image record. CPU components have one Dockerfile each, while GPU components retain separate AMD CUDA 12.8 and Thor CUDA 13+ Dockerfiles. Deployment logic, Compose templates, image variable templates, and default Web environment settings are maintained only under <a href="deploy/">deploy/</a>.</p>
+<pre><code class="language-bash">cd deploy
+# Edit env.web before first deployment for passwords, ports, and other settings.
 ./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime
 </code></pre>
-<p>For Thor, use <code>--profile thor</code>. The deployment root owns <code>images.env</code> and an existing <code>runtime.env</code>; the latter explicitly maps data, database, Redis, and Model Hub host paths, keeping persistent state out of the source tree. tc232 always reuses <code>/data/vos_workspace</code>; it must not be replaced with a new root. Before a first deployment, <code>./deploy.sh --check --profile amd|thor</code> validates registry discovery and the rendered Compose configuration.</p>
+<p>For Thor, use <code>--profile thor</code>. The deployment root owns <code>images.env</code> and an existing <code>runtime.env</code>; the latter explicitly maps data, database, Redis, and Model Hub host paths, keeping persistent state out of the source tree. tc232 always reuses <code>/data/vos_workspace</code>; it must not be replaced with a new root. Before a first deployment, run <code>./deploy.sh --check --profile amd|thor</code> from <code>deploy/</code> to validate registry discovery and the rendered Compose configuration.</p>
 <p><strong>Complete and component updates are both supported:</strong></p>
 <pre><code class="language-bash"># Complete update: discover all images and reconcile the entire AMD service group.
+cd deploy
 ./deploy.sh --profile amd --root /data/vos_workspace
 
 # Component update: discover and replace Web only; database, Redis, and workers stay running.
@@ -1993,12 +2050,13 @@ password: admin123456
 <p>To publish a new image, run <code>./build_image.sh --profile amd|thor --component web|model-zoo|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|deepternary|pi-agent|fep|all</code> only in an explicitly chosen build environment. Tags are derived from component GPU capability and pushed to <code>huluxiaohuowa</code>; <code>model-zoo</code> is a CPU component, uses the same <code>Dockerfile.model-zoo</code>, and is tagged only by amd/arm platform; the CPU Pi worker is also included in <code>all</code>, while DeepTernary and FEP are large GPU images and must be built explicitly. The next <code>deploy.sh</code> run discovers and adopts the newest matching tag. Because the current Compose group includes FEP and DeepTernary workers, their platform-specific images must already exist in the registry before a first deployment or the deployment script will fail clearly; when no Thor DeepTernary tag exists yet, <code>deploy.sh --check</code> writes the reserved full image name first so the tc81 build can fill it later. Pi persists its configuration and conversations under <code>WA_DD_DATA_HOST_DIR/pi</code>; see <a href="../userguide/pi-agent.EN/">Agent / Pi</a>.</p>
 <h3 id="quick-start">Quick Start</h3>
 <p><strong>First-time deployment:</strong></p>
-<pre><code class="language-bash">cp .env.web.example .env.web
-# Edit .env.web; the deployment root must be absolute.
+<pre><code class="language-bash">cd deploy
+# Edit env.web before first deployment; the deployment root must be absolute.
 ./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime
 </code></pre>
 <p><strong>Jetson Thor deployment:</strong></p>
-<pre><code class="language-bash">./deploy.sh --profile thor --root /absolute/path/to/wa-dd-runtime
+<pre><code class="language-bash">cd deploy
+./deploy.sh --profile thor --root /absolute/path/to/wa-dd-runtime
 </code></pre>
 <p>After startup, access <code>http://localhost:8800</code> and log in with the default account:</p>
 <pre><code class="language-text">username: admin

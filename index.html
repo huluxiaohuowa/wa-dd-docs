@@ -1578,6 +1578,62 @@
   
   
     <li class="md-nav__item">
+      <a href="userguide/tpd-protac-5t35-case.EN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tpd protac 5t35 case.EN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="userguide/tpd-protac-5t35-case/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tpd protac 5t35 case
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="userguide/tpd-protac.EN/" class="md-nav__link">
         
   
@@ -1973,15 +2029,16 @@ password: admin123456
 </code></pre>
 <p>新用户可以在登录页提交注册申请，必须由管理员审核后才能使用。后续接入 VOS 账户时，可通过受 <code>WA_DD_USER_PROVISION_TOKEN</code> 保护的接口自动创建用户空间。</p>
 <h3 id="docker">独立 Docker 部署（当前）</h3>
-<p>根目录只有 <a href="compose.yaml">compose.yaml</a>，只定义 <code>amd</code>（x86_64 CUDA 12.8）和 <code>thor</code>（Jetson Thor CUDA 13+）两个 profile。FEP 已作为 profile 内 worker 服务接入。</p>
-<p>部署由 <a href="deploy.sh">deploy.sh</a> 负责：它从 SWR 查询匹配当前平台 tag 规则的最新镜像，并更新部署根目录的 <code>images.env</code>。显式传入 <code>--root</code> 时，脚本完全使用用户指定的目录；未传 <code>--root</code> 时，脚本才会从当前正在运行的 <code>wa-dd</code> 容器挂载中推断既有部署根目录。<code>runtime.env</code> 是持久化运行状态的映射，部署脚本不会覆盖已存在的运行配置。<code>images.env.example</code> 只描述变量结构；<a href="build_image.sh">build_image.sh</a> 只构建和推送镜像，不会修改仓库或部署目录中的版本记录。CPU 组件使用单一 Dockerfile；GPU 组件的 AMD CUDA 12.8 与 Thor CUDA 13+ Dockerfile 分开。</p>
-<pre><code class="language-bash">cp .env.web.example .env.web
-# 编辑 .env.web：设置密码、端口及其他部署配置
+<p>部署包目录是 <a href="deploy/">deploy/</a>。该目录里的 <a href="deploy/compose.yaml">compose.yaml</a> 只定义 <code>amd</code>（x86_64 CUDA 12.8）和 <code>thor</code>（Jetson Thor CUDA 13+）两个 profile。FEP 已作为 profile 内 worker 服务接入。</p>
+<p>部署由 <a href="deploy/deploy.sh">deploy/deploy.sh</a> 负责：它从 SWR 查询匹配当前平台 tag 规则的最新镜像，并更新部署根目录的 <code>images.env</code>。显式传入 <code>--root</code> 时，脚本完全使用用户指定的目录；未传 <code>--root</code> 时，脚本才会从当前正在运行的 <code>wa-dd</code> 容器挂载中推断既有部署根目录。<code>runtime.env</code> 是持久化运行状态的映射，部署脚本不会覆盖已存在的运行配置。<a href="deploy/images.env.example">deploy/images.env.example</a> 只描述变量结构；<a href="build_image.sh">build_image.sh</a> 只构建和推送镜像，不会修改仓库或部署目录中的版本记录。CPU 组件使用单一 Dockerfile；GPU 组件的 AMD CUDA 12.8 与 Thor CUDA 13+ Dockerfile 分开。部署逻辑、Compose 模板、镜像变量模板和默认 Web 环境配置后续都统一维护在 <a href="deploy/">deploy/</a> 目录。</p>
+<pre><code class="language-bash">cd deploy
+# 首次部署前可编辑 env.web：设置密码、端口及其他部署配置
 ./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime
 </code></pre>
-<p>Thor 使用 <code>--profile thor</code>。部署根目录持有 <code>images.env</code> 与既有的 <code>runtime.env</code>，后者显式指定数据、数据库、Redis 与 Model Hub 的宿主机路径，因此持久化状态不会写入源码仓库。升级已有部署时，推荐先从当前运行容器的挂载或既有运行目录确认 root；如果确认无误，可以继续显式传入同一个 <code>--root</code>，也可以省略 <code>--root</code> 让脚本从正在运行的 <code>wa-dd</code> 容器中推断。首次部署前可用 <code>./deploy.sh --check --profile amd|thor</code> 验证镜像发现和 Compose 渲染。</p>
+<p>Thor 使用 <code>--profile thor</code>。部署根目录持有 <code>images.env</code> 与既有的 <code>runtime.env</code>，后者显式指定数据、数据库、Redis 与 Model Hub 的宿主机路径，因此持久化状态不会写入源码仓库。升级已有部署时，推荐先从当前运行容器的挂载或既有运行目录确认 root；如果确认无误，可以继续显式传入同一个 <code>--root</code>，也可以省略 <code>--root</code> 让脚本从正在运行的 <code>wa-dd</code> 容器中推断。首次部署前可在 <code>deploy/</code> 目录运行 <code>./deploy.sh --check --profile amd|thor</code> 验证镜像发现和 Compose 渲染。</p>
 <p><strong>全量更新与单组件更新（两者都支持）：</strong></p>
 <pre><code class="language-bash"># 全量：检测所有组件的新镜像并协调整个 amd 服务组（原有用法，默认 --component all）
+cd deploy
 ./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime
 
 # 单组件：只检测 Web 镜像，只替换 Web；不重建 PostgreSQL、Redis 或其他 worker
@@ -1995,12 +2052,13 @@ password: admin123456
 <p>如需发布新镜像，请在明确指定的构建环境运行 <code>./build_image.sh --profile amd|thor --component web|model-zoo|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|deepternary|pi-agent|fep|all</code>。标签由组件是否使用 GPU 自动决定并推送到 <code>huluxiaohuowa</code>；<code>model-zoo</code> 是 CPU 组件，使用同一个 <code>Dockerfile.model-zoo</code>，只按 amd/arm 平台区分标签；Pi worker 也是 CPU 组件，随 <code>all</code> 构建；DeepTernary 与 FEP 为 GPU 大镜像，仍需显式指定组件构建。下次 <code>deploy.sh</code> 会重新发现并采用匹配的最新 tag。由于当前 Compose 包含 FEP 和 DeepTernary worker，首次部署前 registry 也必须已有对应平台的 FEP/DeepTernary 镜像，否则部署脚本会明确失败；thor DeepTernary 暂无 tag 时，<code>deploy.sh --check</code> 会先写入保留的完整镜像名，便于后续在 tc81 构建补齐。Pi 复用 <code>WA_DD_DATA_HOST_DIR</code> 下的 <code>pi/</code> 目录；首次启动会自动生成并持久化配置加密主密钥，详见 <a href="userguide/pi-agent/">Agent / Pi</a>。</p>
 <h3 id="_9">快速启动</h3>
 <p><strong>首次部署：</strong></p>
-<pre><code class="language-bash">cp .env.web.example .env.web
-# 编辑 .env.web；部署根目录必须是绝对路径
+<pre><code class="language-bash">cd deploy
+# 首次部署前可编辑 env.web；部署根目录必须是绝对路径
 ./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime
 </code></pre>
 <p><strong>Jetson Thor 部署：</strong></p>
-<pre><code class="language-bash">./deploy.sh --profile thor --root /absolute/path/to/wa-dd-runtime
+<pre><code class="language-bash">cd deploy
+./deploy.sh --profile thor --root /absolute/path/to/wa-dd-runtime
 </code></pre>
 <p>服务启动后访问 <code>http://localhost:8800</code>，使用默认账户登录：</p>
 <pre><code class="language-text">用户名: admin
@@ -2118,6 +2176,7 @@ ln -sfn snapshots/manual &quot;${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxia
 <li><a href="userguide/fep-analysis/">FEP 与分析</a></li>
 <li><a href="userguide/interaction-analysis/">相互作用分析</a></li>
 <li><a href="userguide/tpd-protac/">TPD / PROTAC</a></li>
+<li><a href="userguide/tpd-protac-5t35-case/">TPD / PROTAC 5T35 案例</a></li>
 <li><a href="userguide/sar/">SAR / 构效关系</a></li>
 <li><a href="userguide/admin/">管理</a></li>
 <li><a href="userguide/pi-agent/">Agent / Pi</a></li>
