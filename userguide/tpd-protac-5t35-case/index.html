@@ -1512,6 +1512,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 输出资产的层级管理
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1687,6 +1698,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 输出资产的层级管理
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1720,6 +1742,12 @@
 <p><img alt="步骤 1：Model Zoo 中 DeepTernary 模型已就绪" src="../images/tpd-case-01-model-zoo-ready-boxed.png" /></p>
 <h2 id="2-5t35">2. 准备 5T35 输入资产</h2>
 <p>推荐按官方示例拆分文件导入 7 个资产。这样最清楚，也避免用户在 full complex 里手工判断组件时选错。</p>
+<p>人工操作时按页面上传：</p>
+<ol>
+<li><code>unbound_protein1.pdb</code>、<code>unbound_protein2.pdb</code> 和可选的 <code>complex.pdb</code> 在 <strong>蛋白处理</strong> 页面上传；它们会进入蛋白/复合物结构资产。</li>
+<li><code>ligand.pdb</code>、<code>unbound_lig1.pdb</code>、<code>unbound_lig2.pdb</code> 在 <strong>配体处理</strong> 页面上传；TPD 页面会按 ligand/mask PDB 资产复用。</li>
+<li>如果从 full complex 出发，需要先在 <strong>蛋白处理</strong> 页面打开 3D 结构，定位 HETATM 配体组分，再用组件操作生成 TPD PDB 资产。</li>
+</ol>
 <table>
 <thead>
 <tr>
@@ -1836,6 +1864,15 @@
 <li>输出是可复用 <code>ternary_complex</code> 资产，后续可进入相互作用分析。</li>
 </ul>
 <p>如果从 full complex 手动拆组件，需要在蛋白处理页完成定位、聚焦和 TPD PDB 转存。这个路径适合作为补充，但要求用户知道哪一个 HETATM 组件对应 POI warhead 或 E3 ligand；不建议在新手案例中作为主流程。</p>
+<h2 id="8">8. 输出资产的层级管理</h2>
+<p>DeepTernary 输出不是普通蛋白，也不是普通配体；它是 <code>ternary_complex</code> 结构复合物资产。界面按三层管理：</p>
+<ol>
+<li><strong>任务来源层</strong>：例如 <code>DeepTernary 任务 · 73462298</code>，用于判断输出来自哪个计算任务。</li>
+<li><strong>资产层</strong>：例如 <code>TPD case 5T35 BRD4-MZ1-VHL prediction verified 20260804</code>，这是后续分析应引用的可复用资产。</li>
+<li><strong>个体层</strong>：资产内的单个 PDB、CSV、log 文件。PDB 个体可单选渲染到 TPD 三元复合物 3D 窗口；多个个体可多选后批量下载。</li>
+</ol>
+<p>在 <strong>TPD / PROTAC → 三元复合物</strong> 页，上方的 <code>DeepTernary 输出资产</code> 下拉只列出 <code>ternary_complex</code> 输出资产。选择一个资产后，系统会默认渲染第一个 PDB 个体；在 <strong>输出资产</strong> 页可以展开任务来源、资产和个体文件，单选或多选个体进行操作。</p>
+<p>同一个 <code>ternary_complex</code> 也会在 <strong>蛋白处理 → 结构资产</strong> 中以 <code>TPD 输出 / 三元复合物</code> 来源层出现。点击“结构预览”会把该资产的 PDB 加载到蛋白 3D 窗口，随后可使用专注编辑窗口查看链、组分、配体、金属、水分子和表面等结构元素。这样可以把 TPD 输出当作结构复合物复用，但不会把它混入 POI/E3 输入选择器。</p>
 
 
 
