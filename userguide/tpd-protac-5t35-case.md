@@ -20,6 +20,12 @@
 
 推荐按官方示例拆分文件导入 7 个资产。这样最清楚，也避免用户在 full complex 里手工判断组件时选错。
 
+人工操作时按页面上传：
+
+1. `unbound_protein1.pdb`、`unbound_protein2.pdb` 和可选的 `complex.pdb` 在 **蛋白处理** 页面上传；它们会进入蛋白/复合物结构资产。
+2. `ligand.pdb`、`unbound_lig1.pdb`、`unbound_lig2.pdb` 在 **配体处理** 页面上传；TPD 页面会按 ligand/mask PDB 资产复用。
+3. 如果从 full complex 出发，需要先在 **蛋白处理** 页面打开 3D 结构，定位 HETATM 配体组分，再用组件操作生成 TPD PDB 资产。
+
 | 资产 | 文件 | 类型 | TPD 页面用途 |
 | --- | --- | --- | --- |
 | BRD4 BD2 POI | `unbound_protein1.pdb` | protein | POI protein |
@@ -108,3 +114,15 @@
 - 输出是可复用 `ternary_complex` 资产，后续可进入相互作用分析。
 
 如果从 full complex 手动拆组件，需要在蛋白处理页完成定位、聚焦和 TPD PDB 转存。这个路径适合作为补充，但要求用户知道哪一个 HETATM 组件对应 POI warhead 或 E3 ligand；不建议在新手案例中作为主流程。
+
+## 8. 输出资产的层级管理
+
+DeepTernary 输出不是普通蛋白，也不是普通配体；它是 `ternary_complex` 结构复合物资产。界面按三层管理：
+
+1. **任务来源层**：例如 `DeepTernary 任务 · 73462298`，用于判断输出来自哪个计算任务。
+2. **资产层**：例如 `TPD case 5T35 BRD4-MZ1-VHL prediction verified 20260804`，这是后续分析应引用的可复用资产。
+3. **个体层**：资产内的单个 PDB、CSV、log 文件。PDB 个体可单选渲染到 TPD 三元复合物 3D 窗口；多个个体可多选后批量下载。
+
+在 **TPD / PROTAC → 三元复合物** 页，上方的 `DeepTernary 输出资产` 下拉只列出 `ternary_complex` 输出资产。选择一个资产后，系统会默认渲染第一个 PDB 个体；在 **输出资产** 页可以展开任务来源、资产和个体文件，单选或多选个体进行操作。
+
+同一个 `ternary_complex` 也会在 **蛋白处理 → 结构资产** 中以 `TPD 输出 / 三元复合物` 来源层出现。点击“结构预览”会把该资产的 PDB 加载到蛋白 3D 窗口，随后可使用专注编辑窗口查看链、组分、配体、金属、水分子和表面等结构元素。这样可以把 TPD 输出当作结构复合物复用，但不会把它混入 POI/E3 输入选择器。

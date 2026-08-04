@@ -20,6 +20,12 @@ Open **Model Zoo** from the top navigation and confirm that the DeepTernary card
 
 The recommended path is to import the seven pre-split files from the official example. This is clearer and avoids asking users to manually identify components from the full complex.
 
+For manual UI operation:
+
+1. Upload `unbound_protein1.pdb`, `unbound_protein2.pdb`, and optional `complex.pdb` in **Protein Processing**. They become protein or complex structure assets.
+2. Upload `ligand.pdb`, `unbound_lig1.pdb`, and `unbound_lig2.pdb` in **Ligand Processing**. The TPD page reuses them as ligand or mask PDB assets.
+3. If starting from the full complex, open the structure in **Protein Processing**, locate the HETATM ligand component in 3D, and generate the required TPD PDB assets from the component tools.
+
 | Asset | File | Type | Use in TPD page |
 | --- | --- | --- | --- |
 | BRD4 BD2 POI | `unbound_protein1.pdb` | protein | POI protein |
@@ -108,3 +114,15 @@ This case recommends the "pre-split asset upload → TPD page selection" path be
 - The output is a reusable `ternary_complex` asset that can move into Interaction Analysis.
 
 Starting from a full complex requires locating, focusing, and exporting components in Protein Processing. That path is useful as a supplement, but it requires the user to know which HETATM component corresponds to the POI warhead or E3 ligand. It is not the main path for this beginner case.
+
+## 8. Output asset hierarchy
+
+DeepTernary output is not a normal protein and not a normal ligand. It is a `ternary_complex` structural complex asset. The UI manages it in three layers:
+
+1. **Task source layer**: for example `DeepTernary job · 73462298`, used to identify which computation produced the output.
+2. **Asset layer**: for example `TPD case 5T35 BRD4-MZ1-VHL prediction verified 20260804`, the reusable asset that downstream workflows should reference.
+3. **Individual layer**: individual PDB, CSV, and log files inside the asset. A PDB individual can be single-selected and rendered in the TPD ternary-complex 3D viewer; multiple individuals can be selected for batch file operations.
+
+In **TPD / PROTAC → Ternary complex**, the `DeepTernary output asset` selector lists only `ternary_complex` outputs. Selecting an asset renders the first PDB individual by default. In **Output assets**, expand the task source, asset, and individual file layers to single-select or multi-select output files.
+
+The same `ternary_complex` asset also appears under **Protein Processing → Structure assets** in a separate `TPD output / ternary complex` source layer. Click "Structure preview" to load its PDB into the Protein 3D viewer; the focused editor can then inspect chains, components, ligands, metals, waters, surfaces, and other structure elements. This lets TPD output be reused as a structural complex without mixing it into the POI/E3 input selectors.
