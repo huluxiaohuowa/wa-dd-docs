@@ -1872,7 +1872,15 @@
 <li><strong>Individual layer</strong>: individual PDB, CSV, and log files inside the asset. A PDB individual can be single-selected and rendered in the TPD ternary-complex 3D viewer; multiple individuals can be selected for batch file operations.</li>
 </ol>
 <p>In <strong>TPD / PROTAC → Ternary complex</strong>, the <code>DeepTernary output asset</code> selector lists only <code>ternary_complex</code> outputs. Selecting an asset renders the first PDB individual by default. In <strong>Output assets</strong>, expand the task source, asset, and individual file layers to single-select or multi-select output files.</p>
+<p><img alt="Step 9: Select the output asset on the ternary-complex page, open the asset, or enter the independent viewer" src="../images/tpd-case-09-output-selector-and-viewer-boxed.png" /></p>
+<p>Click <code>Independent output view</code> to open the dedicated TPD output viewer. The left column is the individual file layer for PDB/CSV/log files inside the asset, the center column is the 3D structure viewer, and the right column lists chains and HETATM components. A PDB individual can be opened with <code>Render/locate</code>; checkboxes are for multi-select batch download. Chain and component <code>Locate</code> buttons move the 3D view directly to the chosen object.</p>
+<p><img alt="Step 10: The independent viewer manages output files, 3D structure, and chain/component targeting in three columns" src="../images/tpd-case-10-independent-output-viewer-boxed.png" /></p>
+<p>In <strong>Output assets</strong>, outputs are shown as <code>task source → ternary_complex asset → individual files</code>. This view is better for checking a whole PDB ensemble and downloading the CSV summary or logs. When one PDB is selected or rendered, it is synchronized to the ternary-complex 3D viewer above.</p>
+<p><img alt="Step 11: The output-assets page separates task source, asset, and individual file layers" src="../images/tpd-case-11-output-hierarchy-multiselect-boxed.png" /></p>
 <p>The same <code>ternary_complex</code> asset also appears under <strong>Protein Processing → Structure assets</strong> in a separate <code>TPD output / ternary complex</code> source layer. Click "Structure preview" to load its PDB into the Protein 3D viewer; the focused editor can then inspect chains, components, ligands, metals, waters, surfaces, and other structure elements. This lets TPD output be reused as a structural complex without mixing it into the POI/E3 input selectors.</p>
+<p><img alt="Step 12: The TPD output is reusable from Protein Processing as a separate source layer and can be loaded into the Protein 3D viewer" src="../images/tpd-case-12-protein-output-reuse-boxed.png" /></p>
+<p>The task-center <code>View TPD output</code> button is an entry point only: it closes the task popover, switches to the TPD page, and selects the corresponding output asset. Do not inspect the full output list inside the task popover because it would cover the main workspace.</p>
+<p><img alt="Step 13: Enter the TPD output asset from the task center" src="../images/tpd-case-13-task-center-view-output-boxed.png" /></p>
 
 
 

@@ -1872,7 +1872,15 @@
 <li><strong>个体层</strong>：资产内的单个 PDB、CSV、log 文件。PDB 个体可单选渲染到 TPD 三元复合物 3D 窗口；多个个体可多选后批量下载。</li>
 </ol>
 <p>在 <strong>TPD / PROTAC → 三元复合物</strong> 页，上方的 <code>DeepTernary 输出资产</code> 下拉只列出 <code>ternary_complex</code> 输出资产。选择一个资产后，系统会默认渲染第一个 PDB 个体；在 <strong>输出资产</strong> 页可以展开任务来源、资产和个体文件，单选或多选个体进行操作。</p>
+<p><img alt="步骤 9：在三元复合物页选择输出资产，打开资产或进入独立查看窗口" src="../images/tpd-case-09-output-selector-and-viewer-boxed.png" /></p>
+<p>点击 <code>独立查看输出</code> 会打开专门的 TPD 输出查看窗口。左侧是资产内的 PDB/CSV/log 个体文件层，中央是 3D 结构窗口，右侧是链和 HETATM 组分定位区。PDB 个体可点击 <code>渲染/定位</code> 单独切换，勾选框用于多选后批量下载；右侧链和组分的 <code>定位</code> 会把 3D 视角直接拉到对应对象。</p>
+<p><img alt="步骤 10：独立查看窗口按个体文件、3D 结构、链/组分三栏管理输出" src="../images/tpd-case-10-independent-output-viewer-boxed.png" /></p>
+<p>在 <strong>输出资产</strong> 页，输出按 <code>任务来源 → ternary_complex 资产 → 资产内个体</code> 三层展示。这里适合批量检查一批 PDB ensemble，也可以单独下载 CSV 摘要和运行日志。单个 PDB 被选中或点击渲染后，会同步到上方三元复合物 3D 窗口。</p>
+<p><img alt="步骤 11：输出资产页按任务、资产和个体文件分层管理" src="../images/tpd-case-11-output-hierarchy-multiselect-boxed.png" /></p>
 <p>同一个 <code>ternary_complex</code> 也会在 <strong>蛋白处理 → 结构资产</strong> 中以 <code>TPD 输出 / 三元复合物</code> 来源层出现。点击“结构预览”会把该资产的 PDB 加载到蛋白 3D 窗口，随后可使用专注编辑窗口查看链、组分、配体、金属、水分子和表面等结构元素。这样可以把 TPD 输出当作结构复合物复用，但不会把它混入 POI/E3 输入选择器。</p>
+<p><img alt="步骤 12：TPD 输出在蛋白处理页作为单独来源层复用，并可进入蛋白 3D 窗口" src="../images/tpd-case-12-protein-output-reuse-boxed.png" /></p>
+<p>任务中心里的 <code>查看 TPD 输出</code> 只是入口：点击后会关闭任务浮层，跳到 TPD 页面并选中对应输出资产；不要在任务浮层里直接塞完整输出列表，否则会遮挡主工作区。</p>
+<p><img alt="步骤 13：从任务中心进入 TPD 输出资产" src="../images/tpd-case-13-task-center-view-output-boxed.png" /></p>
 
 
 
