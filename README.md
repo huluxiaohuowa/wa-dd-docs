@@ -6,13 +6,13 @@
 
 > [English documentation](README.EN.md)
 
-> **开发者**：[huluxiaohuowa](https://github.com/huluxiaohuowa) · 本项目仍处于开发中，如需测试请联系 qhulu@outlook.com（仅接受学术科研机构和大专院校的测试申请，暂不接受公司商业化合作）。
+> **开发者**：[huluxiaohuowa](https://github.com/huluxiaohuowa) · 本项目由开发者个人独立设计、开发与维护，仍处于开发中；如需测试请联系 qhulu@outlook.com（仅接受学术科研机构和大专院校的测试申请，暂不接受公司商业化合作）。
 
 ## 面向药物研发的一体化分子设计工作台
 
 ![WA-DD main page](userguide/images/wa-dd-workbench-main.jpg)
 
-WA-DD 专为计算机辅助药物设计（CADD）研究人员打造，将靶点蛋白处理、配体准备、分子对接、分子生成、FEP/RBFE 自由能生产计算和相互作用分析整合到统一的浏览器界面中。
+WA-DD 是一个个人独立开发的计算机辅助药物设计（CADD）工作台，面向药物研发研究人员，将靶点蛋白处理、配体准备、分子对接、分子生成、FEP/RBFE 自由能生产计算和相互作用分析整合到统一的浏览器界面中。
 
 从 PDB 结构导入到配体库准备，从 Uni-Dock 对接到 PocketXMol 生成、FEP 规划和三维相互作用检查，所有中间结果都保留为可复用资产——WA-DD 让您专注于药物设计本身，而非工具链的拼凑与切换。
 
