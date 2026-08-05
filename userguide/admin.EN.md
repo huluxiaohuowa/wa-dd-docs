@@ -4,7 +4,7 @@
 
 ## Role
 
-The admin page is opened from the user menu in the top-right corner; it is no longer shown as a top module navigation button. The page still manages users, project files, global jobs, and host resources. Standard users can access only their own projects, assets, and jobs.
+The admin page is opened from the "Current user" menu in the top-right corner; it is no longer shown as a top module navigation button. The same user menu also contains interface language, password change, current-user files, current-user jobs, and logout. The admin page still manages users, project files, global jobs, and host resources. Standard users can access only their own projects, assets, and jobs.
 
 ## Implemented features
 
@@ -35,7 +35,7 @@ The admin page is opened from the user menu in the top-right corner; it is no lo
 - The `host-metrics` runner samples the host every 5 seconds by default; the page supports auto-refresh and immediate refresh.
 - Supports x86 NVIDIA (`nvidia-smi`), Jetson Thor (`tegrastats`/sysfs), and ROCm (`rocm-smi`) metric sources.
 
-![Admin and system resources page: four modules — users, files/projects, job management, and system resources](images/admin-system-resources.jpg)
+![Admin entry in the top-right current-user menu, plus the admin and system resources page](images/admin-system-resources.jpg)
 
 ## Workflow
 
