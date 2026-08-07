@@ -1629,6 +1629,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#23-openfold3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 OpenFold3 构象系综生成策略
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1796,15 +1807,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-colabfold" class="md-nav__link">
+  <a href="#5-openfold3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. ColabFold 模型权重与部署
+        5. OpenFold3 模型权重与部署
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="5. ColabFold 模型权重与部署">
+    <nav class="md-nav" aria-label="5. OpenFold3 模型权重与部署">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1982,6 +1993,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#23-openfold3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 OpenFold3 构象系综生成策略
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2149,15 +2171,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-colabfold" class="md-nav__link">
+  <a href="#5-openfold3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. ColabFold 模型权重与部署
+        5. OpenFold3 模型权重与部署
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="5. ColabFold 模型权重与部署">
+    <nav class="md-nav" aria-label="5. OpenFold3 模型权重与部署">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2243,9 +2265,9 @@
 <p><strong>如何构建一个可计算、可验证的闭环工作流，来预测、验证并利用蛋白的隐式口袋？</strong></p>
 </blockquote>
 <p>具体而言，我们探索：
-1.  <strong>构象系综生成</strong>：能否利用 AI 模型（基于 ColabFold，AlphaFold2 的社区优化版）生成能代表蛋白"易打开"状态的构象系综（Conformational Ensemble），作为隐式口袋的候选来源？
+1.  <strong>构象系综生成</strong>：能否利用 OpenFold3（AlphaFold3 的开源复现版）AI 模型，通过模板扰动和配体诱导策略，生成能代表蛋白"易打开"状态的构象系综（Conformational Ensemble），作为隐式口袋的候选来源？
 2.  <strong>物理验证</strong>：能否使用分子动力学（MD）模拟，特别是增强采样技术，在物理层面验证这些候选构象是否真的能打开口袋？
-3.  <strong>配体诱导闭环</strong>：一旦口袋在物理模拟中被验证，能否在这个"打开的"构象上进行配体生成和优化，并通过 FEP 等方法量化其结合优势？</p>
+3.  <strong>配体诱导闭环</strong>：一旦口袋在物理模拟中被验证，能否在这个"打开的"构象上进行配体生成和复合物预测，并通过 FEP 等方法量化其结合优势？</p>
 <h3 id="13">1.3 研究价值</h3>
 <ul>
 <li><strong>科学价值</strong>：回答了"AI 预测的构象是否具有物理真实性"这一 AI for Science 领域的核心问题。</li>
@@ -2257,11 +2279,11 @@
 <p>为了实现上述构想，我们设计了一个包含四个核心阶段的闭环工作流。WA-DD 平台将通过新增的 Worker 组件和复用现有组件来完整支持这一流程。</p>
 <h3 id="21">2.1 工作流数据流</h3>
 <pre><code class="language-mermaid">graph TD
-    A[&quot;输入: APO 蛋白结构&quot;] --&gt; B{&quot;阶段 1: AI 构象系综生成&quot;};
+    A[&quot;输入: APO 蛋白结构&quot;] --&gt; B{&quot;阶段 1: OpenFold3 构象系综生成&quot;};
     B --&gt;|&quot;构象系综 (Ensemble of PDBs)&quot;| C{&quot;阶段 2: MD 物理验证 (Gromacs)&quot;};
     C --&gt;|&quot;MD 轨迹 + 代表性 OPEN 构象&quot;| D{&quot;阶段 3: 口袋与水网络分析&quot;};
-    D --&gt;|&quot;验证后的 OPEN 构象 (PDB)&quot;| E{&quot;阶段 4: 配体生成与验证 (复用现有)&quot;};
-    E --&gt;|&quot;活性配体&quot;| F((&quot;科学结论: 隐式口袋的可药性验证&quot;));
+    D --&gt;|&quot;验证后的 OPEN 构象 (PDB)&quot;| E{&quot;阶段 4: 配体生成与复合物预测 (复用现有)&quot;};
+    E --&gt;|&quot;活性配体 + 复合物结构&quot;| F((&quot;科学结论: 隐式口袋的可药性验证&quot;));
 </code></pre>
 <h3 id="22">2.2 任务分解与新增组件</h3>
 <table>
@@ -2275,8 +2297,8 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>1. AI 构象系综生成</strong></td>
-<td style="text-align: left;">利用 ColabFold（AlphaFold2 社区优化版）进行 MSA 子采样，生成蛋白的多个候选构象。</td>
+<td style="text-align: left;"><strong>1. OpenFold3 构象系综生成</strong></td>
+<td style="text-align: left;">利用 OpenFold3 模型，通过模板扰动和配体诱导策略，生成蛋白的多个候选构象。</td>
 <td style="text-align: left;"><strong>新增</strong>: <code>wa-dd-conformer-gen</code> (构象生成 Worker)</td>
 <td style="text-align: left;">🔄 开发中</td>
 </tr>
@@ -2293,13 +2315,37 @@
 <td style="text-align: left;">🚀 规划中</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>4. 配体生成与验证</strong></td>
-<td style="text-align: left;">在验证过的 OPEN 构象上生成配体，并进行 docking 和 FEP 验证。</td>
-<td style="text-align: left;"><strong>复用</strong>: <code>wa-dd-molecule-gen</code>, <code>wa-dd-unidock</code>, <code>wa-dd-fep</code></td>
-<td style="text-align: left;">✅ 已就绪</td>
+<td style="text-align: left;"><strong>4. 配体生成与复合物预测</strong></td>
+<td style="text-align: left;">在验证过的 OPEN 构象上生成配体，并通过 OpenFold3 预测复合物结构，FEP 验证。</td>
+<td style="text-align: left;"><strong>复用</strong>: <code>wa-dd-molecule-gen</code>, <code>wa-dd-fep</code> + OpenFold3 复合物预测</td>
+<td style="text-align: left;">✅ 已就绪 / 新增</td>
 </tr>
 </tbody>
 </table>
+<h3 id="23-openfold3">2.3 OpenFold3 构象系综生成策略</h3>
+<p>OpenFold3 没有内置 MSA 子采样功能，但通过以下两种互补策略生成构象多样性：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">策略</th>
+<th style="text-align: left;">原理</th>
+<th style="text-align: left;">实施方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>模板扰动法</strong></td>
+<td style="text-align: left;">OpenFold3 支持模板输入，不同模板诱导不同构象</td>
+<td style="text-align: left;">对 KRAS G12C 提供 5 个模板：APO (4OBE)、GTP 态 (5VQ2)、GDP 态 (4TQ9)、Switch II OPEN (6GJ8)、随机扰动 APO</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>配体诱导法</strong></td>
+<td style="text-align: left;">OpenFold3 可直接输入配体预测复合物，不同配体诱导不同构象</td>
+<td style="text-align: left;">输入 KRAS + 已知活性配体 (ARS-1620, MRTX849) + 片段库，预测 ~10 个构象</td>
+</tr>
+</tbody>
+</table>
+<p>两种策略结合，可生成约 15-20 个候选构象。</p>
 <hr />
 <h2 id="3">3. 验证过程（单服务器渐进式方案）</h2>
 <p>我们将以 <strong>KRAS G12C</strong> 作为模式靶点来验证这一工作流。KRAS G12C 的 Switch II 区域存在一个经典的隐式口袋，当与共价抑制剂（如 ARS-1620）结合时会打开。</p>
@@ -2325,8 +2371,8 @@
 </tr>
 <tr>
 <td style="text-align: left;"><strong>L1: AI 预测</strong></td>
-<td style="text-align: left;">AI 能预测出 OPEN 构象吗？</td>
-<td style="text-align: left;">ColabFold MSA 子采样，生成 10 个候选构象</td>
+<td style="text-align: left;">OpenFold3 能预测出 OPEN 构象吗？</td>
+<td style="text-align: left;">OpenFold3 模板扰动 + 配体诱导，生成 ~15 个候选构象</td>
 <td style="text-align: left;">半天</td>
 <td style="text-align: left;">构象系综 + 与 6GJ8 的 RMSD 对比</td>
 </tr>
@@ -2340,7 +2386,7 @@
 <tr>
 <td style="text-align: left;"><strong>L3: 闭环发现</strong></td>
 <td style="text-align: left;">AI 发现的构象能诱导配体结合吗？</td>
-<td style="text-align: left;">在 AI 验证构象上，PocketXMol 生成 10 个分子，Uni-Dock 对接，选 Top 3 跑 FEP</td>
+<td style="text-align: left;">在 AI 验证构象上，PocketXMol 生成 10 个分子，OpenFold3 预测复合物结构，选 Top 3 跑 FEP</td>
 <td style="text-align: left;">3-5 天</td>
 <td style="text-align: left;">新分子的 ΔΔG &lt; 0（验证可药性）</td>
 </tr>
@@ -2362,9 +2408,10 @@
 <h4 id="l1-ai-day-3-4">L1: AI 预测（Day 3-4）</h4>
 <ul>
 <li><strong>目标</strong>：生成能代表 Switch II 区域不同状态的候选构象。</li>
-<li><strong>输入</strong>：KRAS G12C APO (PDB: 4OBE), ColabFold MSA 公共服务器。</li>
+<li><strong>输入</strong>：KRAS G12C APO (PDB: 4OBE), OpenFold3 模型权重。</li>
 <li><strong>步骤</strong>：<ol>
-<li>用 <code>wa-dd-conformer-gen</code> 对 4OBE 运行 ColabFold MSA 子采样（10-50% 子采样比例），生成 10 个构象。</li>
+<li>用 <code>wa-dd-conformer-gen</code> 对 4OBE 运行 OpenFold3 模板扰动（5 个模板），生成 5 个构象。</li>
+<li>用 <code>wa-dd-conformer-gen</code> 对 4OBE 运行 OpenFold3 配体诱导（5 个配体），生成 5 个构象。</li>
 <li>计算每个构象与 6GJ8 Switch II 区域的 RMSD。</li>
 <li>筛选 RMSD &lt; 3.0Å 的候选构象（作为 L2 的输入）。</li>
 </ol>
@@ -2389,7 +2436,7 @@
 <li><strong>输入</strong>：L2 验证过的 AI 构象。</li>
 <li><strong>步骤</strong>：<ol>
 <li>用 <code>wa-dd-molecule-gen</code> (PocketXMol) 在 AI 构象上 de novo 生成 10 个分子。</li>
-<li>用 <code>wa-dd-unidock</code> 对接并筛选 Top 3。</li>
+<li>用 OpenFold3 预测"蛋白 + 新配体"的复合物结构（替代原 Uni-Dock 对接）。</li>
 <li>用 <code>wa-dd-fep</code> 计算 Top 3 的 ΔΔG。</li>
 </ol>
 </li>
@@ -2397,21 +2444,22 @@
 </ul>
 <h3 id="33">3.3 预期科学发现信号</h3>
 <ol>
-<li><strong>AI 预测能力验证</strong>：AI 生成的构象中有多少比例能在 MD 模拟中稳定存在，且能观察到口袋打开。</li>
+<li><strong>AI 预测能力验证</strong>：OpenFold3 通过模板扰动和配体诱导生成的构象中有多少比例能在 MD 模拟中稳定存在，且能观察到口袋打开。</li>
 <li><strong>动力学熵贡献</strong>：通过对比不同构象的 FEP 结果，量化构象变化对结合自由能的贡献。</li>
 <li><strong>水分子角色</strong>：分析 MD 轨迹中口袋打开时水分子的进出模式，识别可能的"不利水"（Unhappy Water）。</li>
+<li><strong>OpenFold3 复合物预测精度</strong>：对比 OpenFold3 预测的复合物结构与 FEP 物理验证结果的一致性。</li>
 </ol>
 <hr />
 <h2 id="4">4. 开发进度</h2>
 <h3 id="41">4.1 已完成</h3>
 <ul>
 <li><strong>科学问题定义</strong>：明确了隐式口袋发现的科学价值和技术路径。</li>
-<li><strong>工作流设计</strong>：完成了从 AI 构象生成到 FEP 验证的完整数据流设计，以及单服务器渐进式验证方案。</li>
-<li><strong>现有组件集成</strong>：确认了 <code>protein-prep</code>, <code>molecule-gen</code>, <code>unidock</code>, <code>fep</code> 等现有组件可直接复用。</li>
+<li><strong>工作流设计</strong>：完成了从 OpenFold3 构象生成到 FEP 验证的完整数据流设计，以及单服务器渐进式验证方案。</li>
+<li><strong>现有组件集成</strong>：确认了 <code>protein-prep</code>, <code>molecule-gen</code>, <code>fep</code> 等现有组件可直接复用。</li>
 </ul>
 <h3 id="42">4.2 进行中</h3>
 <ul>
-<li><strong><code>wa-dd-conformer-gen</code> Worker 设计与开发</strong>：核心是集成 ColabFold（AlphaFold2 社区优化版）进行 MSA 子采样和构象生成。ColabFold 基于 AlphaFold2 v2.3.2，采用开源 Apache 2.0 许可，支持 CUDA 13（Thor）的 <code>jax[cuda13]</code> 和 <code>openmm[cuda13]</code>。</li>
+<li><strong><code>wa-dd-conformer-gen</code> Worker 设计与开发</strong>：核心是集成 OpenFold3（AlphaFold3 开源复现版）进行模板扰动和配体诱导构象生成。OpenFold3 基于 Apache 2.0 许可，支持 CUDA 13（Thor），原生支持蛋白-配体复合物结构预测。</li>
 </ul>
 <h3 id="43">4.3 规划中</h3>
 <ul>
@@ -2430,7 +2478,7 @@
 <tbody>
 <tr>
 <td style="text-align: left;"><strong>第一阶段 (Week 1)</strong></td>
-<td style="text-align: left;">完成 <code>wa-dd-conformer-gen</code> MVP，跑通 L1 AI 构象生成。</td>
+<td style="text-align: left;">完成 <code>wa-dd-conformer-gen</code> MVP，跑通 L1 OpenFold3 构象生成。</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>第二阶段 (Week 2)</strong></td>
@@ -2447,47 +2495,47 @@
 </tbody>
 </table>
 <hr />
-<h2 id="5-colabfold">5. ColabFold 模型权重与部署</h2>
+<h2 id="5-openfold3">5. OpenFold3 模型权重与部署</h2>
 <h3 id="51">5.1 模型权重下载</h3>
-<p>ColabFold 使用与 AlphaFold2 相同的模型权重。权重文件由 DeepMind 官方维护，托管在 Google Cloud Storage。</p>
+<p>OpenFold3 是 AlphaFold3 的开源复现版，由哥伦比亚大学 AlQuraishi 实验室和 OpenFold 联盟开发，采用 Apache 2.0 许可（可商用）。</p>
 <table>
 <thead>
 <tr>
 <th style="text-align: left;">资源</th>
-<th style="text-align: left;">下载地址</th>
+<th style="text-align: left;">下载方式</th>
 <th style="text-align: left;">大小</th>
 <th style="text-align: left;">说明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>AlphaFold2 v2.3.2 参数（推荐）</strong></td>
-<td style="text-align: left;"><code>https://storage.googleapis.com/alphafold/alphafold_params_2022-12-06.tar</code></td>
-<td style="text-align: left;">~3.4GB</td>
-<td style="text-align: left;">包含 5 个模型（model_1 ~ model_5），每个约 1.7GB</td>
+<td style="text-align: left;"><strong>OpenFold3 模型参数</strong></td>
+<td style="text-align: left;"><code>setup_openfold</code> 命令自动下载</td>
+<td style="text-align: left;">~1-2GB</td>
+<td style="text-align: left;">包含 OpenFold3-preview2 模型权重</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>仅 model_1 + model_2（最小安装）</strong></td>
-<td style="text-align: left;">同上，解压后只保留 model_1 和 model_2</td>
-<td style="text-align: left;">~3.4GB</td>
-<td style="text-align: left;">仅需 2 个模型即可满足 MSA 子采样需求</td>
+<td style="text-align: left;"><strong>HuggingFace 手动下载</strong></td>
+<td style="text-align: left;"><code>https://huggingface.co/OpenFold/OpenFold3</code></td>
+<td style="text-align: left;">~1-2GB</td>
+<td style="text-align: left;">手动下载权重文件</td>
 </tr>
 </tbody>
 </table>
-<p><strong>下载方式</strong>：</p>
-<pre><code class="language-bash"># 下载完整参数包
-wget https://storage.googleapis.com/alphafold/alphafold_params_2022-12-06.tar
+<p><strong>安装与下载方式</strong>：</p>
+<pre><code class="language-bash"># 安装 OpenFold3
+pip install openfold3
 
-# 解压（包含 model_1~model_5 和 alphafold_multimer_v3 等）
-tar xf alphafold_params_2022-12-06.tar
+# 下载模型权重（自动）
+setup_openfold
 
-# 最小安装：只保留 model_1 和 model_2
-mkdir -p /data/models/colabfold_params
-cp alphafold_params_2022-12-06/model_1.npz /data/models/colabfold_params/
-cp alphafold_params_2022-12-06/model_2.npz /data/models/colabfold_params/
+# 或手动下载
+wget https://huggingface.co/OpenFold/OpenFold3/resolve/main/of3p2_ema.pt
+mkdir -p /data/models/openfold3
+cp of3p2_ema.pt /data/models/openfold3/
 </code></pre>
 <h3 id="52-msa">5.2 MSA 获取方式</h3>
-<p>ColabFold 支持两种 MSA 生成方式，我们选用公共服务器方式以避免 ~940GB 本地数据库：</p>
+<p>OpenFold3 支持通过 ColabFold 公共服务器获取 MSA，无需本地数据库：</p>
 <table>
 <thead>
 <tr>
@@ -2498,28 +2546,30 @@ cp alphafold_params_2022-12-06/model_2.npz /data/models/colabfold_params/
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>公共 MSA 服务器（推荐）</strong></td>
+<td style="text-align: left;"><strong>ColabFold 公共服务器（推荐）</strong></td>
 <td style="text-align: left;">0GB</td>
-<td style="text-align: left;">通过 <code>colabfold.mmseqs.com</code> 公共服务器远程获取 MSA</td>
+<td style="text-align: left;">通过 <code>colabfold.mmseqs.com</code> 远程获取 MSA</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>本地 MMseqs2 数据库</strong></td>
-<td style="text-align: left;">~940GB</td>
-<td style="text-align: left;">需要下载 UniRef30 + BFD + ColabFold DB，仅适用于大规模并行</td>
+<td style="text-align: left;">~46GB (UniRef30)</td>
+<td style="text-align: left;">仅适用于大规模并行</td>
 </tr>
 </tbody>
 </table>
 <h3 id="53-thor-cuda-13-docker">5.3 Thor (CUDA 13) Docker 构建要点</h3>
-<p>ColabFold 官方 Docker 镜像基于 CUDA 12，Thor (CUDA 13) 需要自行构建。关键配置：</p>
+<p>OpenFold3 基于 PyTorch，需要验证 CUDA 13 兼容性。关键配置：</p>
 <pre><code class="language-dockerfile"># 基础镜像（与 FEP/Unidock Thor 版一致）
-ARG COLABFOLD_THOR_BASE_IMAGE=nvcr.io/nvidia/cuda:13.0.2-runtime-ubuntu24.04
+ARG OPENFOLD3_THOR_BASE_IMAGE=nvcr.io/nvidia/cuda:13.0.2-runtime-ubuntu24.04
 
-# CUDA 13 支持的 JAX 和 OpenMM
-# ColabFold 官方支持 jax[cuda13] 和 openmm[cuda13]
-RUN pip install 'jax[cuda13]&gt;=0.4.0' 'openmm[cuda13]&gt;=8.2.0'
-RUN pip install 'colabfold[alphafold,openmm]&gt;=1.6.2'
+# PyTorch + CUDA 13 支持
+RUN pip install 'torch&gt;=2.4.0' --index-url https://download.pytorch.org/whl/cu130
+
+# OpenFold3
+RUN pip install 'openfold3&gt;=0.1.0'
+RUN setup_openfold
 </code></pre>
-<p><strong>磁盘占用</strong>：镜像 ~15GB + 模型权重 ~3.4GB = <strong>~18.4GB</strong></p>
+<p><strong>磁盘占用</strong>：镜像 ~10GB + 模型权重 ~1-2GB = <strong>~12GB</strong></p>
 <h3 id="54">5.4 最小验证命令</h3>
 <pre><code class="language-bash"># KRAS G12C 序列
 echo &quot;&gt;KRAS_G12C
@@ -2527,12 +2577,34 @@ MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQ
 YMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAARTVESRQAQDLARSYGIP
 YIETSAKTRQGVEDAFYTLVREIRQH&quot; &gt; /tmp/kras_g12c.fasta
 
-# ColabFold 推理（MSA 通过公共服务器，模型权重挂载自 /data/models/colabfold_params）
-colabfold_batch /tmp/kras_g12c.fasta /tmp/kras_output \
-  --model-type alphafold2_ptm \
-  --num-models 2 \
-  --amber \
-  --num-recycle 3
+# 方式 1：蛋白单体预测
+run_openfold predict --fasta_path=/tmp/kras_g12c.fasta
+
+# 方式 2：蛋白+配体复合物预测（输入 JSON）
+cat &gt; /tmp/kras_ligand.json &lt;&lt; EOF
+{
+  &quot;name&quot;: &quot;KRAS_G12C_ARS1620&quot;,
+  &quot;sequences&quot;: [
+    {&quot;protein&quot;: &quot;MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAARTVESRQAQDLARSYGIPYIETSAKTRQGVEDAFYTLVREIRQH&quot;},
+    {&quot;smiles&quot;: &quot;CC#CC(=O)NC1=CC=C(C=C1)NC(=O)N2CCN(CC2)C(=O)O&quot;}
+  ]
+}
+EOF
+run_openfold predict --query_json=/tmp/kras_ligand.json
+
+# 方式 3：模板扰动（指定模板 PDB）
+cat &gt; /tmp/kras_template.json &lt;&lt; EOF
+{
+  &quot;name&quot;: &quot;KRAS_G12C_template_4OBE&quot;,
+  &quot;sequences&quot;: [
+    {&quot;protein&quot;: &quot;MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAARTVESRQAQDLARSYGIPYIETSAKTRQGVEDAFYTLVREIRQH&quot;}
+  ],
+  &quot;templates&quot;: [
+    {&quot;pdb&quot;: &quot;4OBE&quot;, &quot;chain_id&quot;: &quot;A&quot;}
+  ]
+}
+EOF
+run_openfold predict --query_json=/tmp/kras_template.json
 </code></pre>
 
 
