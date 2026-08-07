@@ -40,11 +40,11 @@ To realize this concept, we designed a closed-loop workflow with four core stage
 
 ```mermaid
 graph TD
-    A[Input: APO Protein Structure] --> B{Stage 1: AI Conformational Ensemble Generation};
-    B -- "Conformational Ensemble (PDBs)" --> C{Stage 2: MD Physical Validation (Gromacs)};
-    C -- "MD Trajectory + Representative OPEN Conformation" --> D{Stage 3: Pocket and Water Network Analysis};
-    D -- "Validated OPEN Conformation (PDB)" --> E{Stage 4: Ligand Generation and Validation (Reuse Existing)};
-    E -- "Active Ligands" --> F((Scientific Conclusion: Druggability Validation of Cryptic Pockets));
+    A["Input: APO Protein Structure"] --> B{"Stage 1: AI Conformational Ensemble Generation"};
+    B -->|"Conformational Ensemble (PDBs)"| C{"Stage 2: MD Physical Validation (Gromacs)"};
+    C -->|"MD Trajectory + Representative OPEN Conformation"| D{"Stage 3: Pocket and Water Network Analysis"};
+    D -->|"Validated OPEN Conformation (PDB)"| E{"Stage 4: Ligand Generation and Validation (Reuse Existing)"};
+    E -->|"Active Ligands"| F(("Scientific Conclusion: Druggability Validation of Cryptic Pockets"));
 ```
 
 ### 2.2 Task Decomposition and New Components
