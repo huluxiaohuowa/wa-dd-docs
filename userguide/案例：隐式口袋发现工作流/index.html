@@ -2135,11 +2135,11 @@
 <p>为了实现上述构想，我们设计了一个包含四个核心阶段的闭环工作流。WA-DD 平台将通过新增的 Worker 组件和复用现有组件来完整支持这一流程。</p>
 <h3 id="21">2.1 工作流数据流</h3>
 <pre><code class="language-mermaid">graph TD
-    A[输入: APO 蛋白结构] --&gt; B{阶段 1: AI 构象系综生成};
-    B -- &quot;构象系综 (Ensemble of PDBs)&quot; --&gt; C{阶段 2: MD 物理验证 (Gromacs)};
-    C -- &quot;MD 轨迹 + 代表性 OPEN 构象&quot; --&gt; D{阶段 3: 口袋与水网络分析};
-    D -- &quot;验证后的 OPEN 构象 (PDB)&quot; --&gt; E{阶段 4: 配体生成与验证 (复用现有)};
-    E -- &quot;活性配体&quot; --&gt; F((科学结论: 隐式口袋的可药性验证));
+    A[&quot;输入: APO 蛋白结构&quot;] --&gt; B{&quot;阶段 1: AI 构象系综生成&quot;};
+    B --&gt;|&quot;构象系综 (Ensemble of PDBs)&quot;| C{&quot;阶段 2: MD 物理验证 (Gromacs)&quot;};
+    C --&gt;|&quot;MD 轨迹 + 代表性 OPEN 构象&quot;| D{&quot;阶段 3: 口袋与水网络分析&quot;};
+    D --&gt;|&quot;验证后的 OPEN 构象 (PDB)&quot;| E{&quot;阶段 4: 配体生成与验证 (复用现有)&quot;};
+    E --&gt;|&quot;活性配体&quot;| F((&quot;科学结论: 隐式口袋的可药性验证&quot;));
 </code></pre>
 <h3 id="22">2.2 任务分解与新增组件</h3>
 <table>

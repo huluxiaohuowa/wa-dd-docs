@@ -2137,11 +2137,11 @@
 <p>To realize this concept, we designed a closed-loop workflow with four core stages. The WA-DD platform will fully support this pipeline through new Worker components and existing ones.</p>
 <h3 id="21-workflow-data-flow">2.1 Workflow Data Flow</h3>
 <pre><code class="language-mermaid">graph TD
-    A[Input: APO Protein Structure] --&gt; B{Stage 1: AI Conformational Ensemble Generation};
-    B -- &quot;Conformational Ensemble (PDBs)&quot; --&gt; C{Stage 2: MD Physical Validation (Gromacs)};
-    C -- &quot;MD Trajectory + Representative OPEN Conformation&quot; --&gt; D{Stage 3: Pocket and Water Network Analysis};
-    D -- &quot;Validated OPEN Conformation (PDB)&quot; --&gt; E{Stage 4: Ligand Generation and Validation (Reuse Existing)};
-    E -- &quot;Active Ligands&quot; --&gt; F((Scientific Conclusion: Druggability Validation of Cryptic Pockets));
+    A[&quot;Input: APO Protein Structure&quot;] --&gt; B{&quot;Stage 1: AI Conformational Ensemble Generation&quot;};
+    B --&gt;|&quot;Conformational Ensemble (PDBs)&quot;| C{&quot;Stage 2: MD Physical Validation (Gromacs)&quot;};
+    C --&gt;|&quot;MD Trajectory + Representative OPEN Conformation&quot;| D{&quot;Stage 3: Pocket and Water Network Analysis&quot;};
+    D --&gt;|&quot;Validated OPEN Conformation (PDB)&quot;| E{&quot;Stage 4: Ligand Generation and Validation (Reuse Existing)&quot;};
+    E --&gt;|&quot;Active Ligands&quot;| F((&quot;Scientific Conclusion: Druggability Validation of Cryptic Pockets&quot;));
 </code></pre>
 <h3 id="22-task-decomposition-and-new-components">2.2 Task Decomposition and New Components</h3>
 <table>
