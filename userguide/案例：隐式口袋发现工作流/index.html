@@ -1795,6 +1795,67 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#5-colabfold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. ColabFold 模型权重与部署
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. ColabFold 模型权重与部署">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 模型权重下载
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-msa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 MSA 获取方式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-thor-cuda-13-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Thor (CUDA 13) Docker 构建要点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 最小验证命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2087,6 +2148,67 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#5-colabfold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. ColabFold 模型权重与部署
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. ColabFold 模型权重与部署">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 模型权重下载
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-msa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 MSA 获取方式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-thor-cuda-13-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Thor (CUDA 13) Docker 构建要点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 最小验证命令
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2121,7 +2243,7 @@
 <p><strong>如何构建一个可计算、可验证的闭环工作流，来预测、验证并利用蛋白的隐式口袋？</strong></p>
 </blockquote>
 <p>具体而言，我们探索：
-1.  <strong>构象系综生成</strong>：能否利用 AI 模型（如 AlphaFold）生成能代表蛋白"易打开"状态的构象系综（Conformational Ensemble），作为隐式口袋的候选来源？
+1.  <strong>构象系综生成</strong>：能否利用 AI 模型（基于 ColabFold，AlphaFold2 的社区优化版）生成能代表蛋白"易打开"状态的构象系综（Conformational Ensemble），作为隐式口袋的候选来源？
 2.  <strong>物理验证</strong>：能否使用分子动力学（MD）模拟，特别是增强采样技术，在物理层面验证这些候选构象是否真的能打开口袋？
 3.  <strong>配体诱导闭环</strong>：一旦口袋在物理模拟中被验证，能否在这个"打开的"构象上进行配体生成和优化，并通过 FEP 等方法量化其结合优势？</p>
 <h3 id="13">1.3 研究价值</h3>
@@ -2154,7 +2276,7 @@
 <tbody>
 <tr>
 <td style="text-align: left;"><strong>1. AI 构象系综生成</strong></td>
-<td style="text-align: left;">利用 AlphaFold 生成蛋白的多个候选构象。</td>
+<td style="text-align: left;">利用 ColabFold（AlphaFold2 社区优化版）进行 MSA 子采样，生成蛋白的多个候选构象。</td>
 <td style="text-align: left;"><strong>新增</strong>: <code>wa-dd-conformer-gen</code> (构象生成 Worker)</td>
 <td style="text-align: left;">🔄 开发中</td>
 </tr>
@@ -2204,7 +2326,7 @@
 <tr>
 <td style="text-align: left;"><strong>L1: AI 预测</strong></td>
 <td style="text-align: left;">AI 能预测出 OPEN 构象吗？</td>
-<td style="text-align: left;">AlphaFold MSA 子采样，生成 10 个候选构象</td>
+<td style="text-align: left;">ColabFold MSA 子采样，生成 10 个候选构象</td>
 <td style="text-align: left;">半天</td>
 <td style="text-align: left;">构象系综 + 与 6GJ8 的 RMSD 对比</td>
 </tr>
@@ -2240,9 +2362,9 @@
 <h4 id="l1-ai-day-3-4">L1: AI 预测（Day 3-4）</h4>
 <ul>
 <li><strong>目标</strong>：生成能代表 Switch II 区域不同状态的候选构象。</li>
-<li><strong>输入</strong>：KRAS G12C APO (PDB: 4OBE), UniRef90 数据库。</li>
+<li><strong>输入</strong>：KRAS G12C APO (PDB: 4OBE), ColabFold MSA 公共服务器。</li>
 <li><strong>步骤</strong>：<ol>
-<li>用 <code>wa-dd-conformer-gen</code> 对 4OBE 运行 AlphaFold MSA 子采样（10-50% 子采样比例），生成 10 个构象。</li>
+<li>用 <code>wa-dd-conformer-gen</code> 对 4OBE 运行 ColabFold MSA 子采样（10-50% 子采样比例），生成 10 个构象。</li>
 <li>计算每个构象与 6GJ8 Switch II 区域的 RMSD。</li>
 <li>筛选 RMSD &lt; 3.0Å 的候选构象（作为 L2 的输入）。</li>
 </ol>
@@ -2289,7 +2411,7 @@
 </ul>
 <h3 id="42">4.2 进行中</h3>
 <ul>
-<li><strong><code>wa-dd-conformer-gen</code> Worker 设计与开发</strong>：核心是集成 AlphaFold-Multimer 进行 MSA 子采样。</li>
+<li><strong><code>wa-dd-conformer-gen</code> Worker 设计与开发</strong>：核心是集成 ColabFold（AlphaFold2 社区优化版）进行 MSA 子采样和构象生成。ColabFold 基于 AlphaFold2 v2.3.2，采用开源 Apache 2.0 许可，支持 CUDA 13（Thor）的 <code>jax[cuda13]</code> 和 <code>openmm[cuda13]</code>。</li>
 </ul>
 <h3 id="43">4.3 规划中</h3>
 <ul>
@@ -2324,6 +2446,94 @@
 </tr>
 </tbody>
 </table>
+<hr />
+<h2 id="5-colabfold">5. ColabFold 模型权重与部署</h2>
+<h3 id="51">5.1 模型权重下载</h3>
+<p>ColabFold 使用与 AlphaFold2 相同的模型权重。权重文件由 DeepMind 官方维护，托管在 Google Cloud Storage。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">资源</th>
+<th style="text-align: left;">下载地址</th>
+<th style="text-align: left;">大小</th>
+<th style="text-align: left;">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>AlphaFold2 v2.3.2 参数（推荐）</strong></td>
+<td style="text-align: left;"><code>https://storage.googleapis.com/alphafold/alphafold_params_2022-12-06.tar</code></td>
+<td style="text-align: left;">~3.4GB</td>
+<td style="text-align: left;">包含 5 个模型（model_1 ~ model_5），每个约 1.7GB</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>仅 model_1 + model_2（最小安装）</strong></td>
+<td style="text-align: left;">同上，解压后只保留 model_1 和 model_2</td>
+<td style="text-align: left;">~3.4GB</td>
+<td style="text-align: left;">仅需 2 个模型即可满足 MSA 子采样需求</td>
+</tr>
+</tbody>
+</table>
+<p><strong>下载方式</strong>：</p>
+<pre><code class="language-bash"># 下载完整参数包
+wget https://storage.googleapis.com/alphafold/alphafold_params_2022-12-06.tar
+
+# 解压（包含 model_1~model_5 和 alphafold_multimer_v3 等）
+tar xf alphafold_params_2022-12-06.tar
+
+# 最小安装：只保留 model_1 和 model_2
+mkdir -p /data/models/colabfold_params
+cp alphafold_params_2022-12-06/model_1.npz /data/models/colabfold_params/
+cp alphafold_params_2022-12-06/model_2.npz /data/models/colabfold_params/
+</code></pre>
+<h3 id="52-msa">5.2 MSA 获取方式</h3>
+<p>ColabFold 支持两种 MSA 生成方式，我们选用公共服务器方式以避免 ~940GB 本地数据库：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">方式</th>
+<th style="text-align: left;">空间占用</th>
+<th style="text-align: left;">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>公共 MSA 服务器（推荐）</strong></td>
+<td style="text-align: left;">0GB</td>
+<td style="text-align: left;">通过 <code>colabfold.mmseqs.com</code> 公共服务器远程获取 MSA</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>本地 MMseqs2 数据库</strong></td>
+<td style="text-align: left;">~940GB</td>
+<td style="text-align: left;">需要下载 UniRef30 + BFD + ColabFold DB，仅适用于大规模并行</td>
+</tr>
+</tbody>
+</table>
+<h3 id="53-thor-cuda-13-docker">5.3 Thor (CUDA 13) Docker 构建要点</h3>
+<p>ColabFold 官方 Docker 镜像基于 CUDA 12，Thor (CUDA 13) 需要自行构建。关键配置：</p>
+<pre><code class="language-dockerfile"># 基础镜像（与 FEP/Unidock Thor 版一致）
+ARG COLABFOLD_THOR_BASE_IMAGE=nvcr.io/nvidia/cuda:13.0.2-runtime-ubuntu24.04
+
+# CUDA 13 支持的 JAX 和 OpenMM
+# ColabFold 官方支持 jax[cuda13] 和 openmm[cuda13]
+RUN pip install 'jax[cuda13]&gt;=0.4.0' 'openmm[cuda13]&gt;=8.2.0'
+RUN pip install 'colabfold[alphafold,openmm]&gt;=1.6.2'
+</code></pre>
+<p><strong>磁盘占用</strong>：镜像 ~15GB + 模型权重 ~3.4GB = <strong>~18.4GB</strong></p>
+<h3 id="54">5.4 最小验证命令</h3>
+<pre><code class="language-bash"># KRAS G12C 序列
+echo &quot;&gt;KRAS_G12C
+MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQ
+YMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAARTVESRQAQDLARSYGIP
+YIETSAKTRQGVEDAFYTLVREIRQH&quot; &gt; /tmp/kras_g12c.fasta
+
+# ColabFold 推理（MSA 通过公共服务器，模型权重挂载自 /data/models/colabfold_params）
+colabfold_batch /tmp/kras_g12c.fasta /tmp/kras_output \
+  --model-type alphafold2_ptm \
+  --num-models 2 \
+  --amber \
+  --num-recycle 3
+</code></pre>
 
 
 

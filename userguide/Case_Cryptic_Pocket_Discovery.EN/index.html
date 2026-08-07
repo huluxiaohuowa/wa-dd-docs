@@ -873,6 +873,67 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#5-colabfold-model-weights-and-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. ColabFold Model Weights and Deployment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. ColabFold Model Weights and Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-model-weights-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Model Weights Download
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-msa-acquisition-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 MSA Acquisition Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-thor-cuda-13-docker-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Thor (CUDA 13) Docker Build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-minimal-verification-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Minimal Verification Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2089,6 +2150,67 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#5-colabfold-model-weights-and-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. ColabFold Model Weights and Deployment
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. ColabFold Model Weights and Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-model-weights-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Model Weights Download
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-msa-acquisition-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 MSA Acquisition Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-thor-cuda-13-docker-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Thor (CUDA 13) Docker Build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-minimal-verification-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Minimal Verification Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2123,7 +2245,7 @@
 <p><strong>How to build a computational and verifiable closed-loop workflow to predict, validate, and exploit cryptic protein pockets?</strong></p>
 </blockquote>
 <p>Specifically, we explore:
-1. <strong>Conformational Ensemble Generation</strong>: Can AI models (like AlphaFold) generate ensembles of protein conformations that represent "openable" states, serving as candidates for cryptic pockets?
+1. <strong>Conformational Ensemble Generation</strong>: Can AI models (based on ColabFold, a community-optimized version of AlphaFold2) generate ensembles of protein conformations that represent "openable" states, serving as candidates for cryptic pockets?
 2. <strong>Physical Validation</strong>: Can molecular dynamics (MD) simulations, particularly enhanced sampling techniques, physically verify whether these candidate conformations can genuinely open pockets?
 3. <strong>Ligand-Induced Closed Loop</strong>: Once a pocket is physically validated, can we generate and optimize ligands on this "open" conformation and quantify their binding advantage using methods like FEP?</p>
 <h3 id="13-research-value">1.3 Research Value</h3>
@@ -2156,7 +2278,7 @@
 <tbody>
 <tr>
 <td style="text-align: left;"><strong>1. AI Conformational Ensemble</strong></td>
-<td style="text-align: left;">Generate multiple candidate protein conformations using AlphaFold.</td>
+<td style="text-align: left;">Generate multiple candidate protein conformations using ColabFold (community-optimized AlphaFold2) via MSA subsampling.</td>
 <td style="text-align: left;"><strong>New</strong>: <code>wa-dd-conformer-gen</code> (Conformer Generation Worker)</td>
 <td style="text-align: left;">🔄 In Development</td>
 </tr>
@@ -2206,7 +2328,7 @@
 <tr>
 <td style="text-align: left;"><strong>L1: AI Prediction</strong></td>
 <td style="text-align: left;">Can AI predict the OPEN conformation?</td>
-<td style="text-align: left;">AlphaFold MSA subsampling, generate 10 candidate conformations</td>
+<td style="text-align: left;">ColabFold MSA subsampling, generate 10 candidate conformations</td>
 <td style="text-align: left;">Half a day</td>
 <td style="text-align: left;">Conformational ensemble + RMSD comparison with 6GJ8</td>
 </tr>
@@ -2242,9 +2364,9 @@
 <h4 id="l1-ai-prediction-day-3-4">L1: AI Prediction (Day 3-4)</h4>
 <ul>
 <li><strong>Goal</strong>: Generate candidate conformations representing different states of the Switch II region.</li>
-<li><strong>Input</strong>: KRAS G12C APO (PDB: 4OBE), UniRef90 database.</li>
+<li><strong>Input</strong>: KRAS G12C APO (PDB: 4OBE), ColabFold MSA public server.</li>
 <li><strong>Steps</strong>:<ol>
-<li>Run AlphaFold MSA subsampling (10-50% ratio) on 4OBE with <code>wa-dd-conformer-gen</code>, generating 10 conformations.</li>
+<li>Run ColabFold MSA subsampling (10-50% ratio) on 4OBE with <code>wa-dd-conformer-gen</code>, generating 10 conformations.</li>
 <li>Calculate RMSD between each conformation and the Switch II region of 6GJ8.</li>
 <li>Screen candidate conformations with RMSD &lt; 3.0Å (as input for L2).</li>
 </ol>
@@ -2291,7 +2413,7 @@
 </ul>
 <h3 id="42-in-progress">4.2 In Progress</h3>
 <ul>
-<li><strong><code>wa-dd-conformer-gen</code> Worker Design and Development</strong>: Core integration of AlphaFold-Multimer for MSA subsampling.</li>
+<li><strong><code>wa-dd-conformer-gen</code> Worker Design and Development</strong>: Core integration of ColabFold (community-optimized AlphaFold2 v2.3.2) for MSA subsampling and conformation generation. ColabFold uses the open-source Apache 2.0 license and supports CUDA 13 (Thor) via <code>jax[cuda13]</code> and <code>openmm[cuda13]</code>.</li>
 </ul>
 <h3 id="43-planned">4.3 Planned</h3>
 <ul>
@@ -2326,6 +2448,94 @@
 </tr>
 </tbody>
 </table>
+<hr />
+<h2 id="5-colabfold-model-weights-and-deployment">5. ColabFold Model Weights and Deployment</h2>
+<h3 id="51-model-weights-download">5.1 Model Weights Download</h3>
+<p>ColabFold uses the same model weights as AlphaFold2. The weight files are maintained by DeepMind and hosted on Google Cloud Storage.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Resource</th>
+<th style="text-align: left;">Download URL</th>
+<th style="text-align: left;">Size</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>AlphaFold2 v2.3.2 parameters (recommended)</strong></td>
+<td style="text-align: left;"><code>https://storage.googleapis.com/alphafold/alphafold_params_2022-12-06.tar</code></td>
+<td style="text-align: left;">~3.4GB</td>
+<td style="text-align: left;">Contains 5 models (model_1 ~ model_5), each ~1.7GB</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>model_1 + model_2 only (minimal install)</strong></td>
+<td style="text-align: left;">Same as above, keep only model_1 and model_2 after extraction</td>
+<td style="text-align: left;">~3.4GB</td>
+<td style="text-align: left;">Only 2 models needed for MSA subsampling</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Download commands</strong>:</p>
+<pre><code class="language-bash"># Download the full parameter package
+wget https://storage.googleapis.com/alphafold/alphafold_params_2022-12-06.tar
+
+# Extract (includes model_1~model_5 and alphafold_multimer_v3, etc.)
+tar xf alphafold_params_2022-12-06.tar
+
+# Minimal install: keep only model_1 and model_2
+mkdir -p /data/models/colabfold_params
+cp alphafold_params_2022-12-06/model_1.npz /data/models/colabfold_params/
+cp alphafold_params_2022-12-06/model_2.npz /data/models/colabfold_params/
+</code></pre>
+<h3 id="52-msa-acquisition-methods">5.2 MSA Acquisition Methods</h3>
+<p>ColabFold supports two MSA generation methods. We use the public server approach to avoid the ~940GB local database:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Space</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Public MSA server (recommended)</strong></td>
+<td style="text-align: left;">0GB</td>
+<td style="text-align: left;">Remote MSA retrieval via <code>colabfold.mmseqs.com</code> public server</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Local MMseqs2 database</strong></td>
+<td style="text-align: left;">~940GB</td>
+<td style="text-align: left;">Requires downloading UniRef30 + BFD + ColabFold DB, only for large-scale parallel</td>
+</tr>
+</tbody>
+</table>
+<h3 id="53-thor-cuda-13-docker-build">5.3 Thor (CUDA 13) Docker Build</h3>
+<p>The official ColabFold Docker image is based on CUDA 12. Thor (CUDA 13) requires a custom build. Key configuration:</p>
+<pre><code class="language-dockerfile"># Base image (consistent with FEP/Unidock Thor versions)
+ARG COLABFOLD_THOR_BASE_IMAGE=nvcr.io/nvidia/cuda:13.0.2-runtime-ubuntu24.04
+
+# JAX and OpenMM with CUDA 13 support
+# ColabFold officially supports jax[cuda13] and openmm[cuda13]
+RUN pip install 'jax[cuda13]&gt;=0.4.0' 'openmm[cuda13]&gt;=8.2.0'
+RUN pip install 'colabfold[alphafold,openmm]&gt;=1.6.2'
+</code></pre>
+<p><strong>Disk usage</strong>: Image ~15GB + model weights ~3.4GB = <strong>~18.4GB</strong></p>
+<h3 id="54-minimal-verification-command">5.4 Minimal Verification Command</h3>
+<pre><code class="language-bash"># KRAS G12C sequence
+echo &quot;&gt;KRAS_G12C
+MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQ
+YMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAARTVESRQAQDLARSYGIP
+YIETSAKTRQGVEDAFYTLVREIRQH&quot; &gt; /tmp/kras_g12c.fasta
+
+# ColabFold inference (MSA via public server, model weights mounted from /data/models/colabfold_params)
+colabfold_batch /tmp/kras_g12c.fasta /tmp/kras_output \
+  --model-type alphafold2_ptm \
+  --num-models 2 \
+  --amber \
+  --num-recycle 3
+</code></pre>
 
 
 
