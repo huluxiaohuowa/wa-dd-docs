@@ -741,6 +741,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#gromacs-md-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GROMACS / MD automation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#model-zoo-automation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -965,6 +976,62 @@
     
   
     Fep analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gromacs-md.EN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    gromacs md.EN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gromacs-md/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gromacs md
   
 
     
@@ -1689,6 +1756,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#gromacs-md-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GROMACS / MD automation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#model-zoo-automation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1762,6 +1840,14 @@ POST /api/v1/docking/unidock
 GET /api/v1/jobs/{job_id}/events
 </code></pre>
 <p><code>/api/v1/docking/compatibility</code> is the gate for automated workflows. Submit docking only when <code>compatible=true</code>; otherwise follow <code>errors</code>, <code>warnings</code>, and <code>recommendations</code>.</p>
+<h2 id="gromacs-md-automation">GROMACS / MD automation</h2>
+<pre><code class="language-http">GET /api/v1/md/workflows/templates
+POST /api/v1/md/workflows/validate
+POST /api/v1/md/jobs
+POST /api/v1/md/jobs/resume
+GET /api/v1/jobs/{job_id}/events
+</code></pre>
+<p><code>/api/v1/md/workflows/validate</code> is the preflight gate for MD jobs: it returns the step inspector, missing inputs, command preview, and output groups. Before a real run, require <code>ok=true</code>. <code>/api/v1/md/jobs/resume</code> creates a continuation job from <code>.cpt</code> and <code>.tpr</code> files in an existing <code>md_result</code> asset, for extending production or recovering an interrupted simulation.</p>
 <h2 id="model-zoo-automation">Model Zoo automation</h2>
 <pre><code class="language-http">GET /api/v1/model-zoo/catalog
 GET /api/v1/model-zoo/models/{model_id}

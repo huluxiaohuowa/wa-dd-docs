@@ -769,6 +769,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#gromacs-md" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GROMACS / MD 自动化
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#model-zoo" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -965,6 +976,62 @@
     
   
     Fep analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gromacs-md.EN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    gromacs md.EN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gromacs-md/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gromacs md
   
 
     
@@ -1689,6 +1756,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#gromacs-md" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GROMACS / MD 自动化
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#model-zoo" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1762,6 +1840,14 @@ POST /api/v1/docking/unidock
 GET /api/v1/jobs/{job_id}/events
 </code></pre>
 <p><code>/api/v1/docking/compatibility</code> 是自动化工作流的前置检查。只有 <code>compatible=true</code> 时才提交对接任务；否则按 <code>errors</code>、<code>warnings</code> 和 <code>recommendations</code> 补齐输入。</p>
+<h2 id="gromacs-md">GROMACS / MD 自动化</h2>
+<pre><code class="language-http">GET /api/v1/md/workflows/templates
+POST /api/v1/md/workflows/validate
+POST /api/v1/md/jobs
+POST /api/v1/md/jobs/resume
+GET /api/v1/jobs/{job_id}/events
+</code></pre>
+<p><code>/api/v1/md/workflows/validate</code> 是 MD 任务的前置检查：它返回步骤检查器、缺失输入、命令预览和输出分组。真实运行前应确保 <code>ok=true</code>。<code>/api/v1/md/jobs/resume</code> 从已有 <code>md_result</code> 资产中的 <code>.cpt</code> 和 <code>.tpr</code> 创建继续运行任务，用于延长 production 或恢复中断模拟。</p>
 <h2 id="model-zoo">Model Zoo 自动化</h2>
 <pre><code class="language-http">GET /api/v1/model-zoo/catalog
 GET /api/v1/model-zoo/models/{model_id}
