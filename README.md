@@ -47,6 +47,7 @@ WA-DD 是一个个人独立开发的计算机辅助药物设计（CADD）工作�
 - **对接与相互作用分析**：使用 Uni-Dock GPU（Vina/Vinardo 评分）提交对接任务；每组任务输出一个合并 SDF pose library 和报告。相互作用分析可从对接、生成或 FEP 输出中多选构象，检查几何接触、导出表格/SDF 或生成新资产。
 - **分子生成**：PocketXMol 支持口袋 de novo 生成和 fragment growing；结果保存为可复用的 `prepared_ligand` 或 `prepared_ligand_library`。`scaffold hopping` 与 `linker design` 需要原子锚点选择器，当前未开放。
 - **FEP / RBFE 生产计算**：基于 OpenFE + OpenMM（CUDA）执行真实相对结合自由能计算。支持 star 拓扑网络、Lomap 原子映射、dry-run 规划预览和完整生产模拟。每个 edge 输出 ΔΔG (kcal/mol)、误差和轨迹文件（DCD），结果汇总为 `fep_result` edge 表和带 FEP 字段的 `fep_output` SDF。支持从对接姿势库或准备好的配体 SDF 直接启动。
+- **GROMACS / MD worker**：基于 GROMACS + CUDA 的分子动力学任务入口。支持 EM、NVT、NPT、生产 MD、aMD、Metadynamics、Umbrella、结合分析、隐式口袋发现和轨迹后处理任务类型；页面提供结构化核心参数、完整 `.mdp`/命令/文件高级编辑、GPU 可见卡控制和轨迹/能量/分析/结构/参数/日志输出分组。AMD 镜像默认 CUDA 12.8，Thor 镜像默认 CUDA 13，Dockerfile 每次默认从 upstream 最新 GROMACS main 构建，`GROMACS_CUDA_TARGET_SM` 可覆盖一次编译的 GPU 架构集合。
 - **Model Zoo**：集中管理项目模型，置顶 PocketXMol 和 DeepTernary，并支持自选 ModelScope / HuggingFace 仓库下载。模型路径采用 `/data/export/ms|hf/.../current` 兼容结构，便于后续与 VOS 中的 model-hub 对接。
 - **TPD / PROTAC**：DeepTernary 任务以 POI、E3、degrader/MGD 和 PROTAC 辅助 PDB 资产为输入，输出 `ternary_complex` 结构假设。binary ligand/mask PDB 可从蛋白页共晶配体生成 TPD PDB 资产，或在配体页上传 PDB 后选择。
 - **Agent / Pi**：每位用户拥有独立会话、上下文和加密模型配置；受控工具仅能访问该用户有权限的项目、资产和任务。
@@ -146,9 +147,9 @@ cd deploy
 ./deploy.sh --profile thor --root /absolute/path/to/wa-dd-runtime --component molecule-gen
 ```
 
-可用组件为 `web`、`model-zoo`、`host-metrics`、`protein-prep`、`ligand-prep`、`unidock`、`molecule-gen`、`deepternary`、`pi-agent`、`fep` 和 `all`。单组件模式只更新该组件对应的 `images.env` 条目，并使用 Compose 的 `--no-deps --force-recreate` 替换该服务；全量模式仍检测全部镜像并执行完整服务组更新。
+可用组件为 `web`、`model-zoo`、`host-metrics`、`protein-prep`、`ligand-prep`、`unidock`、`molecule-gen`、`deepternary`、`pi-agent`、`fep`、`gromacs` 和 `all`。单组件模式只更新该组件对应的 `images.env` 条目，并使用 Compose 的 `--no-deps --force-recreate` 替换该服务；全量模式仍检测全部镜像并执行完整服务组更新。
 
-如需发布新镜像，请在明确指定的构建环境运行 `./build_image.sh --profile amd|thor --component web|model-zoo|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|deepternary|pi-agent|fep|all`。标签由组件是否使用 GPU 自动决定并推送到 `huluxiaohuowa`；`model-zoo` 是 CPU 组件，使用同一个 `Dockerfile.model-zoo`，只按 amd/arm 平台区分标签；Pi worker 是 CPU 组件，DeepTernary 是 TPD / PROTAC GPU 组件，二者都随 `all` 构建；FEP 是大 GPU 镜像，仍需显式指定 `--component fep` 构建。下次 `deploy.sh` 会重新发现并采用匹配的最新 tag。由于当前 Compose 包含 FEP 和 DeepTernary worker，首次部署前 registry 也必须已有对应平台的 FEP/DeepTernary 镜像，否则部署脚本会明确失败；thor DeepTernary 暂无 tag 时，`deploy.sh --check` 会先写入保留的完整镜像名，便于后续在 tc81 构建补齐。Pi 复用 `WA_DD_DATA_HOST_DIR` 下的 `pi/` 目录；首次启动会自动生成并持久化配置加密主密钥，详见 [Agent / Pi](userguide/pi-agent.md)。
+如需发布新镜像，请在明确指定的构建环境运行 `./build_image.sh --profile amd|thor --component web|model-zoo|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|deepternary|pi-agent|fep|gromacs|all`。标签由组件是否使用 GPU 自动决定并推送到 `huluxiaohuowa`；`model-zoo` 是 CPU 组件，使用同一个 `Dockerfile.model-zoo`，只按 amd/arm 平台区分标签；Pi worker 是 CPU 组件，DeepTernary 是 TPD / PROTAC GPU 组件，二者都随 `all` 构建；FEP 和 GROMACS 是大 GPU 镜像，仍需显式指定 `--component fep` 或 `--component gromacs` 构建。GROMACS Dockerfile 默认每次从 upstream 最新 main 构建；AMD 默认 `GROMACS_CUDA_TARGET_SM=60;61;70;75;80;86;89;90;100;120`，Thor 默认 `87;110;120`，可在目标 CUDA 镜像不支持某个 SM 时显式覆盖。下次 `deploy.sh` 会重新发现并采用匹配的最新 tag。由于当前 Compose 包含 FEP、GROMACS 和 DeepTernary worker，首次部署前 registry 也必须已有对应平台镜像，否则部署脚本会明确失败；thor DeepTernary 暂无 tag 时，`deploy.sh --check` 会先写入保留的完整镜像名，便于后续在 tc81 构建补齐。Pi 复用 `WA_DD_DATA_HOST_DIR` 下的 `pi/` 目录；首次启动会自动生成并持久化配置加密主密钥，详见 [Agent / Pi](userguide/pi-agent.md)。
 
 ### 快速启动
 
@@ -190,6 +191,7 @@ cd deploy
 | Uni-Dock | GPU 对接引擎（Vina/Vinardo） | NVIDIA GPU |
 | Molecule gen | PocketXMol 分子生成 | NVIDIA GPU |
 | FEP | OpenFE + OpenMM 自由能计算 | NVIDIA GPU（AMD 或 Thor） |
+| GROMACS | GROMACS + CUDA 分子动力学、轨迹分析和 checkpoint resume | NVIDIA GPU（AMD 或 Thor） |
 
 ### 模型缓存
 
@@ -261,6 +263,7 @@ login
 - [分子生成](userguide/molecule-generation.md)
 - [Model Zoo](userguide/model-zoo.md)
 - [FEP 与分析](userguide/fep-analysis.md)
+- [GROMACS / MD](userguide/gromacs-md.md)
 - [相互作用分析](userguide/interaction-analysis.md)
 - [TPD / PROTAC](userguide/tpd-protac.md)
 - [TPD / PROTAC 5T35 案例](userguide/tpd-protac-5t35-case.md)

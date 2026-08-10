@@ -31,6 +31,18 @@ GET /api/v1/jobs/{job_id}/events
 
 `/api/v1/docking/compatibility` 是自动化工作流的前置检查。只有 `compatible=true` 时才提交对接任务；否则按 `errors`、`warnings` 和 `recommendations` 补齐输入。
 
+## GROMACS / MD 自动化
+
+```http
+GET /api/v1/md/workflows/templates
+POST /api/v1/md/workflows/validate
+POST /api/v1/md/jobs
+POST /api/v1/md/jobs/resume
+GET /api/v1/jobs/{job_id}/events
+```
+
+`/api/v1/md/workflows/validate` 是 MD 任务的前置检查：它返回步骤检查器、缺失输入、命令预览和输出分组。真实运行前应确保 `ok=true`。`/api/v1/md/jobs/resume` 从已有 `md_result` 资产中的 `.cpt` 和 `.tpr` 创建继续运行任务，用于延长 production 或恢复中断模拟。
+
 ## Model Zoo 自动化
 
 ```http

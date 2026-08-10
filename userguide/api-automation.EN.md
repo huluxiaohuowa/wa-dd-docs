@@ -31,6 +31,18 @@ GET /api/v1/jobs/{job_id}/events
 
 `/api/v1/docking/compatibility` is the gate for automated workflows. Submit docking only when `compatible=true`; otherwise follow `errors`, `warnings`, and `recommendations`.
 
+## GROMACS / MD automation
+
+```http
+GET /api/v1/md/workflows/templates
+POST /api/v1/md/workflows/validate
+POST /api/v1/md/jobs
+POST /api/v1/md/jobs/resume
+GET /api/v1/jobs/{job_id}/events
+```
+
+`/api/v1/md/workflows/validate` is the preflight gate for MD jobs: it returns the step inspector, missing inputs, command preview, and output groups. Before a real run, require `ok=true`. `/api/v1/md/jobs/resume` creates a continuation job from `.cpt` and `.tpr` files in an existing `md_result` asset, for extending production or recovering an interrupted simulation.
+
 ## Model Zoo automation
 
 ```http
