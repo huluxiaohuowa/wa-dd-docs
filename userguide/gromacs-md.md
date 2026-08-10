@@ -19,7 +19,7 @@ GROMACS / MD 页面用于提交 CUDA 加速的分子动力学任务。当前支�
 
 - 受体-only MD：选择蛋白准备或上传得到的 `.pdb/.gro` 资产即可，页面会自动预览 `pdb2gmx → editconf → solvate → genion → grompp → mdrun`。
 - 已参数化复合物 MD：选择复合物结构和对应 `.top/.itp/.prm` 资产，系统会直接生成 `grompp/mdrun`。
-- 未参数化配体：如果只选择 `.sdf/.mol2` 等配体结构而没有 ligand topology，真实运行会被拦截。需要先生成或上传配体拓扑，再作为同一任务输入使用。
+- 未参数化配体：选择 `.sdf/.mol2` 等配体资产时，默认开启“配体资产自动生成 GMX 拓扑包”。worker 会用 OpenBabel/ACPYPE 生成 `.itp/.gro` 并登记到同一个 MD 输出资产；复合物生产 MD 仍需要选择匹配的复合物坐标和 topology。
 - 轨迹后处理：选择 `.xtc/.trr`，最好同时选择对应 `.tpr` 和 `.edr`，页面会给出 RMSD/RMSF/能量等分析命令预览。
 
 ## 高级参数
@@ -43,4 +43,4 @@ GROMACS / MD 页面用于提交 CUDA 加速的分子动力学任务。当前支�
 - 参数：`.mdp`、`.top`、`.itp`、`.ndx`、`.tpr`
 - 日志：`.log`、`.txt`
 
-`.xvg`、`.csv`、`.json` 和日志文件可以在页面中预览；`.xvg` 会显示轻量折线图。
+`.xvg`、`.csv`、`.json` 和日志文件可以在页面中预览；`.xvg` 会显示轻量折线图。有 `.gro/.pdb/.cif` 代表结构时，输出详情会直接显示 3D 结构预览。`gromacs_system_preview.json` 保存盒子、溶剂、离子和配体拓扑准备摘要。
