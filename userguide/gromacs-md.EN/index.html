@@ -943,10 +943,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#recommended-workflow" class="md-nav__link">
+  <a href="#quick-tutorial-short-md-result-rendering-loop" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recommended workflow
+        Quick Tutorial: Short MD Result Rendering Loop
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gpu-observation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPU Observation
       
     </span>
   </a>
@@ -957,29 +968,7 @@
   <a href="#starting-from-ligand-receptor-assets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Starting from ligand / receptor assets
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#advanced-parameters" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Advanced parameters
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#checkpoint-continuation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Checkpoint continuation
+        Starting From Ligand / Receptor Assets
       
     </span>
   </a>
@@ -1723,10 +1712,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#recommended-workflow" class="md-nav__link">
+  <a href="#quick-tutorial-short-md-result-rendering-loop" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recommended workflow
+        Quick Tutorial: Short MD Result Rendering Loop
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gpu-observation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPU Observation
       
     </span>
   </a>
@@ -1737,29 +1737,7 @@
   <a href="#starting-from-ligand-receptor-assets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Starting from ligand / receptor assets
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#advanced-parameters" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Advanced parameters
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#checkpoint-continuation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Checkpoint continuation
+        Starting From Ligand / Receptor Assets
       
     </span>
   </a>
@@ -1799,32 +1777,47 @@
 </blockquote>
 <h1 id="gromacs-md">GROMACS / MD</h1>
 <h2 id="role">Role</h2>
-<p>The GROMACS / MD page submits CUDA-accelerated molecular dynamics jobs. It currently supports energy minimization, NVT, NPT, production MD, aMD, Metadynamics, Umbrella, binding-stability analysis, cryptic-pocket discovery, and trajectory post-processing entrypoints.</p>
-<h2 id="recommended-workflow">Recommended workflow</h2>
+<p>The GROMACS / MD page submits CUDA-accelerated molecular dynamics jobs and stores the full input parameters, command stream, logs, trajectory structures, and paper-style analysis figures as WA-DD task assets. It supports energy minimization, NVT, NPT, production MD, aMD, Metadynamics, Umbrella, binding-stability analysis, cryptic-pocket discovery, trajectory post-processing, and custom command streams.</p>
+<h2 id="quick-tutorial-short-md-result-rendering-loop">Quick Tutorial: Short MD Result Rendering Loop</h2>
+<p>The example below was completed on server6 in the <code>Example</code> project. The task ID was <code>677e3a02</code>, and the output asset was <code>ba4fc848</code>. This short flow validates UI interaction, worker execution, output registration, and result rendering. It generates representative structures and common curves, but it is not a replacement for production scientific MD.</p>
+<p><img alt="Input assets and protocol parameters" src="../images/gromacs-short-md-01-input-params-boxed.png" /></p>
 <ol>
-<li>Select an existing receptor/protein structure asset in the project. With only <code>.pdb/.gro</code>, the default "auto prepare GROMACS system" option generates topology, box, solvent, and ion steps; with an existing <code>.tpr</code> or <code>.gro/.pdb + .top</code>, WA-DD reuses the prepared system directly.</li>
-<li>Open <code>GROMACS / MD</code> and select input assets.</li>
-<li>Choose a workflow template or protocol, then set force field, water model, integrator, time, temperature, pressure, output frequency, and GPU.</li>
-<li>Confirm that the right-side step inspector says the workflow validation passed. If it has errors, fix inputs or switch to dry-run.</li>
-<li>Submit the job and follow events and output assets from the task center.</li>
-<li>Open the MD output asset and inspect grouped trajectory, energy, analysis, structure, checkpoint, parameter, and log files.</li>
+<li>Open <code>GROMACS / MD</code>.</li>
+<li>In <code>Structure / system assets</code>, check one or more input assets. Each asset has its own checkbox, so users do not need system multi-select shortcuts.</li>
+<li>Set <code>Protocol</code> to <code>Custom commands</code>.</li>
+<li>Clear <code>dry-run</code> so the worker actually executes the command stream.</li>
+<li>Set GPU mode to automatic or single GPU. For a single GPU, enter <code>0</code>, <code>1</code>, or <code>0,1</code> in <code>GPU ID</code>.</li>
 </ol>
-<h2 id="starting-from-ligand-receptor-assets">Starting from ligand / receptor assets</h2>
+<p><img alt="Advanced JSON parameters" src="../images/gromacs-short-md-02-advanced-json-boxed.png" /></p>
+<p>The advanced editor accepts three JSON fields:</p>
 <ul>
-<li>Receptor-only MD: select a <code>.pdb/.gro</code> asset from protein preparation or upload. The page previews <code>pdb2gmx -&gt; editconf -&gt; solvate -&gt; genion -&gt; grompp -&gt; mdrun</code> automatically.</li>
-<li>Parameterized complex MD: select the complex structure and matching <code>.top/.itp/.prm</code> assets. WA-DD then generates the <code>grompp/mdrun</code> path directly.</li>
-<li>Unparameterized ligand: selecting only <code>.sdf/.mol2</code> ligand structures without ligand topology blocks real execution. Generate or upload ligand topology first, then include it in the same MD job.</li>
+<li><code>.mdp</code> files JSON: keys are filenames, values are complete <code>.mdp</code> text. This controls integrator, steps, output frequency, temperature/pressure coupling, and other GROMACS parameters.</li>
+<li>Command JSON: commands run one by one when dry-run is off. Each item can be a string or <code>{ "name": "...", "command": "..." }</code>.</li>
+<li>Extra text files JSON: writes helper files under <code>custom/</code>, such as PLUMED files, index notes, selection scripts, or custom configs.</li>
+</ul>
+<p>Click <code>Example: short flow + curves</code> to insert a ready-to-run command stream. Invalid input shows a validation message below the field; valid input shows <code>JSON 格式正确。</code></p>
+<p><img alt="Completed task and output files" src="../images/gromacs-short-md-03-task-result-boxed.png" /></p>
+<p>After submission, the task card shows <code>queued / running / completed</code> events. Once completed, click <code>View MD output</code> in the current task card. The result expands directly under that task, not at the bottom of the page.</p>
+<p>This validation task produced 29 files, including <code>gromacs_plan.json</code>, <code>gromacs_results.json</code>, <code>gromacs_summary.csv</code>, <code>gromacs_system_preview.json</code>, representative structure frames, and <code>.xvg/.csv</code> analysis curves.</p>
+<p><img alt="3D trajectory and common curves" src="../images/gromacs-short-md-04-3d-curves-boxed.png" /></p>
+<p>The result page follows a paper-reading order:</p>
+<ul>
+<li>3D trajectory player: loads <code>.pdb/.gro/.cif</code> representative structures and supports rotation, zoom, frame switching, and playback.</li>
+<li>Common paper figures: automatically detects and renders <code>rmsd.xvg</code>, <code>rmsf.xvg</code>, <code>gyrate.xvg</code>, <code>energy.xvg</code>, <code>hbond.xvg</code>, and related files.</li>
+<li>Each curve offers raw data download and source preview.</li>
+</ul>
+<p><img alt="Advanced analysis figures" src="../images/gromacs-short-md-05-advanced-analysis-boxed.png" /></p>
+<p>The advanced analysis section automatically detects PCA/FEL, SASA, pocket volume, ligand distance, contact maps, and cluster maps. This example rendered <code>pca.xvg</code>, <code>sasa.xvg</code>, <code>pocket_volume.csv</code>, and <code>ligand_distance.xvg</code>.</p>
+<h2 id="gpu-observation">GPU Observation</h2>
+<p>During this short command-stream task, the server6 GROMACS worker container was <code>wa-dd-wa-dd-gromacs-worker-amd-1</code>, using <code>wa-dd-gromacs:amd_cu128_20260810</code>. <code>nvidia-smi</code> sampling showed GPU 0/1 visible, while utilization stayed at 0% and memory remained at the baseline, about <code>496 MiB / 18 MiB</code>.</p>
+<p>That is expected for this tutorial job: it validates UI and rendering, calls <code>gmx --version</code>, and writes short curves/representative structures. It does not run a long <code>gmx mdrun -nb gpu -pme gpu -bonded gpu -update gpu</code> workload. A production MD or benchmark run should show clear CUDA load in worker logs and GPU sampling.</p>
+<h2 id="starting-from-ligand-receptor-assets">Starting From Ligand / Receptor Assets</h2>
+<ul>
+<li>Receptor-only MD: select a <code>.pdb/.gro</code> asset from protein preparation or upload. The default auto-preparation option generates topology, box, solvent, and ions.</li>
+<li>Parameterized complex MD: select the complex structure and matching <code>.top/.itp/.prm</code> assets. WA-DD then builds the <code>grompp/mdrun</code> path directly.</li>
+<li>Unparameterized ligand: selecting <code>.sdf/.mol2</code> ligand assets keeps automatic ligand topology enabled by default. The worker uses OpenBabel/ACPYPE to generate <code>.itp/.gro</code> and registers them into the same MD output asset.</li>
 <li>Trajectory analysis: select <code>.xtc/.trr</code>, preferably with the matching <code>.tpr</code> and <code>.edr</code>; the page previews RMSD/RMSF/energy analysis commands.</li>
 </ul>
-<h2 id="advanced-parameters">Advanced parameters</h2>
-<ul>
-<li><code>.mdp</code> files JSON: writes one or more MDP files.</li>
-<li>Command JSON: executes custom commands one by one for non-dry-run custom flows.</li>
-<li>Extra text files JSON: writes PLUMED, index, or helper text configs.</li>
-<li>Custom workflow JSON: stores step configuration for parameter-package and command-preview auditing.</li>
-</ul>
-<h2 id="checkpoint-continuation">Checkpoint continuation</h2>
-<p>If a completed MD output asset contains both <code>.cpt</code> and <code>.tpr</code>, its output detail shows "Resume from checkpoint / extend production". Enter an extension time and WA-DD creates a new <code>md_production</code> job using <code>gmx mdrun -cpi ... -append</code>.</p>
 <h2 id="outputs">Outputs</h2>
 <ul>
 <li>Trajectory: <code>.xtc</code>, <code>.trr</code></li>
@@ -1835,7 +1828,7 @@
 <li>Parameters: <code>.mdp</code>, <code>.top</code>, <code>.itp</code>, <code>.ndx</code>, <code>.tpr</code></li>
 <li>Logs: <code>.log</code>, <code>.txt</code></li>
 </ul>
-<p><code>.xvg</code>, <code>.csv</code>, <code>.json</code>, and log files can be previewed in the page; <code>.xvg</code> files render a lightweight line chart.</p>
+<p><code>.xvg</code>, <code>.csv</code>, <code>.json</code>, and log files can be previewed in the page. <code>.xvg/.csv</code> files render lightweight curves. When representative <code>.gro/.pdb/.cif</code> structures exist, the output detail opens an interactive 3D preview.</p>
 
 
 
