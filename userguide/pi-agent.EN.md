@@ -8,7 +8,9 @@ The Agent page supports personal CADD sessions powered by either Pi Agent Core o
 
 On the left side of the page you can create, rename, or delete personal sessions, and open model configuration; the conversation on the right combines the proteins, ligands, pockets, and task results in the current project, asks for necessary inputs as needed, and then calls the allowed tools. Tool permissions match the current user and cannot access other users' projects or assets.
 
-The first time you open the page, you will be asked to fill in the OpenAI-compatible model endpoint, model name, and API Key for the current account. Each user's API Key is encrypted and stored independently, and the page never echoes it back.
+The first time you open the page, you will be asked to fill in the model endpoint, model name, and API Key for the current account. Each user's API Key is encrypted and stored independently, and the page never echoes it back. You may optionally provide one Sciverse Key; the same key is used for Sciverse and DianShi and is decrypted only while the current user's Agent invokes those tools.
+
+With Sciverse configured, the Agent can retrieve citable literature evidence and use DianShi substance, reaction, similarity, and reference tools. Literature evidence is shown as title, snippet, page, and `doc_id` cards rather than raw JSON. SeqStudio currently exposes online/local workflows only and has no public HTTP API, so its key is not represented as a callable integration.
 
 Pi and Prime only expose the controlled `wa_dd_api` tool: it reads projects, assets, and tasks within the current user's permissions, and submits allowed preparation, docking, or FEP API requests. Prime's built-in IPython and shell tools are disabled, and the Prime worker has no host directory, Docker socket, or other users' tokens.
 
