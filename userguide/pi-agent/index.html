@@ -1651,6 +1651,7 @@
 <h1 id="agent-pi-prime">Agent 工作台（Pi / Prime）</h1>
 <p>Agent 页面支持 Pi Agent Core 与 Prime Agent 两种个人 CADD 运行时。每个 WA-DD 用户只能看到自己的会话、上下文和模型配置；两个运行时共享同一份加密模型配置。</p>
 <p><img alt="Agent / Pi 页面：左侧管理会话与模型配置，右侧通过对话协助执行当前项目中的 CADD 工作流" src="../images/agent-pi-overview.jpg" /></p>
+<p><img alt="Agent 科研工作台：Pi / Prime 对话位于中间，Sciverse 文献证据在右侧独立工作区滚动查看" src="../images/agent-research-workbench.png" /></p>
 <p>页面左侧可新建、重命名或删除个人会话，并打开模型配置；右侧对话会结合当前项目中的蛋白、配体、口袋和任务结果，按需询问必要输入后调用允许的工具。工具权限与当前用户一致，不能访问其他用户的项目或资产。</p>
 <p>首次打开页面会要求填写当前账户的模型地址、模型名和 API Key。每个用户的 API Key 各自加密保存，页面不会回显它；之后修改任意一项时，留空的密钥表示保持原值，绝不会清除已保存的密钥。可选填写一把 Sciverse Key；Sciverse 与点石 DianShi 使用同一把 Key，保存后仅在当前用户的 Agent 工具调用时解密使用。</p>
 <p>配置 Sciverse 后，工作台最右侧独立的科研证据栏会显示“检索文献”和“查询点石”入口：点击会填入相应指令，发送后 Agent 可调用可引用的文献证据检索和点石的物质、反应、相似度与文献工具。文献标题、证据片段、页码和 <code>doc_id</code> 会在该栏内滚动显示，不会遮挡对话。SeqStudio 当前仅公开在线/本地工作流，没有公开 HTTP API；其 Key 不会被伪装成可调用能力。</p>
