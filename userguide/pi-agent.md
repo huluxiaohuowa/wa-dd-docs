@@ -4,6 +4,8 @@
 
 Agent 页面支持 Pi Agent Core 与 Prime Agent 两种个人 CADD 运行时。每个 WA-DD 用户只能看到自己的会话、上下文和模型配置；两个运行时共享同一份加密模型配置。
 
+Agent 会随请求接收页面当前选中的项目；查找配体时会先按配体类型精确检索该项目，再读取所选资产中的分子和 SMILES，而不是从截断的全量资产列表猜测。
+
 ![Agent / Pi 页面：左侧管理会话与模型配置，右侧通过对话协助执行当前项目中的 CADD 工作流](images/agent-pi-overview.jpg)
 
 ![Agent 科研工作台：Pi / Prime 对话位于中间，Sciverse 文献证据在右侧独立工作区滚动查看](images/agent-research-workbench.png)
