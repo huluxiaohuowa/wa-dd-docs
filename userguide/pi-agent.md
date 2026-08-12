@@ -1,8 +1,8 @@
 > [English documentation](pi-agent.EN.md)
 
-# Agent / Pi
+# Agent 工作台（Pi / Prime）
 
-Agent 页面以 Pi Agent Core 运行个人 CADD 助手。每个 WA-DD 用户只能看到自己的 Pi 会话、上下文和模型配置。
+Agent 页面支持 Pi Agent Core 与 Prime Agent 两种个人 CADD 运行时。每个 WA-DD 用户只能看到自己的会话、上下文和模型配置；两个运行时共享同一份加密模型配置。
 
 ![Agent / Pi 页面：左侧管理会话与模型配置，右侧通过对话协助执行当前项目中的 CADD 工作流](images/agent-pi-overview.jpg)
 
@@ -10,7 +10,7 @@ Agent 页面以 Pi Agent Core 运行个人 CADD 助手。每个 WA-DD 用户只�
 
 首次打开页面会要求填写当前账户的 OpenAI 兼容模型地址、模型名和 API Key。每个用户的 API Key 各自加密保存，页面不会回显它。
 
-Pi 只提供受控的 `wa_dd_api` 工具：在当前用户权限内读取项目、资产和任务，并提交允许的准备、对接或 FEP API 请求。Pi worker 没有宿主机目录、Docker socket 或其他用户 token 的访问权。
+Pi 与 Prime 只提供受控的 `wa_dd_api` 工具：在当前用户权限内读取项目、资产和任务，并提交允许的准备、对接或 FEP API 请求。Prime 的内置 IPython / shell 工具已禁用，Prime worker 也没有宿主机目录、Docker socket 或其他用户 token 的访问权。
 
 Pi 复用既有的 `WA_DD_DATA_HOST_DIR` 挂载；加密配置和会话上下文镜像固定保存到容器内 `/data/pi`，即宿主机的 `${WA_DD_DATA_HOST_DIR}/pi`。PostgreSQL 仍是权限校验和查询的权威记录。
 

@@ -37,7 +37,7 @@ WA-DD 是一个个人独立开发的计算机辅助药物设计（CADD）工作�
 | --- | --- | --- |
 | 已可用 | 项目与资产、蛋白处理、配体处理、对接任务、分子生成、相互作用分析 | 可创建并复用资产、提交任务、查看、筛选、导出或下载输出。 |
 | 已可用 | FEP / RBFE 生产计算 | 支持 OpenFE + OpenMM（CUDA）进行真实 ΔG/ΔΔG 自由能计算；可选择 dry-run 规划或完整生产模拟；输出 edge 结果表、带 FEP 字段的 SDF 和轨迹文件。 |
-| 已可用 | Model Zoo、TPD / PROTAC、Agent / Pi、管理、系统资源、用户文档、API 文档 | 可集中下载和更新项目模型；TPD 可提交 DeepTernary 结构建模任务；可管理个人 Agent 会话与模型配置；管理员可管理用户和任务；模块指南和 API 契约可直接浏览。 |
+| 已可用 | Model Zoo、TPD / PROTAC、Agent 工作台、管理、系统资源、用户文档、API 文档 | 可集中下载和更新项目模型；TPD 可提交 DeepTernary 结构建模任务；可管理个人 Pi / Prime Agent 会话与共享模型配置；管理员可管理用户和任务；模块指南和 API 契约可直接浏览。 |
 | 规划中 | SAR / 构效关系 | 目前仅保留功能定位与指南入口，尚无可提交的业务工作流。 |
 
 #### 已可用
@@ -50,7 +50,7 @@ WA-DD 是一个个人独立开发的计算机辅助药物设计（CADD）工作�
 - **GROMACS / MD worker**：基于 GROMACS + CUDA 的分子动力学任务入口。支持 EM、NVT、NPT、生产 MD、aMD、Metadynamics、Umbrella、结合分析、隐式口袋发现和轨迹后处理任务类型；页面提供结构化核心参数、完整 `.mdp`/命令/文件高级编辑、GPU 可见卡控制和轨迹/能量/分析/结构/参数/日志输出分组。AMD 镜像默认 CUDA 12.8，Thor 镜像默认 CUDA 13，Dockerfile 每次默认从 upstream 最新 GROMACS main 构建，`GROMACS_CUDA_TARGET_SM` 可覆盖一次编译的 GPU 架构集合。
 - **Model Zoo**：集中管理项目模型，置顶 PocketXMol 和 DeepTernary，并支持自选 ModelScope / HuggingFace 仓库下载。模型路径采用 `/data/export/ms|hf/.../current` 兼容结构，便于后续与 VOS 中的 model-hub 对接。
 - **TPD / PROTAC**：DeepTernary 任务以 POI、E3、degrader/MGD 和 PROTAC 辅助 PDB 资产为输入，输出 `ternary_complex` 结构假设。binary ligand/mask PDB 可从蛋白页共晶配体生成 TPD PDB 资产，或在配体页上传 PDB 后选择。
-- **Agent / Pi**：每位用户拥有独立会话、上下文和加密模型配置；受控工具仅能访问该用户有权限的项目、资产和任务。
+- **Agent 工作台**：每位用户拥有独立会话、上下文和加密模型配置；可为会话选择 Pi 或 Prime。Prime 使用真实 `AgentSession` 运行时，但禁用了它的内置终端工具；两者仅通过受控 `wa_dd_api` 访问该用户有权限的项目、资产和任务。
 - **管理、用户文档与自动化**：管理员可审核用户和管理全局任务；系统资源页显示宿主机 CPU、内存、磁盘和 GPU；Web 镜像会把 `userguide/*.md` 转换为页面内用户文档；API 文档基于 FastAPI OpenAPI，支持以 `project_id`、`asset_id` 和 `job_id` 串联自动化。
 
 ![WA-DD 管理与系统资源：管理员可管理用户、文件与项目、全局任务，并查看部署机器的 CPU、内存、GPU 和磁盘指标](userguide/images/admin-system-resources.jpg)
