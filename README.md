@@ -57,6 +57,8 @@ WA-DD 是一个个人独立开发的计算机辅助药物设计（CADD）工作�
 
 ![WA-DD Agent / Pi：用户可管理独立会话和模型配置，并在对话中调用当前项目权限范围内的 CADD 工作流](userguide/images/agent-pi-overview.jpg)
 
+![WA-DD Agent 科研工作台：Pi / Prime 可检索项目相关文献，右侧独立证据栏展示 Sciverse 结果而不遮挡对话](userguide/images/agent-research-workbench.png)
+
 #### 规划中：尚未实现业务工作流
 
 - **SAR / 构效关系**：拟支持活性数据表、R-group 分析、MMPA、构效关系可视化和下一轮设计候选推荐。
