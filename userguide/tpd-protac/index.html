@@ -1822,6 +1822,14 @@
 <li>E3 侧 mask PDB。</li>
 </ul>
 <p>这些辅助 PDB 不是新的蛋白输出。binary ligand 通常来自 POI-warhead 或 E3-ligand 二元结构中的共晶小分子；mask PDB 是用于匹配 PROTAC 全分子和两端 anchor/warhead 原子的子结构。需要用户提供时，请先在蛋白处理页从 PDB 组分生成 TPD PDB 资产，或在配体处理页上传 PDB 形式的配体/mask 资产，再回到 TPD 页面选择。界面会按“来源 → 资产 → 文件”展示当前选择，后端任务只接收资产 ID，不接收容器内路径。</p>
+<p>辅助 PDB 的选择规则：</p>
+<ul>
+<li><strong>不能选择完整蛋白或完整共晶复合物</strong>作为 binary ligand 或 mask。即使文件里“包含配体”，只要同时包含蛋白链，就不是这个字段需要的文件。</li>
+<li><strong>binary ligand PDB</strong> 应该是从二元共晶结构中单独抽出的 ligand-only PDB。例如 POI-warhead 结构中的 warhead 小分子，或 E3-ligand 结构中的 E3 配体小分子。</li>
+<li><strong>mask PDB</strong> 是 full PROTAC 两端用于对齐的子结构。若二元共晶小分子正好等于 PROTAC 端基，mask 可以和对应 binary ligand 使用同一份 PDB；若共晶小分子多出不属于 PROTAC 端基的原子，应只导出共享端基子结构。</li>
+<li><strong>Degrader / MGD 配体</strong> 是完整 PROTAC 小分子，推荐使用可被 RDKit 解析的 3D SDF。若配体准备失败或日志出现 RDKit 手性/氢/键级错误，应先修复 full PROTAC 文件，而不是继续更换蛋白资产。</li>
+<li>如果用户已经有带合理 3D 坐标的 full PROTAC，并希望保留上传坐标，可勾选“禁用 ligand correction”。该选项会避免 DeepTernary 再尝试从 RCSB 下载 <code>{ligand_id}_ideal.sdf</code> 进行坐标重建。</li>
+</ul>
 <p>POI、E3 和 degrader/MGD 是可复用上游资产；binary ligand 和 mask PDB 是可追踪的 PDB 辅助资产。系统能保存、关联和传递这些文件，但不会替用户判断哪个共晶配体或 mask 子结构在科学上正确。</p>
 <h2 id="_3">输出与复用</h2>
 <p>DeepTernary 的可复用输出资产是 <code>ternary_complex</code>。它代表一次三元复合物预测结果，通常包含：</p>
