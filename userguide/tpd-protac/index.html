@@ -1626,6 +1626,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#plk1-protac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PLK1 PROTAC 输入选择示例
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1751,6 +1762,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#plk1-protac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PLK1 PROTAC 输入选择示例
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1831,6 +1853,104 @@
 <li>如果用户已经有带合理 3D 坐标的 full PROTAC，并希望保留上传坐标，可勾选“禁用 ligand correction”。该选项会避免 DeepTernary 再尝试从 RCSB 下载 <code>{ligand_id}_ideal.sdf</code> 进行坐标重建。</li>
 </ul>
 <p>POI、E3 和 degrader/MGD 是可复用上游资产；binary ligand 和 mask PDB 是可追踪的 PDB 辅助资产。系统能保存、关联和传递这些文件，但不会替用户判断哪个共晶配体或 mask 子结构在科学上正确。</p>
+<h2 id="plk1-protac">PLK1 PROTAC 输入选择示例</h2>
+<p>在 <code>PLK1 PROTAC</code> 这类任务中，常见资产来源是：</p>
+<ol>
+<li>在蛋白处理页上传或准备 POI 蛋白，把共晶配体删除后得到 <code>prepared_protein</code>。</li>
+<li>在蛋白处理页上传或准备 E3 ligase 蛋白，把共晶配体删除后得到 <code>prepared_protein</code>。</li>
+<li>在配体处理页上传完整 PROTAC / degrader 分子，得到 <code>ligand</code> 或 <code>prepared_ligand</code>。</li>
+<li>在蛋白处理页的 3D 组分/链视图里，从 POI 二元共晶结构中选中 HETATM 配体，生成 POI 侧 TPD PDB 资产。</li>
+<li>同样从 E3 二元共晶结构中选中 HETATM 配体，生成 E3 侧 TPD PDB 资产。</li>
+</ol>
+<p>提交 DeepTernary 时，字段应这样对应：</p>
+<table>
+<thead>
+<tr>
+<th>TPD 字段</th>
+<th>应选择的资产</th>
+<th>不应选择</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POI 蛋白结构</td>
+<td>删除配体后的 POI <code>prepared_protein</code></td>
+<td>只含小分子的 PDB</td>
+</tr>
+<tr>
+<td>E3 ligase 结构</td>
+<td>删除配体后的 E3 <code>prepared_protein</code></td>
+<td>只含小分子的 PDB</td>
+</tr>
+<tr>
+<td>Degrader / MGD 分子</td>
+<td>完整 PROTAC / degrader 的配体资产</td>
+<td>POI warhead 或 E3 ligand 片段</td>
+</tr>
+<tr>
+<td>POI binary ligand PDB</td>
+<td>POI 二元结构中单独抽出的 ligand-only PDB</td>
+<td>POI 完整蛋白、POI-配体复合物</td>
+</tr>
+<tr>
+<td>E3 binary ligand PDB</td>
+<td>E3 二元结构中单独抽出的 ligand-only PDB</td>
+<td>E3 完整蛋白、E3-配体复合物</td>
+</tr>
+<tr>
+<td>POI ligand mask PDB</td>
+<td>full PROTAC 中 POI 端用于对齐的 ligand-only 子结构</td>
+<td>完整蛋白或完整复合物</td>
+</tr>
+<tr>
+<td>E3 ligand mask PDB</td>
+<td>full PROTAC 中 E3 端用于对齐的 ligand-only 子结构</td>
+<td>完整蛋白或完整复合物</td>
+</tr>
+</tbody>
+</table>
+<p>如果 POI/E3 二元共晶配体本身就等于 full PROTAC 的对应端基，binary ligand PDB 和 ligand mask PDB 可以选择同一份 ligand-only PDB。若二元共晶配体包含不属于 full PROTAC 端基的额外原子，应单独导出 mask 子结构。</p>
+<p>本次 PLK1 校验任务使用的正确选择是：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>示例资产</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POI 蛋白结构</td>
+<td><code>2YAC prepared</code></td>
+</tr>
+<tr>
+<td>E3 ligase 结构</td>
+<td><code>4CI3 prepared</code></td>
+</tr>
+<tr>
+<td>Degrader / MGD 分子</td>
+<td><code>PLK1-PROTAC</code></td>
+</tr>
+<tr>
+<td>POI binary ligand PDB</td>
+<td><code>2YAC 937 POI binary ligand PDB</code></td>
+</tr>
+<tr>
+<td>E3 binary ligand PDB</td>
+<td><code>4CI3 Y70 E3 binary ligand PDB</code></td>
+</tr>
+<tr>
+<td>POI ligand mask PDB</td>
+<td><code>2YAC_937_A501_lig1_mask</code></td>
+</tr>
+<tr>
+<td>E3 ligand mask PDB</td>
+<td><code>4CI3_Y70_B1429_lig2_mask</code></td>
+</tr>
+</tbody>
+</table>
+<p>这里的 <code>2YAC pdb_id</code>、<code>4CI3 pdb_id</code> 这类完整 PDB 不能填到 binary ligand 或 mask 字段。它们包含蛋白链，不是 DeepTernary 这四个辅助字段需要的小分子 PDB。</p>
+<p>若 full PROTAC 已经是可靠 3D SDF，且不希望 DeepTernary 再按 ligand ID 重建坐标，可以勾选“禁用 ligand correction”。PLK1 示例使用这个模式。</p>
 <h2 id="_3">输出与复用</h2>
 <p>DeepTernary 的可复用输出资产是 <code>ternary_complex</code>。它代表一次三元复合物预测结果，通常包含：</p>
 <ul>
