@@ -100,8 +100,10 @@ Model Zoo is an independent CPU service:
 
 ```bash
 ./build_image.sh --profile amd --component model-zoo
-./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime --component model-zoo
+./deploy.sh --profile amd --component model-zoo
 ```
+
+For an already running deployment, `--root` may be omitted; the deployment script detects the runtime root and port from the running Web container. First deployments, recovery deployments, and new coexisting deployments must still pass `--root` explicitly.
 
 Thor / ARM uses the same Dockerfile and only changes the platform tag to `arm_YYYYMMDD`:
 

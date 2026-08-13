@@ -100,8 +100,10 @@ Model Zoo 是独立 CPU 服务：
 
 ```bash
 ./build_image.sh --profile amd --component model-zoo
-./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime --component model-zoo
+./deploy.sh --profile amd --component model-zoo
 ```
+
+已有运行部署可以省略 `--root`，由部署脚本从正在运行的 Web 容器自动发现运行根目录和端口。首次部署、恢复部署或新建共存部署时仍必须显式传入 `--root`。
 
 Thor / ARM 平台使用同一个 Dockerfile，只按平台生成 `arm_YYYYMMDD` 标签：
 
