@@ -2181,17 +2181,18 @@ password: admin123456
 <p><strong>全量更新与单组件更新（两者都支持）：</strong></p>
 <pre><code class="language-bash"># 全量：检测所有组件的新镜像并协调整个 amd 服务组（原有用法，默认 --component all）
 cd deploy
-./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime
+./deploy.sh --profile amd
 
 # 单组件：只检测 Web 镜像，只替换 Web；不重建 PostgreSQL、Redis 或其他 worker
-./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime --component web
+./deploy.sh --profile amd --component web
 
 # 其他可单独替换的组件
-./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime --component ligand-prep
-./deploy.sh --profile thor --root /absolute/path/to/wa-dd-runtime --component molecule-gen
+./deploy.sh --profile amd --component ligand-prep
+./deploy.sh --profile thor --component molecule-gen
 </code></pre>
-<p>可用组件为 <code>web</code>、<code>model-zoo</code>、<code>host-metrics</code>、<code>protein-prep</code>、<code>ligand-prep</code>、<code>unidock</code>、<code>molecule-gen</code>、<code>deepternary</code>、<code>pi-agent</code>、<code>fep</code>、<code>gromacs</code> 和 <code>all</code>。单组件模式只更新该组件对应的 <code>images.env</code> 条目，并使用 Compose 的 <code>--no-deps --force-recreate</code> 替换该服务；全量模式仍检测全部镜像并执行完整服务组更新。</p>
-<p>如需发布新镜像，请在明确指定的构建环境运行 <code>./build_image.sh --profile amd|thor --component web|model-zoo|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|deepternary|pi-agent|fep|gromacs|all</code>。标签由组件是否使用 GPU 自动决定并推送到 <code>huluxiaohuowa</code>；<code>model-zoo</code> 是 CPU 组件，使用同一个 <code>Dockerfile.model-zoo</code>，只按 amd/arm 平台区分标签；Pi worker 是 CPU 组件，DeepTernary 是 TPD / PROTAC GPU 组件，二者都随 <code>all</code> 构建；FEP 和 GROMACS 是大 GPU 镜像，仍需显式指定 <code>--component fep</code> 或 <code>--component gromacs</code> 构建。GROMACS Dockerfile 默认每次从 upstream 最新 main 构建，runtime 镜像包含 OpenBabel/ACPYPE 用于配体 GMX 拓扑包生成；AMD 默认 <code>GROMACS_CUDA_TARGET_SM=60;61;70;75;80;86;89;90;100;120</code>，Thor 默认 <code>87;110;120</code>，可在目标 CUDA 镜像不支持某个 SM 时显式覆盖。下次 <code>deploy.sh</code> 会重新发现并采用匹配的最新 tag。由于当前 Compose 包含 FEP、GROMACS 和 DeepTernary worker，首次部署前 registry 也必须已有对应平台镜像，否则部署脚本会明确失败；thor DeepTernary 暂无 tag 时，<code>deploy.sh --check</code> 会先写入保留的完整镜像名，便于后续在 tc81 构建补齐。Pi 复用 <code>WA_DD_DATA_HOST_DIR</code> 下的 <code>pi/</code> 目录；首次启动会自动生成并持久化配置加密主密钥，详见 <a href="userguide/pi-agent/">Agent / Pi</a>。</p>
+<p>已有运行部署可省略 <code>--root</code>，由 <code>deploy.sh</code> 从正在运行的 Web 容器自动发现运行根目录和端口；首次部署、恢复部署或新建共存部署仍必须显式传入 <code>--root</code>，新建共存部署还必须传入未占用的 <code>--port</code>。</p>
+<p>可用组件为 <code>web</code>、<code>model-zoo</code>、<code>host-metrics</code>、<code>protein-prep</code>、<code>ligand-prep</code>、<code>unidock</code>、<code>molecule-gen</code>、<code>deepternary</code>、<code>openfold3</code>、<code>esmfold</code>、<code>boltz2</code>、<code>chai1</code>、<code>pi-agent</code>、<code>fep</code>、<code>gromacs</code> 和 <code>all</code>。单组件模式只更新该组件对应的 <code>images.env</code> 条目，并使用 Compose 的 <code>--no-deps --force-recreate</code> 替换该服务；全量模式仍检测全部镜像并执行完整服务组更新。</p>
+<p>如需发布新镜像，请在明确指定的构建环境运行 <code>./build_image.sh --profile amd|thor --component web|model-zoo|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|deepternary|openfold3|esmfold|boltz2|chai1|pi-agent|fep|gromacs|all</code>。标签由组件是否使用 GPU 自动决定并推送到 <code>huluxiaohuowa</code>；<code>model-zoo</code> 是 CPU 组件，使用同一个 <code>Dockerfile.model-zoo</code>，只按 amd/arm 平台区分标签；Pi worker 是 CPU 组件，DeepTernary 和结构预测 worker 是 GPU 组件，随 <code>all</code> 构建；FEP 和 GROMACS 是大 GPU 镜像，仍需显式指定 <code>--component fep</code> 或 <code>--component gromacs</code> 构建。GROMACS Dockerfile 默认每次从 upstream 最新 main 构建，runtime 镜像包含 OpenBabel/ACPYPE 用于配体 GMX 拓扑包生成；AMD 默认 <code>GROMACS_CUDA_TARGET_SM=60;61;70;75;80;86;89;90;100;120</code>，Thor 默认 <code>87;110;120</code>，可在目标 CUDA 镜像不支持某个 SM 时显式覆盖。下次 <code>deploy.sh</code> 会重新发现并采用匹配的最新 tag。由于当前 Compose 包含 FEP、GROMACS、DeepTernary 和结构预测 worker，首次部署前 registry 也必须已有对应平台镜像，否则部署脚本会明确失败；thor DeepTernary 暂无 tag 时，<code>deploy.sh --check</code> 会先写入保留的完整镜像名，便于后续在 tc81 构建补齐。Pi 复用 <code>WA_DD_DATA_HOST_DIR</code> 下的 <code>pi/</code> 目录；首次启动会自动生成并持久化配置加密主密钥，详见 <a href="userguide/pi-agent/">Agent / Pi</a>。</p>
 <h3 id="_9">快速启动</h3>
 <p><strong>首次部署：</strong></p>
 <pre><code class="language-bash">cd deploy

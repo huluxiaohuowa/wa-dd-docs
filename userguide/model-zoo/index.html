@@ -1944,8 +1944,9 @@ configs/glue.py
 <h2 id="_6">部署组件</h2>
 <p>Model Zoo 是独立 CPU 服务：</p>
 <pre><code class="language-bash">./build_image.sh --profile amd --component model-zoo
-./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime --component model-zoo
+./deploy.sh --profile amd --component model-zoo
 </code></pre>
+<p>已有运行部署可以省略 <code>--root</code>，由部署脚本从正在运行的 Web 容器自动发现运行根目录和端口。首次部署、恢复部署或新建共存部署时仍必须显式传入 <code>--root</code>。</p>
 <p>Thor / ARM 平台使用同一个 Dockerfile，只按平台生成 <code>arm_YYYYMMDD</code> 标签：</p>
 <pre><code class="language-bash">./build_image.sh --profile thor --component model-zoo
 </code></pre>

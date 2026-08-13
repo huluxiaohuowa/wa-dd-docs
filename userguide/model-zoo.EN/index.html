@@ -1944,8 +1944,9 @@ configs/glue.py
 <h2 id="deployment-component">Deployment component</h2>
 <p>Model Zoo is an independent CPU service:</p>
 <pre><code class="language-bash">./build_image.sh --profile amd --component model-zoo
-./deploy.sh --profile amd --root /absolute/path/to/wa-dd-runtime --component model-zoo
+./deploy.sh --profile amd --component model-zoo
 </code></pre>
+<p>For an already running deployment, <code>--root</code> may be omitted; the deployment script detects the runtime root and port from the running Web container. First deployments, recovery deployments, and new coexisting deployments must still pass <code>--root</code> explicitly.</p>
 <p>Thor / ARM uses the same Dockerfile and only changes the platform tag to <code>arm_YYYYMMDD</code>:</p>
 <pre><code class="language-bash">./build_image.sh --profile thor --component model-zoo
 </code></pre>
