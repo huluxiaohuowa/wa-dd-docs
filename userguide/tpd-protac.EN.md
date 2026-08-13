@@ -25,6 +25,14 @@ PROTAC jobs also require four auxiliary PDB assets:
 
 These auxiliary PDB files are not new protein outputs. A binary ligand usually comes from the cocrystal small molecule in a POI-warhead or E3-ligand binary structure. A mask PDB is the substructure used to match the full PROTAC to the anchor/warhead atoms on each side. When users need to provide them, first create a TPD PDB asset from a PDB component in the protein-processing page, or upload a ligand/mask PDB asset in the ligand-processing page, then select that asset in the TPD page. The backend accepts asset IDs, not container file paths.
 
+Auxiliary PDB selection rules:
+
+- **Do not select a full protein or full cocrystal complex** as a binary ligand or mask. A file that contains both protein chains and a ligand is not the file required by these fields.
+- **Binary ligand PDB** should be a ligand-only PDB extracted from a binary cocrystal structure, such as the warhead ligand from a POI-warhead structure or the E3 ligand from an E3-ligand structure.
+- **Mask PDB** is the substructure used to align each end of the full PROTAC. If the cocrystal ligand exactly matches the PROTAC end group, the mask can reuse the same PDB as the corresponding binary ligand. If the cocrystal ligand contains extra atoms outside the PROTAC end group, export only the shared anchor substructure.
+- **Degrader / MGD ligand** is the full PROTAC small molecule. Prefer a 3D SDF that RDKit can parse. If ligand preparation fails or logs show RDKit chirality, hydrogen, or bond-order errors, fix the full PROTAC file before changing protein assets.
+- If the uploaded full PROTAC already has reasonable 3D coordinates and users want to preserve them, enable "Disable ligand correction". This avoids DeepTernary trying to rebuild ligand coordinates from an RCSB `{ligand_id}_ideal.sdf` file.
+
 POI, E3, and degrader/MGD are reusable upstream assets; binary ligand and mask PDB files are traceable auxiliary PDB assets. WA-DD can save, associate, and pass these files, but it does not decide which cocrystal ligand or mask substructure is scientifically correct for the user.
 
 ## Outputs and reuse
