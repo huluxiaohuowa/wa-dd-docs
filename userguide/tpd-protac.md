@@ -35,6 +35,46 @@ PROTAC 任务还需要四个 PDB 辅助资产：
 
 POI、E3 和 degrader/MGD 是可复用上游资产；binary ligand 和 mask PDB 是可追踪的 PDB 辅助资产。系统能保存、关联和传递这些文件，但不会替用户判断哪个共晶配体或 mask 子结构在科学上正确。
 
+## PLK1 PROTAC 输入选择示例
+
+在 `PLK1 PROTAC` 这类任务中，常见资产来源是：
+
+1. 在蛋白处理页上传或准备 POI 蛋白，把共晶配体删除后得到 `prepared_protein`。
+2. 在蛋白处理页上传或准备 E3 ligase 蛋白，把共晶配体删除后得到 `prepared_protein`。
+3. 在配体处理页上传完整 PROTAC / degrader 分子，得到 `ligand` 或 `prepared_ligand`。
+4. 在蛋白处理页的 3D 组分/链视图里，从 POI 二元共晶结构中选中 HETATM 配体，生成 POI 侧 TPD PDB 资产。
+5. 同样从 E3 二元共晶结构中选中 HETATM 配体，生成 E3 侧 TPD PDB 资产。
+
+提交 DeepTernary 时，字段应这样对应：
+
+| TPD 字段 | 应选择的资产 | 不应选择 |
+| --- | --- | --- |
+| POI 蛋白结构 | 删除配体后的 POI `prepared_protein` | 只含小分子的 PDB |
+| E3 ligase 结构 | 删除配体后的 E3 `prepared_protein` | 只含小分子的 PDB |
+| Degrader / MGD 分子 | 完整 PROTAC / degrader 的配体资产 | POI warhead 或 E3 ligand 片段 |
+| POI binary ligand PDB | POI 二元结构中单独抽出的 ligand-only PDB | POI 完整蛋白、POI-配体复合物 |
+| E3 binary ligand PDB | E3 二元结构中单独抽出的 ligand-only PDB | E3 完整蛋白、E3-配体复合物 |
+| POI ligand mask PDB | full PROTAC 中 POI 端用于对齐的 ligand-only 子结构 | 完整蛋白或完整复合物 |
+| E3 ligand mask PDB | full PROTAC 中 E3 端用于对齐的 ligand-only 子结构 | 完整蛋白或完整复合物 |
+
+如果 POI/E3 二元共晶配体本身就等于 full PROTAC 的对应端基，binary ligand PDB 和 ligand mask PDB 可以选择同一份 ligand-only PDB。若二元共晶配体包含不属于 full PROTAC 端基的额外原子，应单独导出 mask 子结构。
+
+本次 PLK1 校验任务使用的正确选择是：
+
+| 字段 | 示例资产 |
+| --- | --- |
+| POI 蛋白结构 | `2YAC prepared` |
+| E3 ligase 结构 | `4CI3 prepared` |
+| Degrader / MGD 分子 | `PLK1-PROTAC` |
+| POI binary ligand PDB | `2YAC 937 POI binary ligand PDB` |
+| E3 binary ligand PDB | `4CI3 Y70 E3 binary ligand PDB` |
+| POI ligand mask PDB | `2YAC_937_A501_lig1_mask` |
+| E3 ligand mask PDB | `4CI3_Y70_B1429_lig2_mask` |
+
+这里的 `2YAC pdb_id`、`4CI3 pdb_id` 这类完整 PDB 不能填到 binary ligand 或 mask 字段。它们包含蛋白链，不是 DeepTernary 这四个辅助字段需要的小分子 PDB。
+
+若 full PROTAC 已经是可靠 3D SDF，且不希望 DeepTernary 再按 ligand ID 重建坐标，可以勾选“禁用 ligand correction”。PLK1 示例使用这个模式。
+
 ## 输出与复用
 
 DeepTernary 的可复用输出资产是 `ternary_complex`。它代表一次三元复合物预测结果，通常包含：

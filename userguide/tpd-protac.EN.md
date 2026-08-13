@@ -35,6 +35,46 @@ Auxiliary PDB selection rules:
 
 POI, E3, and degrader/MGD are reusable upstream assets; binary ligand and mask PDB files are traceable auxiliary PDB assets. WA-DD can save, associate, and pass these files, but it does not decide which cocrystal ligand or mask substructure is scientifically correct for the user.
 
+## PLK1 PROTAC input-selection example
+
+For a `PLK1 PROTAC` task, the usual asset sources are:
+
+1. Upload or prepare the POI protein in Protein Processing, remove the cocrystal ligand, and produce a `prepared_protein`.
+2. Upload or prepare the E3 ligase protein in Protein Processing, remove the cocrystal ligand, and produce a `prepared_protein`.
+3. Upload the full PROTAC / degrader molecule in Ligand Processing, producing a `ligand` or `prepared_ligand` asset.
+4. In the Protein Processing 3D component/chain view, select the HETATM ligand from the POI binary cocrystal structure and export it as a POI-side TPD PDB asset.
+5. Do the same for the E3 binary cocrystal ligand and export it as an E3-side TPD PDB asset.
+
+When submitting DeepTernary, map the fields as follows:
+
+| TPD field | Select this asset | Do not select |
+| --- | --- | --- |
+| POI protein structure | POI `prepared_protein` with ligand removed | Ligand-only PDB |
+| E3 ligase structure | E3 `prepared_protein` with ligand removed | Ligand-only PDB |
+| Degrader / MGD molecule | Full PROTAC / degrader ligand asset | POI warhead or E3 ligand fragment |
+| POI binary ligand PDB | Ligand-only PDB extracted from the POI binary structure | Full POI protein or POI-ligand complex |
+| E3 binary ligand PDB | Ligand-only PDB extracted from the E3 binary structure | Full E3 protein or E3-ligand complex |
+| POI ligand mask PDB | Ligand-only substructure used to align the POI end of the full PROTAC | Full protein or full complex |
+| E3 ligand mask PDB | Ligand-only substructure used to align the E3 end of the full PROTAC | Full protein or full complex |
+
+If the POI/E3 binary cocrystal ligand exactly matches the corresponding end group of the full PROTAC, the binary ligand PDB and ligand mask PDB can be the same ligand-only PDB. If the cocrystal ligand contains extra atoms outside the full PROTAC end group, export a separate mask substructure.
+
+The validated PLK1 smoke task used this selection:
+
+| Field | Example asset |
+| --- | --- |
+| POI protein structure | `2YAC prepared` |
+| E3 ligase structure | `4CI3 prepared` |
+| Degrader / MGD molecule | `PLK1-PROTAC` |
+| POI binary ligand PDB | `2YAC 937 POI binary ligand PDB` |
+| E3 binary ligand PDB | `4CI3 Y70 E3 binary ligand PDB` |
+| POI ligand mask PDB | `2YAC_937_A501_lig1_mask` |
+| E3 ligand mask PDB | `4CI3_Y70_B1429_lig2_mask` |
+
+Assets such as `2YAC pdb_id` or `4CI3 pdb_id` must not be used in the binary ligand or mask fields. They contain protein chains, while these four DeepTernary auxiliary fields require ligand-only PDB files.
+
+If the full PROTAC is already a reliable 3D SDF and the user wants to preserve its coordinates, enable "Disable ligand correction". The PLK1 example uses this mode.
+
 ## Outputs and reuse
 
 The reusable DeepTernary output asset is `ternary_complex`. It represents one ternary-complex prediction result and usually contains:
