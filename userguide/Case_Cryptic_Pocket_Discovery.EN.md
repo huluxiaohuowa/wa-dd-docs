@@ -97,7 +97,7 @@ Given the current available resources being a single server (tc232/server6), we 
 
 #### L1: AI Prediction (Day 3-4)
 - **Goal**: Generate candidate conformations representing different states of the Switch II region.
-- **Input**: KRAS G12C APO (PDB: 4OBE), OpenFold3 model weights.
+- **Input**: KRAS G12C APO (PDB: 4OBE), using the OpenFold3 structure-prediction capability already integrated into the platform.
 - **Steps**:
     1. Run OpenFold3 template perturbation (5 templates) on 4OBE with `wa-dd-openfold3`, generating 5 conformations.
     2. Run OpenFold3 ligand induction (5 ligands) on 4OBE with `wa-dd-openfold3`, generating 5 conformations.
@@ -157,93 +157,32 @@ Given the current available resources being a single server (tc232/server6), we 
 
 ---
 
-## 5. OpenFold3 Model Weights and Deployment
+## 5. Platform UI Operations and Asset Flow
 
-### 5.1 Model Weights Download
+This case targets an already deployed WA-DD instance. Regular users do not need to install OpenFold3 manually, download model weights, write Dockerfiles, or run commands inside containers; those are platform-operations concerns. The L0-L3 workflow should be completed through the Web UI as much as possible, with every step registered as project assets.
 
-OpenFold3 is an open-source reproduction of AlphaFold3, developed by the AlQuraishi Lab at Columbia University and the OpenFold Consortium, licensed under Apache 2.0 (commercial use allowed).
+### 5.1 UI Entry Points
 
-| Resource | Download Method | Size | Description |
+| Work | Page | Main Inputs | Main Outputs |
 | :--- | :--- | :--- | :--- |
-| **OpenFold3 Model Parameters** | Auto-download via `setup_openfold` command | ~1-2GB | Contains OpenFold3-preview2 model weights |
-| **HuggingFace Manual Download** | `https://huggingface.co/OpenFold/OpenFold3` | ~1-2GB | Manually download weight files |
+| Structure preparation | Protein Processing | PDB ID or uploaded PDB/CIF | `protein` / `prepared_protein` assets |
+| Ligand preparation | Ligand Processing | SDF, SMILES, table, or drawn molecule | `ligand` / `prepared_ligand` assets |
+| Conformation generation | Structure Prediction | Protein asset, template/ligand-induced parameters | OpenFold3 structure-result assets |
+| MD and pocket analysis | GROMACS / MD | Protein/complex/topology/trajectory assets, `pocket_discovery` protocol | `md_result`, `pocket_analyzer_report.json`, `pocket_events.csv`, `pocket_volume.csv`, standard `pocket` assets |
+| Molecule generation | Molecule Generation | Standard `pocket` asset and generation constraints | Candidate-molecule SDF assets |
+| FEP validation | FEP / Analysis | Congeneric ligands, complexes, or docking/generation outputs | FEP result tables and downloadable result assets |
 
-**Installation and Download**:
-```bash
-# Install OpenFold3
-pip install openfold3
+### 5.2 Standard Asset Chaining
 
-# Download model weights (auto)
-setup_openfold
+- GROMACS `pocket_discovery` writes pocket-analysis outputs into the same task result and creates a standard `pocket` asset when a representative structure is available.
+- Standard `pocket` assets can be selected directly in the Docking and Molecule Generation pages; users do not need to manually copy center coordinates or file paths.
+- The task-output button in the upper-right task panel lists registered output assets; "download all outputs" packages all result files for that task.
+- Individual result files remain openable or downloadable from asset details, including `json`, `csv`, `xvg`, `pdb`, `gro`, and `log` outputs.
 
-# Or manual download
-wget https://huggingface.co/OpenFold/OpenFold3/resolve/main/of3p2_ema.pt
-mkdir -p /data/models/openfold3
-cp of3p2_ema.pt /data/models/openfold3/
-```
+### 5.3 Human Review Still Required
 
-### 5.2 MSA Acquisition Methods
+The platform handles the data flow and compute scheduling, but the cryptic-pocket case still requires scientific judgment:
 
-OpenFold3 supports MSA acquisition through the ColabFold public server, requiring no local database:
-
-| Method | Space | Description |
-| :--- | :--- | :--- |
-| **ColabFold Public Server (Recommended)** | 0GB | Remote MSA retrieval via `colabfold.mmseqs.com` |
-| **Local MMseqs2 Database** | ~46GB (UniRef30) | Only for large-scale parallel processing |
-
-### 5.3 Thor (CUDA 13) Docker Build
-
-OpenFold3 is based on PyTorch, requiring CUDA 13 compatibility verification. Key configuration:
-
-```dockerfile
-# Base image (consistent with FEP/Unidock Thor versions)
-ARG OPENFOLD3_THOR_BASE_IMAGE=nvcr.io/nvidia/cuda:13.0.2-runtime-ubuntu24.04
-
-# PyTorch + CUDA 13 support
-RUN pip install 'torch>=2.4.0' --index-url https://download.pytorch.org/whl/cu130
-
-# OpenFold3
-RUN pip install 'openfold3>=0.1.0'
-RUN setup_openfold
-```
-
-**Disk Usage**: Image ~10GB + model weights ~1-2GB = **~12GB**
-
-### 5.4 Minimal Verification Commands
-
-```bash
-# KRAS G12C sequence
-echo ">KRAS_G12C
-MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQ
-YMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAARTVESRQAQDLARSYGIP
-YIETSAKTRQGVEDAFYTLVREIRQH" > /tmp/kras_g12c.fasta
-
-# Method 1: Protein monomer prediction
-run_openfold predict --fasta_path=/tmp/kras_g12c.fasta
-
-# Method 2: Protein+ligand complex prediction (JSON input)
-cat > /tmp/kras_ligand.json << EOF
-{
-  "name": "KRAS_G12C_ARS1620",
-  "sequences": [
-    {"protein": "MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAARTVESRQAQDLARSYGIPYIETSAKTRQGVEDAFYTLVREIRQH"},
-    {"smiles": "CC#CC(=O)NC1=CC=C(C=C1)NC(=O)N2CCN(CC2)C(=O)O"}
-  ]
-}
-EOF
-run_openfold predict --query_json=/tmp/kras_ligand.json
-
-# Method 3: Template perturbation (specify template PDB)
-cat > /tmp/kras_template.json << EOF
-{
-  "name": "KRAS_G12C_template_4OBE",
-  "sequences": [
-    {"protein": "MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAARTVESRQAQDLARSYGIPYIETSAKTRQGVEDAFYTLVREIRQH"}
-  ],
-  "templates": [
-    {"pdb": "4OBE", "chain_id": "A"}
-  ]
-}
-EOF
-run_openfold predict --query_json=/tmp/kras_template.json
-```
+- Choose APO, OPEN, ligand-induced, or template-perturbed conformations as controls.
+- Decide whether RMSD, pocket volume, candidate residues, and FEP ΔΔG support the conclusion that a pocket is druggable.
+- Manually review the current MVP pocket analyzer's geometry-defined candidate pockets; deeper fpocket, MDAnalysis, water-network, and multi-frame event scoring remain planned enhancements.
