@@ -34,7 +34,7 @@ Specifically, we explore:
 
 ## 2. Workflow Design and Task Decomposition
 
-To realize the above concept, we designed a closed-loop workflow consisting of four core stages. The WA-DD platform will support this workflow through new Worker components and reuse of existing components.
+To realize the above concept, we designed a closed-loop workflow consisting of four core stages. The current WA-DD platform supports this workflow through the existing OpenFold3, GROMACS, PocketXMol, FEP, and standard asset-management stack. Pocket analysis is exposed as part of the GROMACS `pocket_discovery` protocol and can emit standard reusable `pocket` assets.
 
 ### 2.1 Workflow Data Flow
 
@@ -47,14 +47,14 @@ graph TD
     E -->|"Active ligands + Complex structures"| F(("Scientific Conclusion: Cryptic Pocket Druggability Validation"));
 ```
 
-### 2.2 Task Decomposition and New Components
+### 2.2 Task Decomposition and Component Status
 
 | Stage | Task Description | WA-DD Component | Status |
 | :--- | :--- | :--- | :--- |
-| **1. OpenFold3 Conformational Ensemble Generation** | Generate multiple candidate protein conformations using the OpenFold3 model through template perturbation and ligand induction strategies. | **New**: `wa-dd-conformer-gen` (Conformer Generation Worker) | 🔄 In Development |
-| **2. MD Physical Validation** | Perform enhanced sampling MD simulations on candidate conformations using Gromacs to validate pocket opening. | **New**: `wa-dd-md-engine` (MD Simulation Worker) | 🚀 Planned |
-| **3. Pocket and Water Network Analysis** | Extract pocket opening/closing events from MD trajectories and analyze the thermodynamic contribution of water molecules. | **New**: `wa-dd-pocket-analyzer` (Pocket Analysis Worker) | 🚀 Planned |
-| **4. Ligand Generation and Complex Prediction** | Generate ligands on validated OPEN conformations, predict complex structures via OpenFold3, and validate with FEP. | **Reuse**: `wa-dd-molecule-gen`, `wa-dd-fep` + OpenFold3 complex prediction | ✅ Ready / New |
+| **1. OpenFold3 Conformational Ensemble Generation** | Generate multiple candidate protein conformations using the OpenFold3 model through template perturbation and ligand induction strategies. | `wa-dd-openfold3` | ✅ Integrated |
+| **2. MD Physical Validation** | Perform enhanced sampling MD simulations on candidate conformations using GROMACS to validate pocket opening. | `wa-dd-gromacs` (`pocket_discovery` / aMD / analysis) | ✅ Integrated |
+| **3. Pocket and Water Network Analysis** | Extract candidate pocket events, pocket-volume curves, and candidate pocket structures from MD outputs, then register reusable standard `pocket` assets. | Built-in pocket analyzer in `wa-dd-gromacs` | ✅ MVP integrated; deeper fpocket/MDAnalysis scoring remains planned |
+| **4. Ligand Generation and Complex Prediction** | Generate ligands on validated OPEN conformations, predict complex structures via OpenFold3, and validate with FEP. | `wa-dd-molecule-gen`, `wa-dd-openfold3`, `wa-dd-fep` | ✅ Integrated |
 
 ### 2.3 OpenFold3 Conformational Ensemble Generation Strategies
 
@@ -99,8 +99,8 @@ Given the current available resources being a single server (tc232/server6), we 
 - **Goal**: Generate candidate conformations representing different states of the Switch II region.
 - **Input**: KRAS G12C APO (PDB: 4OBE), OpenFold3 model weights.
 - **Steps**:
-    1. Run OpenFold3 template perturbation (5 templates) on 4OBE with `wa-dd-conformer-gen`, generating 5 conformations.
-    2. Run OpenFold3 ligand induction (5 ligands) on 4OBE with `wa-dd-conformer-gen`, generating 5 conformations.
+    1. Run OpenFold3 template perturbation (5 templates) on 4OBE with `wa-dd-openfold3`, generating 5 conformations.
+    2. Run OpenFold3 ligand induction (5 ligands) on 4OBE with `wa-dd-openfold3`, generating 5 conformations.
     3. Calculate RMSD between each conformation and the Switch II region of 6GJ8.
     4. Screen candidate conformations with RMSD < 3.0Å (as input for L2).
 - **Pass Criteria**: Find at least 1 conformation with RMSD < 3.0Å from 6GJ8.
@@ -109,8 +109,8 @@ Given the current available resources being a single server (tc232/server6), we 
 - **Goal**: Validate the physical stability of AI-predicted conformations.
 - **Input**: AI conformations screened from L1 + 6GJ8 baseline conformation.
 - **Steps**:
-    1. Run 5ns simulations on 3 conformations each with `wa-dd-md-engine` (Gromacs aMD).
-    2. Analyze RMSD evolution and pocket volume changes with `wa-dd-pocket-analyzer`.
+    1. Run 5ns simulations on 3 conformations each with the `pocket_discovery` / aMD protocol in `wa-dd-gromacs`.
+    2. Use the built-in GROMACS pocket analyzer to output `pocket_analyzer_report.json`, `pocket_events.csv`, `pocket_volume.csv`, and a standard `pocket` asset.
     3. Compare RMSD drift between AI conformations and 6GJ8.
 - **Pass Criteria**: AI conformation RMSD drift < 2.0Å (comparable to 6GJ8).
 
@@ -137,23 +137,23 @@ Given the current available resources being a single server (tc232/server6), we 
 ### 4.1 Completed
 - **Scientific Question Definition**: Clarified the scientific value and technical path of cryptic pocket discovery.
 - **Workflow Design**: Completed the full data flow design from OpenFold3 conformation generation to FEP validation, as well as the single-server progressive validation plan.
-- **Existing Component Integration**: Confirmed that `protein-prep`, `molecule-gen`, `fep` and other existing components can be directly reused.
+- **Existing Component Integration**: `openfold3`, `gromacs`, `molecule-gen`, `fep`, and related components now share one asset chain.
+- **Pocket Analyzer MVP**: GROMACS `pocket_discovery` can register `md_result`, candidate `pocket` assets, and a complete downloadable result package.
 
 ### 4.2 In Progress
-- **`wa-dd-conformer-gen` Worker Design and Development**: Core integration of OpenFold3 (open-source reproduction of AlphaFold3) for template perturbation and ligand induction conformation generation. OpenFold3 is based on the Apache 2.0 license, supports CUDA 13 (Thor), and natively supports protein-ligand complex structure prediction.
+- **OpenFold3 Conformation-Generation Validation**: Validate template perturbation, ligand-induced conformation generation, result screening, and UI chaining through the existing `wa-dd-openfold3` component.
 
 ### 4.3 Planned
-- **`wa-dd-md-engine` Worker Design and Development**: Integrate Gromacs, focusing on aMD parameter optimization and GPU acceleration.
-- **`wa-dd-pocket-analyzer` Worker Design and Development**: Integrate `fpocket` and `MDAnalysis` for trajectory analysis.
-- **API and Frontend Integration**: Design API interfaces for new Workers, and add corresponding task submission and result display pages on the Web interface.
+- **Pocket Analyzer Depth**: Add fpocket, MDAnalysis, water-network analysis, and multi-frame pocket-event scoring without changing the standard `pocket` asset contract.
+- **Case Evidence**: Fill the KRAS G12C L0-L3 example with real outputs, screenshots, and threshold evidence.
 
 ### 4.4 Milestones
 | Timeline | Milestone |
 | :--- | :--- |
-| **Phase 1 (Week 1)** | Complete `wa-dd-conformer-gen` MVP, run through L1 OpenFold3 conformation generation. |
-| **Phase 2 (Week 2)** | Complete `wa-dd-md-engine` MVP, run through L0 baseline FEP + L2 physical validation. |
-| **Phase 3 (Week 3)** | Complete `wa-dd-pocket-analyzer`, run through L3 closed-loop discovery. |
-| **Phase 4 (Week 4)** | Integrate all components, complete the full four-layer validation workflow. |
+| **Phase 1 (Week 1)** | Run L1 conformation generation and candidate screening with `wa-dd-openfold3`. |
+| **Phase 2 (Week 2)** | Run L0 baseline FEP and L2 physical validation with `wa-dd-gromacs`. |
+| **Phase 3 (Week 3)** | Use the GROMACS pocket analyzer to emit standard `pocket` assets and complete L3 closed-loop discovery. |
+| **Phase 4 (Week 4)** | Add fpocket/MDAnalysis scoring, water-network analysis, and complete case evidence. |
 
 ---
 
