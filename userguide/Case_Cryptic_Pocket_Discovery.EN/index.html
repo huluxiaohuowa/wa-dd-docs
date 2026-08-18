@@ -885,22 +885,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-openfold3-model-weights-and-deployment" class="md-nav__link">
+  <a href="#5-platform-ui-operations-and-asset-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. OpenFold3 Model Weights and Deployment
+        5. Platform UI Operations and Asset Flow
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="5. OpenFold3 Model Weights and Deployment">
+    <nav class="md-nav" aria-label="5. Platform UI Operations and Asset Flow">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#51-model-weights-download" class="md-nav__link">
+  <a href="#51-ui-entry-points" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.1 Model Weights Download
+        5.1 UI Entry Points
       
     </span>
   </a>
@@ -908,10 +908,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#52-msa-acquisition-methods" class="md-nav__link">
+  <a href="#52-standard-asset-chaining" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.2 MSA Acquisition Methods
+        5.2 Standard Asset Chaining
       
     </span>
   </a>
@@ -919,21 +919,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#53-thor-cuda-13-docker-build" class="md-nav__link">
+  <a href="#53-human-review-still-required" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.3 Thor (CUDA 13) Docker Build
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#54-minimal-verification-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.4 Minimal Verification Commands
+        5.3 Human Review Still Required
       
     </span>
   </a>
@@ -2257,22 +2246,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-openfold3-model-weights-and-deployment" class="md-nav__link">
+  <a href="#5-platform-ui-operations-and-asset-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. OpenFold3 Model Weights and Deployment
+        5. Platform UI Operations and Asset Flow
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="5. OpenFold3 Model Weights and Deployment">
+    <nav class="md-nav" aria-label="5. Platform UI Operations and Asset Flow">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#51-model-weights-download" class="md-nav__link">
+  <a href="#51-ui-entry-points" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.1 Model Weights Download
+        5.1 UI Entry Points
       
     </span>
   </a>
@@ -2280,10 +2269,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#52-msa-acquisition-methods" class="md-nav__link">
+  <a href="#52-standard-asset-chaining" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.2 MSA Acquisition Methods
+        5.2 Standard Asset Chaining
       
     </span>
   </a>
@@ -2291,21 +2280,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#53-thor-cuda-13-docker-build" class="md-nav__link">
+  <a href="#53-human-review-still-required" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.3 Thor (CUDA 13) Docker Build
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#54-minimal-verification-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.4 Minimal Verification Commands
+        5.3 Human Review Still Required
       
     </span>
   </a>
@@ -2494,7 +2472,7 @@
 <h4 id="l1-ai-prediction-day-3-4">L1: AI Prediction (Day 3-4)</h4>
 <ul>
 <li><strong>Goal</strong>: Generate candidate conformations representing different states of the Switch II region.</li>
-<li><strong>Input</strong>: KRAS G12C APO (PDB: 4OBE), OpenFold3 model weights.</li>
+<li><strong>Input</strong>: KRAS G12C APO (PDB: 4OBE), using the OpenFold3 structure-prediction capability already integrated into the platform.</li>
 <li><strong>Steps</strong>:<ol>
 <li>Run OpenFold3 template perturbation (5 templates) on 4OBE with <code>wa-dd-openfold3</code>, generating 5 conformations.</li>
 <li>Run OpenFold3 ligand induction (5 ligands) on 4OBE with <code>wa-dd-openfold3</code>, generating 5 conformations.</li>
@@ -2581,117 +2559,71 @@
 </tbody>
 </table>
 <hr />
-<h2 id="5-openfold3-model-weights-and-deployment">5. OpenFold3 Model Weights and Deployment</h2>
-<h3 id="51-model-weights-download">5.1 Model Weights Download</h3>
-<p>OpenFold3 is an open-source reproduction of AlphaFold3, developed by the AlQuraishi Lab at Columbia University and the OpenFold Consortium, licensed under Apache 2.0 (commercial use allowed).</p>
+<h2 id="5-platform-ui-operations-and-asset-flow">5. Platform UI Operations and Asset Flow</h2>
+<p>This case targets an already deployed WA-DD instance. Regular users do not need to install OpenFold3 manually, download model weights, write Dockerfiles, or run commands inside containers; those are platform-operations concerns. The L0-L3 workflow should be completed through the Web UI as much as possible, with every step registered as project assets.</p>
+<h3 id="51-ui-entry-points">5.1 UI Entry Points</h3>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Resource</th>
-<th style="text-align: left;">Download Method</th>
-<th style="text-align: left;">Size</th>
-<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Work</th>
+<th style="text-align: left;">Page</th>
+<th style="text-align: left;">Main Inputs</th>
+<th style="text-align: left;">Main Outputs</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong>OpenFold3 Model Parameters</strong></td>
-<td style="text-align: left;">Auto-download via <code>setup_openfold</code> command</td>
-<td style="text-align: left;">~1-2GB</td>
-<td style="text-align: left;">Contains OpenFold3-preview2 model weights</td>
+<td style="text-align: left;">Structure preparation</td>
+<td style="text-align: left;">Protein Processing</td>
+<td style="text-align: left;">PDB ID or uploaded PDB/CIF</td>
+<td style="text-align: left;"><code>protein</code> / <code>prepared_protein</code> assets</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>HuggingFace Manual Download</strong></td>
-<td style="text-align: left;"><code>https://huggingface.co/OpenFold/OpenFold3</code></td>
-<td style="text-align: left;">~1-2GB</td>
-<td style="text-align: left;">Manually download weight files</td>
+<td style="text-align: left;">Ligand preparation</td>
+<td style="text-align: left;">Ligand Processing</td>
+<td style="text-align: left;">SDF, SMILES, table, or drawn molecule</td>
+<td style="text-align: left;"><code>ligand</code> / <code>prepared_ligand</code> assets</td>
+</tr>
+<tr>
+<td style="text-align: left;">Conformation generation</td>
+<td style="text-align: left;">Structure Prediction</td>
+<td style="text-align: left;">Protein asset, template/ligand-induced parameters</td>
+<td style="text-align: left;">OpenFold3 structure-result assets</td>
+</tr>
+<tr>
+<td style="text-align: left;">MD and pocket analysis</td>
+<td style="text-align: left;">GROMACS / MD</td>
+<td style="text-align: left;">Protein/complex/topology/trajectory assets, <code>pocket_discovery</code> protocol</td>
+<td style="text-align: left;"><code>md_result</code>, <code>pocket_analyzer_report.json</code>, <code>pocket_events.csv</code>, <code>pocket_volume.csv</code>, standard <code>pocket</code> assets</td>
+</tr>
+<tr>
+<td style="text-align: left;">Molecule generation</td>
+<td style="text-align: left;">Molecule Generation</td>
+<td style="text-align: left;">Standard <code>pocket</code> asset and generation constraints</td>
+<td style="text-align: left;">Candidate-molecule SDF assets</td>
+</tr>
+<tr>
+<td style="text-align: left;">FEP validation</td>
+<td style="text-align: left;">FEP / Analysis</td>
+<td style="text-align: left;">Congeneric ligands, complexes, or docking/generation outputs</td>
+<td style="text-align: left;">FEP result tables and downloadable result assets</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Installation and Download</strong>:</p>
-<pre><code class="language-bash"># Install OpenFold3
-pip install openfold3
-
-# Download model weights (auto)
-setup_openfold
-
-# Or manual download
-wget https://huggingface.co/OpenFold/OpenFold3/resolve/main/of3p2_ema.pt
-mkdir -p /data/models/openfold3
-cp of3p2_ema.pt /data/models/openfold3/
-</code></pre>
-<h3 id="52-msa-acquisition-methods">5.2 MSA Acquisition Methods</h3>
-<p>OpenFold3 supports MSA acquisition through the ColabFold public server, requiring no local database:</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">Method</th>
-<th style="text-align: left;">Space</th>
-<th style="text-align: left;">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;"><strong>ColabFold Public Server (Recommended)</strong></td>
-<td style="text-align: left;">0GB</td>
-<td style="text-align: left;">Remote MSA retrieval via <code>colabfold.mmseqs.com</code></td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong>Local MMseqs2 Database</strong></td>
-<td style="text-align: left;">~46GB (UniRef30)</td>
-<td style="text-align: left;">Only for large-scale parallel processing</td>
-</tr>
-</tbody>
-</table>
-<h3 id="53-thor-cuda-13-docker-build">5.3 Thor (CUDA 13) Docker Build</h3>
-<p>OpenFold3 is based on PyTorch, requiring CUDA 13 compatibility verification. Key configuration:</p>
-<pre><code class="language-dockerfile"># Base image (consistent with FEP/Unidock Thor versions)
-ARG OPENFOLD3_THOR_BASE_IMAGE=nvcr.io/nvidia/cuda:13.0.2-runtime-ubuntu24.04
-
-# PyTorch + CUDA 13 support
-RUN pip install 'torch&gt;=2.4.0' --index-url https://download.pytorch.org/whl/cu130
-
-# OpenFold3
-RUN pip install 'openfold3&gt;=0.1.0'
-RUN setup_openfold
-</code></pre>
-<p><strong>Disk Usage</strong>: Image ~10GB + model weights ~1-2GB = <strong>~12GB</strong></p>
-<h3 id="54-minimal-verification-commands">5.4 Minimal Verification Commands</h3>
-<pre><code class="language-bash"># KRAS G12C sequence
-echo &quot;&gt;KRAS_G12C
-MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQ
-YMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAARTVESRQAQDLARSYGIP
-YIETSAKTRQGVEDAFYTLVREIRQH&quot; &gt; /tmp/kras_g12c.fasta
-
-# Method 1: Protein monomer prediction
-run_openfold predict --fasta_path=/tmp/kras_g12c.fasta
-
-# Method 2: Protein+ligand complex prediction (JSON input)
-cat &gt; /tmp/kras_ligand.json &lt;&lt; EOF
-{
-  &quot;name&quot;: &quot;KRAS_G12C_ARS1620&quot;,
-  &quot;sequences&quot;: [
-    {&quot;protein&quot;: &quot;MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAARTVESRQAQDLARSYGIPYIETSAKTRQGVEDAFYTLVREIRQH&quot;},
-    {&quot;smiles&quot;: &quot;CC#CC(=O)NC1=CC=C(C=C1)NC(=O)N2CCN(CC2)C(=O)O&quot;}
-  ]
-}
-EOF
-run_openfold predict --query_json=/tmp/kras_ligand.json
-
-# Method 3: Template perturbation (specify template PDB)
-cat &gt; /tmp/kras_template.json &lt;&lt; EOF
-{
-  &quot;name&quot;: &quot;KRAS_G12C_template_4OBE&quot;,
-  &quot;sequences&quot;: [
-    {&quot;protein&quot;: &quot;MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAARTVESRQAQDLARSYGIPYIETSAKTRQGVEDAFYTLVREIRQH&quot;}
-  ],
-  &quot;templates&quot;: [
-    {&quot;pdb&quot;: &quot;4OBE&quot;, &quot;chain_id&quot;: &quot;A&quot;}
-  ]
-}
-EOF
-run_openfold predict --query_json=/tmp/kras_template.json
-</code></pre>
+<h3 id="52-standard-asset-chaining">5.2 Standard Asset Chaining</h3>
+<ul>
+<li>GROMACS <code>pocket_discovery</code> writes pocket-analysis outputs into the same task result and creates a standard <code>pocket</code> asset when a representative structure is available.</li>
+<li>Standard <code>pocket</code> assets can be selected directly in the Docking and Molecule Generation pages; users do not need to manually copy center coordinates or file paths.</li>
+<li>The task-output button in the upper-right task panel lists registered output assets; "download all outputs" packages all result files for that task.</li>
+<li>Individual result files remain openable or downloadable from asset details, including <code>json</code>, <code>csv</code>, <code>xvg</code>, <code>pdb</code>, <code>gro</code>, and <code>log</code> outputs.</li>
+</ul>
+<h3 id="53-human-review-still-required">5.3 Human Review Still Required</h3>
+<p>The platform handles the data flow and compute scheduling, but the cryptic-pocket case still requires scientific judgment:</p>
+<ul>
+<li>Choose APO, OPEN, ligand-induced, or template-perturbed conformations as controls.</li>
+<li>Decide whether RMSD, pocket volume, candidate residues, and FEP ΔΔG support the conclusion that a pocket is druggable.</li>
+<li>Manually review the current MVP pocket analyzer's geometry-defined candidate pockets; deeper fpocket, MDAnalysis, water-network, and multi-frame event scoring remain planned enhancements.</li>
+</ul>
 
 
 
