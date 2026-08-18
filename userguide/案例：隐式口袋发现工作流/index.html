@@ -1706,7 +1706,7 @@
   <a href="#22" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.2 任务分解与新增组件
+        2.2 任务分解与组件状态
       
     </span>
   </a>
@@ -2070,7 +2070,7 @@
   <a href="#22" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.2 任务分解与新增组件
+        2.2 任务分解与组件状态
       
     </span>
   </a>
@@ -2360,7 +2360,7 @@
 </ul>
 <hr />
 <h2 id="2">2. 工作流设计与任务分解</h2>
-<p>为了实现上述构想，我们设计了一个包含四个核心阶段的闭环工作流。WA-DD 平台将通过新增的 Worker 组件和复用现有组件来完整支持这一流程。</p>
+<p>为了实现上述构想，我们设计了一个包含四个核心阶段的闭环工作流。当前 WA-DD 平台通过现有 OpenFold3、GROMACS、PocketXMol、FEP 和标准资产体系支持这一流程；口袋分析能力作为 GROMACS <code>pocket_discovery</code> 协议的一部分输出标准 <code>pocket</code> 资产。</p>
 <h3 id="21">2.1 工作流数据流</h3>
 <pre><code class="language-mermaid">graph TD
     A[&quot;输入: APO 蛋白结构&quot;] --&gt; B{&quot;阶段 1: OpenFold3 构象系综生成&quot;};
@@ -2369,7 +2369,7 @@
     D --&gt;|&quot;验证后的 OPEN 构象 (PDB)&quot;| E{&quot;阶段 4: 配体生成与复合物预测 (复用现有)&quot;};
     E --&gt;|&quot;活性配体 + 复合物结构&quot;| F((&quot;科学结论: 隐式口袋的可药性验证&quot;));
 </code></pre>
-<h3 id="22">2.2 任务分解与新增组件</h3>
+<h3 id="22">2.2 任务分解与组件状态</h3>
 <table>
 <thead>
 <tr>
@@ -2383,26 +2383,26 @@
 <tr>
 <td style="text-align: left;"><strong>1. OpenFold3 构象系综生成</strong></td>
 <td style="text-align: left;">利用 OpenFold3 模型，通过模板扰动和配体诱导策略，生成蛋白的多个候选构象。</td>
-<td style="text-align: left;"><strong>新增</strong>: <code>wa-dd-conformer-gen</code> (构象生成 Worker)</td>
-<td style="text-align: left;">🔄 开发中</td>
+<td style="text-align: left;"><code>wa-dd-openfold3</code></td>
+<td style="text-align: left;">✅ 已接入</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>2. MD 物理验证</strong></td>
-<td style="text-align: left;">使用 Gromacs 对候选构象进行增强采样的 MD 模拟，验证口袋打开。</td>
-<td style="text-align: left;"><strong>新增</strong>: <code>wa-dd-md-engine</code> (MD 模拟 Worker)</td>
-<td style="text-align: left;">🚀 规划中</td>
+<td style="text-align: left;">使用 GROMACS 对候选构象进行增强采样的 MD 模拟，验证口袋打开。</td>
+<td style="text-align: left;"><code>wa-dd-gromacs</code> (<code>pocket_discovery</code> / aMD / analysis)</td>
+<td style="text-align: left;">✅ 已接入</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>3. 口袋与水网络分析</strong></td>
-<td style="text-align: left;">从 MD 轨迹中提取口袋开闭事件，并分析水分子的热力学贡献。</td>
-<td style="text-align: left;"><strong>新增</strong>: <code>wa-dd-pocket-analyzer</code> (口袋分析 Worker)</td>
-<td style="text-align: left;">🚀 规划中</td>
+<td style="text-align: left;">从 MD 输出中提取口袋候选事件、体积曲线和候选口袋结构，并注册为标准 <code>pocket</code> 资产。</td>
+<td style="text-align: left;"><code>wa-dd-gromacs</code> 内置 pocket analyzer</td>
+<td style="text-align: left;">✅ MVP 已接入；深度 fpocket/MDAnalysis 评分待增强</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>4. 配体生成与复合物预测</strong></td>
 <td style="text-align: left;">在验证过的 OPEN 构象上生成配体，并通过 OpenFold3 预测复合物结构，FEP 验证。</td>
-<td style="text-align: left;"><strong>复用</strong>: <code>wa-dd-molecule-gen</code>, <code>wa-dd-fep</code> + OpenFold3 复合物预测</td>
-<td style="text-align: left;">✅ 已就绪 / 新增</td>
+<td style="text-align: left;"><code>wa-dd-molecule-gen</code>, <code>wa-dd-openfold3</code>, <code>wa-dd-fep</code></td>
+<td style="text-align: left;">✅ 已接入</td>
 </tr>
 </tbody>
 </table>
@@ -2494,8 +2494,8 @@
 <li><strong>目标</strong>：生成能代表 Switch II 区域不同状态的候选构象。</li>
 <li><strong>输入</strong>：KRAS G12C APO (PDB: 4OBE), OpenFold3 模型权重。</li>
 <li><strong>步骤</strong>：<ol>
-<li>用 <code>wa-dd-conformer-gen</code> 对 4OBE 运行 OpenFold3 模板扰动（5 个模板），生成 5 个构象。</li>
-<li>用 <code>wa-dd-conformer-gen</code> 对 4OBE 运行 OpenFold3 配体诱导（5 个配体），生成 5 个构象。</li>
+<li>用 <code>wa-dd-openfold3</code> 对 4OBE 运行 OpenFold3 模板扰动（5 个模板），生成 5 个构象。</li>
+<li>用 <code>wa-dd-openfold3</code> 对 4OBE 运行 OpenFold3 配体诱导（5 个配体），生成 5 个构象。</li>
 <li>计算每个构象与 6GJ8 Switch II 区域的 RMSD。</li>
 <li>筛选 RMSD &lt; 3.0Å 的候选构象（作为 L2 的输入）。</li>
 </ol>
@@ -2507,8 +2507,8 @@
 <li><strong>目标</strong>：验证 AI 预测构象的物理稳定性。</li>
 <li><strong>输入</strong>：L1 筛选出的 AI 构象 + 6GJ8 基准构象。</li>
 <li><strong>步骤</strong>：<ol>
-<li>用 <code>wa-dd-md-engine</code> (Gromacs aMD) 对 3 个构象各跑 5ns 模拟。</li>
-<li>用 <code>wa-dd-pocket-analyzer</code> 分析 RMSD 演化和口袋体积变化。</li>
+<li>用 <code>wa-dd-gromacs</code> 的 <code>pocket_discovery</code> / aMD 协议对 3 个构象各跑 5ns 模拟。</li>
+<li>用 GROMACS 内置 pocket analyzer 输出 <code>pocket_analyzer_report.json</code>、<code>pocket_events.csv</code>、<code>pocket_volume.csv</code> 和标准 <code>pocket</code> 资产。</li>
 <li>对比 AI 构象与 6GJ8 的 RMSD 漂移。</li>
 </ol>
 </li>
@@ -2539,17 +2539,17 @@
 <ul>
 <li><strong>科学问题定义</strong>：明确了隐式口袋发现的科学价值和技术路径。</li>
 <li><strong>工作流设计</strong>：完成了从 OpenFold3 构象生成到 FEP 验证的完整数据流设计，以及单服务器渐进式验证方案。</li>
-<li><strong>现有组件集成</strong>：确认了 <code>protein-prep</code>, <code>molecule-gen</code>, <code>fep</code> 等现有组件可直接复用。</li>
+<li><strong>现有组件集成</strong>：<code>openfold3</code>、<code>gromacs</code>、<code>molecule-gen</code>、<code>fep</code> 等组件已纳入同一资产链。</li>
+<li><strong>Pocket analyzer MVP</strong>：GROMACS <code>pocket_discovery</code> 输出可登记 <code>md_result</code>、候选 <code>pocket</code> 资产和可打包下载的完整结果文件。</li>
 </ul>
 <h3 id="42">4.2 进行中</h3>
 <ul>
-<li><strong><code>wa-dd-conformer-gen</code> Worker 设计与开发</strong>：核心是集成 OpenFold3（AlphaFold3 开源复现版）进行模板扰动和配体诱导构象生成。OpenFold3 基于 Apache 2.0 许可，支持 CUDA 13（Thor），原生支持蛋白-配体复合物结构预测。</li>
+<li><strong>OpenFold3 构象生成验证</strong>：通过现有 <code>wa-dd-openfold3</code> 组件验证模板扰动和配体诱导构象生成的参数规范、结果筛选和 UI 串联。</li>
 </ul>
 <h3 id="43">4.3 规划中</h3>
 <ul>
-<li><strong><code>wa-dd-md-engine</code> Worker 设计与开发</strong>：集成 Gromacs，重点关注 aMD 参数的优化和 GPU 加速。</li>
-<li><strong><code>wa-dd-pocket-analyzer</code> Worker 设计与开发</strong>：集成 <code>fpocket</code> 和 <code>MDAnalysis</code> 进行轨迹分析。</li>
-<li><strong>API 与前端集成</strong>：为新 Worker 设计 API 接口，并在 Web 界面添加相应的任务提交和结果展示页面。</li>
+<li><strong>Pocket analyzer 深度增强</strong>：在当前标准 <code>pocket</code> 资产合同不变的前提下，补充 <code>fpocket</code>、<code>MDAnalysis</code>、水网络和多帧口袋事件评分。</li>
+<li><strong>案例验证数据</strong>：用 KRAS G12C 示例补齐 L0-L3 的实际输出、截图和阈值证据。</li>
 </ul>
 <h3 id="44">4.4 里程碑</h3>
 <table>
@@ -2562,19 +2562,19 @@
 <tbody>
 <tr>
 <td style="text-align: left;"><strong>第一阶段 (Week 1)</strong></td>
-<td style="text-align: left;">完成 <code>wa-dd-conformer-gen</code> MVP，跑通 L1 OpenFold3 构象生成。</td>
+<td style="text-align: left;">用 <code>wa-dd-openfold3</code> 跑通 L1 构象生成和候选筛选。</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>第二阶段 (Week 2)</strong></td>
-<td style="text-align: left;">完成 <code>wa-dd-md-engine</code> MVP，跑通 L0 基准 FEP + L2 物理验证。</td>
+<td style="text-align: left;">用 <code>wa-dd-gromacs</code> 跑通 L0 基准 FEP + L2 物理验证。</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>第三阶段 (Week 3)</strong></td>
-<td style="text-align: left;">完成 <code>wa-dd-pocket-analyzer</code>，跑通 L3 闭环发现。</td>
+<td style="text-align: left;">基于 GROMACS pocket analyzer 输出标准 <code>pocket</code> 资产并跑通 L3 闭环发现。</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>第四阶段 (Week 4)</strong></td>
-<td style="text-align: left;">集成所有组件，完成完整的四层验证工作流。</td>
+<td style="text-align: left;">增强 fpocket/MDAnalysis 评分、补齐水网络分析和完整案例证据。</td>
 </tr>
 </tbody>
 </table>
