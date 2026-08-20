@@ -55,8 +55,6 @@ WA-DD 是一个个人独立开发的计算机辅助药物设计（CADD）工作�
 
 ![WA-DD 管理与系统资源：管理员可管理用户、文件与项目、全局任务，并查看部署机器的 CPU、内存、GPU 和磁盘指标](userguide/images/admin-system-resources.jpg)
 
-![WA-DD Agent / Pi：用户可管理独立会话和模型配置，并在对话中调用当前项目权限范围内的 CADD 工作流](userguide/images/agent-pi-overview.jpg)
-
 ![WA-DD Agent 科研工作台：Pi / Prime 可检索项目相关文献，右侧独立证据栏展示 Sciverse 结果而不遮挡对话](userguide/images/agent-research-workbench.png)
 
 ![WA-DD Agent 工作台：使用 Pi 或 Prime 管理个人会话与模型配置，并在当前项目权限范围内调用科研工具](userguide/images/agent-workbench-overview.png)

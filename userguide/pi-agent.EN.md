@@ -6,8 +6,6 @@ The Agent page supports personal CADD sessions powered by either Pi Agent Core o
 
 Each request carries the project currently selected in the page. For ligand discovery, the Agent first queries ligand-specific assets in that project and then reads molecules and SMILES from the selected asset; it does not infer results from a truncated general asset list.
 
-![Agent / Pi page: manage sessions and model configuration on the left, execute CADD workflows in the current project through conversation on the right](images/agent-pi-overview.jpg)
-
 ![Agent research workbench: Pi or Prime conversation in the center and independently scrollable Sciverse evidence on the right](images/agent-research-workbench.png)
 
 ![Agent workbench: use Pi or Prime to manage personal sessions and model configuration, and call research tools within the current project permissions](images/agent-workbench-overview.png)
