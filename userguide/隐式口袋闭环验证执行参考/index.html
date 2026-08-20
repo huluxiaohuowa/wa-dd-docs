@@ -1963,6 +1963,7 @@
 <li>[x] 登录 WA-DD Web，并进入本次验证专用项目。已创建项目：<code>cryptic-pocket-kras-g12c</code>，项目 ID：<code>2efb08b2-902e-42e7-afd1-4111c2928831</code>。</li>
 <li>[ ] 在“模型仓库”确认 OpenFold3 和 PocketXMol 模型处于可用状态。</li>
 <li>[x] 在“任务”或对应页面确认 FEP worker 可接收任务。已提交 L0 smoke FEP 任务：<code>L0_smoke_FEP_APO_4OBE_ARS1620</code>、<code>L0_smoke_FEP_OPEN_6GJ8_ARS1620</code>。</li>
+<li>[x] 复核 L0 smoke FEP 结果。两个 smoke FEP 均已完成并生成 <code>rbfe_results.json</code> / <code>rbfe_results.csv</code>，但由于单配体输入 <code>edges=[]</code>，只能证明 FEP worker 链路可用，不能作为正式 RBFE 对比证据。</li>
 <li>[ ] 在“任务”或对应页面确认 GROMACS worker 可接收 <code>pocket_discovery</code> 任务。</li>
 <li>[ ] 确认任务输出中的文件按钮、资产详情文件按钮和“打包下载全部输出”均可打开或下载。</li>
 </ul>
@@ -1977,6 +1978,8 @@
 <li>[x] 从 <code>5V9U</code> 共晶结构提取 ARS-1620 bound ligand。输入资产：<code>KRAS_G12C_ARS1620_cocrystal_5V9U</code>；选中组分：<code>91S</code> / chain <code>A</code> / residue <code>204</code>；生成资产：<code>ARS-1620_5V9U_bound_ligand</code>（<code>7be34d6c-1008-4796-a6c8-fa3842a0c9c5</code>）。</li>
 <li>[x] 对 ARS-1620 bound ligand 运行配体准备。输入资产：<code>ARS-1620_5V9U_bound_ligand</code>；生成资产：<code>ARS-1620_5V9U_bound_ligand_prepared</code>（<code>dba5deed-6a02-41a1-bf2a-bc94e620d01a</code>），文件：<code>ARS-1620_5V9U_bound_ligand_prepared.sdf</code>。</li>
 <li>[x] 验证 2D SMILES 输入也可生成 3D prepared ligand。输入资产：<code>ARS-1620_2D_SMILES_regression</code>（PubChem CID <code>137003167</code> SMILES）；生成资产：<code>ARS-1620_2D_SMILES_regression_prepared</code>（<code>44907411-eda4-454b-80f4-7440636b8df2</code>）。</li>
+<li>[x] 创建正式 RBFE 配体库。输入 SMILES：ARS-1620、Sotorasib/AMG510、Adagrasib/MRTX849；生成资产：<code>KRAS_G12C_inhibitor_RBFE_library</code>（<code>3a9bfbf6-a503-49c8-b3b2-b5d8c5bb2b59</code>）。</li>
+<li>[x] 对正式 RBFE 配体库运行 3D 配体准备。输入资产：<code>KRAS_G12C_inhibitor_RBFE_library</code>；生成资产：<code>KRAS_G12C_inhibitor_RBFE_library_prepared</code>（<code>1f75c4b6-4dab-4da6-a6ab-362573d5f5f0</code>），包含 3 个 prepared molecules。</li>
 <li>[ ] 在项目资产列表确认 4OBE、6GJ8、5V9U、准备后蛋白和准备后配体均可打开详情，且原始文件可下载。</li>
 </ul>
 <p>第一阶段通过后，记录项目 ID、资产 ID、任务 ID 和输出文件名，作为后续 L0 FEP 与 L1 OpenFold3 的输入。</p>
@@ -1984,18 +1987,21 @@
 <ul>
 <li>[x] 在“FEP / 分析”选择 <code>KRAS_G12C_APO_4OBE_prepared</code> 和 ARS-1620 配体资产，提交 APO smoke FEP。输入资产：<code>KRAS_G12C_APO_4OBE_prepared</code>（<code>3eb15f31-4d56-41eb-85e7-79f977d7e49a</code>）、<code>ARS-1620_PubChem_137003167</code>（<code>82d4ce27-8751-4166-822c-1e03e0f0feff</code>）；生成任务：<code>L0_smoke_FEP_APO_4OBE_ARS1620</code>，job ID：<code>933fcfb0-080d-4bc4-a976-8daa6d67f3c1</code>；输出资产：<code>38498973-6ea7-48cf-bb50-e5bb7eeccdfd</code>。</li>
 <li>[x] 用相同配体资产和 <code>KRAS_G12C_OPEN_6GJ8_prepared</code> 提交 OPEN smoke FEP。输入资产：<code>KRAS_G12C_OPEN_6GJ8_prepared</code>（<code>12f33182-91b8-4a54-b383-e81552d7afd5</code>）、<code>ARS-1620_PubChem_137003167</code>（<code>82d4ce27-8751-4166-822c-1e03e0f0feff</code>）；生成任务：<code>L0_smoke_FEP_OPEN_6GJ8_ARS1620</code>，job ID：<code>64d8677d-c5ba-4385-bfb5-f9e93d34b862</code>；输出资产：<code>50a58f93-323a-44e7-90c8-60adc2d3ffd7</code>。</li>
-<li>[ ] 用 <code>ARS-1620_5V9U_bound_ligand_prepared</code> 重新提交正式 L0 APO FEP。输入资产：<code>KRAS_G12C_APO_4OBE_prepared</code>、<code>ARS-1620_5V9U_bound_ligand_prepared</code>。</li>
-<li>[ ] 用 <code>ARS-1620_5V9U_bound_ligand_prepared</code> 重新提交正式 L0 OPEN FEP。输入资产：<code>KRAS_G12C_OPEN_6GJ8_prepared</code>、<code>ARS-1620_5V9U_bound_ligand_prepared</code>。</li>
+<li>[x] 用 <code>KRAS_G12C_inhibitor_RBFE_library_prepared</code> 提交正式 L0 APO RBFE。输入资产：<code>KRAS_G12C_APO_4OBE_prepared</code>（<code>3eb15f31-4d56-41eb-85e7-79f977d7e49a</code>）、<code>KRAS_G12C_inhibitor_RBFE_library_prepared</code>（<code>1f75c4b6-4dab-4da6-a6ab-362573d5f5f0</code>）；生成任务：<code>L0_RBFE_APO_4OBE_KRAS_G12C_inhibitor_library</code>，job ID：<code>61151b6d-3c41-433e-95be-d7934a991515</code>；输出资产：<code>3830498f-5b4d-4013-91e7-fa557f12938f</code>。当前状态：failed，<code>n_edges=2</code>、<code>n_failed=2</code>，需复核 FEP worker 错误日志或换更适合的非共价验证体系。</li>
+<li>[x] 用 <code>KRAS_G12C_inhibitor_RBFE_library_prepared</code> 提交正式 L0 OPEN RBFE。输入资产：<code>KRAS_G12C_OPEN_6GJ8_prepared</code>（<code>12f33182-91b8-4a54-b383-e81552d7afd5</code>）、<code>KRAS_G12C_inhibitor_RBFE_library_prepared</code>（<code>1f75c4b6-4dab-4da6-a6ab-362573d5f5f0</code>）；生成任务：<code>L0_RBFE_OPEN_6GJ8_KRAS_G12C_inhibitor_library</code>，job ID：<code>c54d40c2-05d9-40ce-bbe9-ca7ff6402a7b</code>；输出资产：<code>033b0b42-401f-4913-9bc2-162bb0441918</code>。当前状态：running。</li>
 <li>[ ] 等待两个正式 FEP 任务完成后，打开 FEP 输出资产，下载 JSON/CSV 结果。</li>
 <li>[ ] 使用“打包下载全部输出”保存两个任务的完整结果包。</li>
 <li>[ ] 比较两个构象下的 ΔG；若 OPEN 优于 APO 1.0 kcal/mol 以上，L0 通过。</li>
+<li>[ ] 若正式 APO/OPEN RBFE 继续失败，停止 KRAS G12C 作为 L0 FEP 基准体系，改选公开数据更完整、非共价配体系列更稳定的隐式口袋体系。</li>
 </ul>
 <h2 id="6-l1-openfold3">6. 第三阶段：L1 OpenFold3 构象生成</h2>
 <ul>
 <li>[ ] 在“结构预测”选择 <code>KRAS_G12C_APO_4OBE_prepared</code> 作为输入蛋白资产。</li>
 <li>[ ] 导入或选择 6GJ8、5VQ2、4TQ9 等模板结构资产。已可用模板资产：<code>KRAS_G12C_OPEN_6GJ8</code>、<code>KRAS_G12C_OPEN_6GJ8_prepared</code>。</li>
-<li>[ ] 运行 OpenFold3 模板扰动预测，生成候选构象资产。</li>
-<li>[ ] 对已知配体或片段库运行配体诱导预测。已可用配体资产：<code>ARS-1620_5V9U_bound_ligand_prepared</code>、<code>ARS-1620_2D_SMILES_regression_prepared</code>。</li>
+<li>[x] 提交 OpenFold3 模板扰动预测。输入资产：<code>KRAS_G12C_APO_4OBE_prepared</code>、<code>KRAS_G12C_OPEN_6GJ8_prepared</code>、<code>KRAS_G12C_ARS1620_cocrystal_5V9U</code>；生成任务：<code>L1_OpenFold3_template_perturbation_KRAS_G12C</code>，job ID：<code>4c1a97e9-c72c-4f7a-9f00-0dcdc021936c</code>。当前状态：failed，原因：<code>AssetFile.size</code> 字段 bug；修复部署后重试。</li>
+<li>[x] 提交 OpenFold3 配体诱导预测。输入资产：<code>KRAS_G12C_APO_4OBE_prepared</code>、<code>ARS-1620_5V9U_bound_ligand_prepared</code>、<code>KRAS_G12C_inhibitor_RBFE_library_prepared</code>、<code>KRAS_G12C_OPEN_6GJ8_prepared</code>；生成任务：<code>L1_OpenFold3_ligand_induced_KRAS_G12C</code>，job ID：<code>3176f6cd-7fa4-4464-8cc4-91aaf3ffa6cd</code>。当前状态：failed，原因：<code>AssetFile.size</code> 字段 bug；修复部署后重试。</li>
+<li>[ ] 重新提交 OpenFold3 模板扰动预测，生成候选构象资产。</li>
+<li>[ ] 重新提交 OpenFold3 配体诱导预测。已可用配体资产：<code>ARS-1620_5V9U_bound_ligand_prepared</code>、<code>KRAS_G12C_inhibitor_RBFE_library_prepared</code>。</li>
 <li>[ ] 从 OpenFold3 输出中筛选构象资产，计算 Switch II 区域与 6GJ8 的 RMSD。</li>
 <li>[ ] 选择 RMSD &lt; 3.0 Å 的构象进入 L2。</li>
 </ul>
