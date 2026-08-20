@@ -10,6 +10,8 @@ Agent 会随请求接收页面当前选中的项目；查找配体时会先按�
 
 ![Agent 科研工作台：Pi / Prime 对话位于中间，Sciverse 文献证据在右侧独立工作区滚动查看](images/agent-research-workbench.png)
 
+![Agent 工作台：使用 Pi 或 Prime 管理个人会话、模型配置和当前项目范围内的科研工具](images/agent-workbench-overview.png)
+
 页面左侧可新建、重命名或删除个人会话，并打开模型配置；右侧对话会结合当前项目中的蛋白、配体、口袋和任务结果，按需询问必要输入后调用允许的工具。工具权限与当前用户一致，不能访问其他用户的项目或资产。
 
 首次打开页面会要求填写当前账户的模型地址、模型名和 API Key。每个用户的 API Key 各自加密保存，页面不会回显它；之后修改任意一项时，留空的密钥表示保持原值，绝不会清除已保存的密钥。可选填写一把 Sciverse Key；Sciverse 与点石 DianShi 使用同一把 Key，保存后仅在当前用户的 Agent 工具调用时解密使用。

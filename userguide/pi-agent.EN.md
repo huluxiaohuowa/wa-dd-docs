@@ -10,6 +10,8 @@ Each request carries the project currently selected in the page. For ligand disc
 
 ![Agent research workbench: Pi or Prime conversation in the center and independently scrollable Sciverse evidence on the right](images/agent-research-workbench.png)
 
+![Agent workbench: use Pi or Prime to manage personal sessions and model configuration, and call research tools within the current project permissions](images/agent-workbench-overview.png)
+
 On the left side of the page you can create, rename, or delete personal sessions, and open model configuration; the conversation on the right combines the proteins, ligands, pockets, and task results in the current project, asks for necessary inputs as needed, and then calls the allowed tools. Tool permissions match the current user and cannot access other users' projects or assets.
 
 The first time you open the page, you will be asked to fill in the model endpoint, model name, and API Key for the current account. Each user's API Key is encrypted and stored independently, and the page never echoes it back. When editing later, an empty secret keeps the existing saved value and never clears it. You may optionally provide one Sciverse Key; the same key is used for Sciverse and DianShi and is decrypted only while the current user's Agent invokes those tools.
