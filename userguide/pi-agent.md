@@ -1,8 +1,8 @@
 > [English documentation](pi-agent.EN.md)
 
-# Agent 工作台（Pi / Prime）
+# Agent 工作台（Pi / Prime / JCode）
 
-Agent 页面支持 Pi Agent Core 与 Prime Agent 两种个人 CADD 运行时。每个 WA-DD 用户只能看到自己的会话、上下文和模型配置；两个运行时共享同一份加密模型配置。
+Agent 页面支持 Pi Agent Core、Prime Agent 与 JCode 三种个人 CADD 运行时。每个 WA-DD 用户只能看到自己的会话、上下文和模型配置；三个运行时共享同一份加密模型配置。
 
 Agent 会随请求接收页面当前选中的项目；查找配体时会先按配体类型精确检索该项目，再读取所选资产中的分子和 SMILES，而不是从截断的全量资产列表猜测。
 

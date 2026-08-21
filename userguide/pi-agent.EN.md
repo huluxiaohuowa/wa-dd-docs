@@ -1,8 +1,8 @@
 > [中文文档](pi-agent.md)
 
-# Agent workbench (Pi / Prime)
+# Agent workbench (Pi / Prime / JCode)
 
-The Agent page supports personal CADD sessions powered by either Pi Agent Core or Prime Agent. Each WA-DD user can only see their own sessions, context, and model configuration; both runtimes share one encrypted model configuration.
+The Agent page supports personal CADD sessions powered by Pi Agent Core, Prime Agent, or JCode. Each WA-DD user can only see their own sessions, context, and model configuration; all three runtimes share one encrypted model configuration.
 
 Each request carries the project currently selected in the page. For ligand discovery, the Agent first queries ligand-specific assets in that project and then reads molecules and SMILES from the selected asset; it does not infer results from a truncated general asset list.
 
