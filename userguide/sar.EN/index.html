@@ -1469,6 +1469,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#failure-attribution-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure Attribution Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constraint-feedback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constraint Feedback
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification Metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#api-automation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1779,6 +1812,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#failure-attribution-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure Attribution Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constraint-feedback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constraint Feedback
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification Metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#api-automation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1812,11 +1878,23 @@
 <h1 id="sar-structure-activity-relationship">SAR / Structure-Activity Relationship</h1>
 <h2 id="role">Role</h2>
 <p>The SAR module combines activity data, molecular structures, docking/FEP results, and computed properties for medicinal chemistry decisions and the next round of design.</p>
+<p>Design feedback / failure attribution is the closed-loop analysis entry inside SAR. It combines candidate ligands, interaction profiles, docking results, FEP results, and optional pocket context into one evidence table, attributes the current round's failure modes, and produces constraints for the next design round.</p>
 <h2 id="inputs">Inputs</h2>
 <ul>
 <li>SMILES/SDF ligand assets</li>
 <li>activity table</li>
 <li>docking or FEP result assets</li>
+<li>interaction profile assets</li>
+<li>pocket assets</li>
+</ul>
+<p>Candidate ligands, interaction profiles, docking results, and FEP results use the same grouped asset picker as ligand processing. Users can expand assets by source, select multiple entries, and submit evidence from several rounds in one run. The pocket asset is a single optional input used to preserve structural context in the report.</p>
+<p>Recommended input set:</p>
+<ul>
+<li>Candidate ligand assets: generated, screened, or FEP-annotated SDF assets from the current round.</li>
+<li>Interaction profiles: profiles from interaction analysis, or docking interaction backfill results.</li>
+<li>Docking results: WA-DD Docking or Uni-Dock output assets.</li>
+<li>FEP results: FEP analysis outputs with ligand-level or edge-level relative energy, error, and ranking evidence.</li>
+<li>Required interactions: semicolon-separated labels, for example <code>ASP189 hydrogen bond; SER195 proximity</code>.</li>
 </ul>
 <h2 id="outputs">Outputs</h2>
 <ul>
@@ -1824,8 +1902,141 @@
 <li>R-group/MMPA views</li>
 <li>next-design candidates</li>
 </ul>
+<p>Design feedback creates a <code>design_feedback</code> asset with these standard files:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>design_feedback_report.json</code></td>
+<td>Full structured report with input assets, thresholds, candidate evidence, failure modes, constraints, and recommended candidates.</td>
+</tr>
+<tr>
+<td><code>candidate_evidence.csv</code></td>
+<td>Candidate-level evidence table. Each row represents a collapsed ligand candidate with docking, FEP, interaction, and recommendation fields.</td>
+</tr>
+<tr>
+<td><code>failure_modes.csv</code></td>
+<td>Failure-mode table. A candidate may have multiple labels for current-round triage.</td>
+</tr>
+<tr>
+<td><code>next_round_constraints.json</code></td>
+<td>Next-round design constraints, including required interactions, failure modes to avoid, optimization priorities, and thresholds.</td>
+</tr>
+<tr>
+<td><code>recommended_candidates.sdf</code></td>
+<td>Candidate structures recommended for the next round. This file is omitted when no candidate passes the recommendation rules.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="failure-attribution-rules">Failure Attribution Rules</h2>
+<p>The algorithm fuses evidence around ligand candidates. If a candidate has multiple poses or multiple external evidence rows, rows are collapsed by ligand name while keeping the best available docking score, FEP value, and interaction support.</p>
+<p>Built-in failure modes include:</p>
+<ul>
+<li><code>weak_docking_score</code>: docking score does not pass the configured threshold.</li>
+<li><code>fep_unfavorable</code>: FEP prediction is unfavorable and exceeds the bad-result threshold.</li>
+<li><code>fep_uncertain</code>: FEP error exceeds the uncertainty threshold.</li>
+<li><code>missing_required_interaction</code>: one or more required interactions are missing.</li>
+<li><code>low_interaction_support</code>: interaction evidence count is below the minimum count.</li>
+<li><code>series_outlier</code>: the candidate is inconsistent with its series trend.</li>
+<li><code>insufficient_evidence</code>: docking, FEP, or interaction evidence is not sufficient.</li>
+</ul>
+<p>A recommended candidate must satisfy:</p>
+<ul>
+<li>Docking score passes the threshold, or docking evidence is absent while other evidence supports the candidate.</li>
+<li>FEP does not exceed the bad-result threshold and error does not exceed the uncertainty threshold.</li>
+<li>Required interactions and the minimum interaction count are satisfied.</li>
+<li>No critical failure mode remains.</li>
+</ul>
+<h2 id="constraint-feedback">Constraint Feedback</h2>
+<p><code>next_round_constraints.json</code> is designed for the next generation, screening, or medicinal chemistry design round. It turns attribution results into actionable constraints:</p>
+<ul>
+<li>Preserve required interactions that are already matched.</li>
+<li>Send <code>required_interactions</code> back for candidates missing key interactions.</li>
+<li>Tighten shape complementarity, pocket occupancy, and docking score requirements when docking is weak.</li>
+<li>Feed energy and error thresholds back when FEP is unfavorable or uncertain.</li>
+<li>Flag series outliers for per-series review instead of merging them into one global rank.</li>
+</ul>
+<h2 id="verification-metrics">Verification Metrics</h2>
+<p>A completed design feedback run should satisfy these checks:</p>
+<ul>
+<li>The job type is <code>design_feedback_analysis</code> and the job status is <code>completed</code>.</li>
+<li>The output asset has <code>source_type</code> set to <code>design_feedback</code> and metadata schema <code>wa_dd.design_feedback.v1</code>.</li>
+<li><code>candidate_evidence.csv</code> contains at least <code>candidate_name</code>, <code>docking_score</code>, <code>fep_delta_g</code>, <code>interaction_count</code>, and <code>recommended</code>.</li>
+<li><code>failure_modes.csv</code> contains traceable <code>candidate_name</code> and <code>failure_modes</code> fields.</li>
+<li><code>next_round_constraints.json</code> uses schema <code>wa_dd.next_round_constraints.v1</code>.</li>
+<li>If at least one candidate passes, <code>recommended_candidates.sdf</code> can be downloaded and reused as a downstream ligand asset.</li>
+<li>The frontend asset picker supports grouped expansion and multi-select; it should not fall back to raw multi-select boxes.</li>
+</ul>
 <h2 id="api-automation">API / Automation</h2>
-<p>This is currently a planning entry point; ligand assets and result assets are already prepared as SAR inputs through the unified asset system.</p>
+<p>Design feedback API:</p>
+<pre><code class="language-http">POST /api/v1/design-feedback
+</code></pre>
+<p>Request fields:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_id</code></td>
+<td>Current project ID.</td>
+</tr>
+<tr>
+<td><code>ligand_asset_ids</code></td>
+<td>List of candidate ligand asset IDs.</td>
+</tr>
+<tr>
+<td><code>interaction_profile_asset_ids</code></td>
+<td>List of interaction profile asset IDs.</td>
+</tr>
+<tr>
+<td><code>docking_asset_ids</code></td>
+<td>List of docking result asset IDs.</td>
+</tr>
+<tr>
+<td><code>fep_asset_ids</code></td>
+<td>List of FEP result asset IDs.</td>
+</tr>
+<tr>
+<td><code>pocket_asset_id</code></td>
+<td>Optional pocket asset ID.</td>
+</tr>
+<tr>
+<td><code>required_interactions</code></td>
+<td>Required interactions to preserve.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>Output asset name, defaults to <code>design_feedback</code>.</td>
+</tr>
+<tr>
+<td><code>docking_good_threshold</code></td>
+<td>Docking recommendation threshold, default <code>-8.0</code>.</td>
+</tr>
+<tr>
+<td><code>fep_bad_threshold</code></td>
+<td>FEP bad-result threshold, default <code>1.0</code>.</td>
+</tr>
+<tr>
+<td><code>fep_error_threshold</code></td>
+<td>FEP uncertainty threshold, default <code>2.0</code>.</td>
+</tr>
+<tr>
+<td><code>min_interaction_count</code></td>
+<td>Minimum interaction evidence count, default <code>1</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>The response is a Job object. After completion, download the standard files from the output asset.</p>
+<p>The current implementation runs directly in the Web/API process and does not add a worker. This path fits lightweight evidence fusion and asset generation. A separate worker should only be added later if the workflow grows into long-running model inference, bulk recomputation, or queued scheduling.</p>
 
 
 
