@@ -898,6 +898,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#input-and-parameter-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Input and parameter requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#outputs" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1779,6 +1790,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#input-and-parameter-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Input and parameter requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#outputs" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1839,6 +1861,27 @@
 <li>prepared complex or docking result</li>
 <li>ligand series</li>
 <li>simulation settings</li>
+</ul>
+<h2 id="input-and-parameter-requirements">Input and parameter requirements</h2>
+<p>Production RBFE success depends mainly on input quality and mapping parameters:</p>
+<p>Protein input:</p>
+<ul>
+<li>The protein PDB must carry complete hydrogens; when hydrogens are missing the system rebuilds them with PDBFixer, but rebuilt side chains are placed without clash checking and disordered side chains (e.g. arginine guanidinium groups) can land on neighboring atoms.</li>
+<li>Before running, the system scans inter-residue heavy-atom contacts (&lt; 1.6 Å fails the job and lists the residues). For disordered charged side chains far from the pocket (&gt; 10 Å), set "receptor clash handling" to "truncate to ALA" at submission time and list the residues (e.g. <code>A:741</code>, <code>A:832</code>); truncating only remote residues has negligible impact on ΔΔG.</li>
+</ul>
+<p>Ligand series:</p>
+<ul>
+<li>Use a congeneric series so atom mappings exist; prepare all ligands together as a 3D SDF with explicit hydrogens.</li>
+<li>Ligand poses should share one binding-site frame. Keep the default "automatic O3A alignment"; even with O3A disabled, the system rigidly refines each ligand onto the reference over the mapped atoms (Kabsch) after mapping selection.</li>
+</ul>
+<p>Mapping parameters:</p>
+<ul>
+<li>"Max 3D offset" is capped at 1.0 Å; keep the default 0.75 Å. A hybrid topology whose mapped atoms deviate by more than 1.0 Å explodes from valence strain during propagation (NaN), so the system rejects it and fails early.</li>
+<li>Leave "allow element changes" off unless you know why you need it.</li>
+</ul>
+<p>Protocol parameters:</p>
+<ul>
+<li>Prefer timestep 1–2 fs and minimization_steps ≥ 20000. When validating a new target, first confirm the full chain with shorter production steps before scaling up.</li>
 </ul>
 <h2 id="outputs">Outputs</h2>
 <ul>

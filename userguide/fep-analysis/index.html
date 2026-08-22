@@ -929,6 +929,17 @@
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
+        输入与参数要求
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
         输出
       
     </span>
@@ -1782,6 +1793,17 @@
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
+        输入与参数要求
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
         输出
       
     </span>
@@ -1840,7 +1862,28 @@
 <li>配体系列</li>
 <li>模拟设置</li>
 </ul>
-<h2 id="_3">输出</h2>
+<h2 id="_3">输入与参数要求</h2>
+<p>RBFE 正式运行的成败主要取决于输入质量和映射参数，请按以下要求准备：</p>
+<p>蛋白输入：</p>
+<ul>
+<li>蛋白 PDB 需要完整氢原子；缺失氢时系统会用 PDBFixer 自动补齐，但补侧链不做冲突检查，可能把无序侧链（如精氨酸胍基）补到相邻原子上。</li>
+<li>系统在开跑前会扫描残基间重原子冲突（&lt; 1.6 Å 即报错并列出残基）。对远离口袋（&gt; 10 Å）的无序带电侧链，可在提交时把「受体冲突处理」设为「截断为 ALA」并填写残基列表（如 <code>A:741</code>, <code>A:832</code>）；截断只改远离口袋的残基，对 ΔΔG 影响可忽略。</li>
+</ul>
+<p>配体系列：</p>
+<ul>
+<li>必须是同源（congeneric）系列，配体之间能建立原子映射；建议使用同一批制备、带显式氢的 3D SDF。</li>
+<li>配体 pose 应处于同一结合位坐标框架。默认「自动 O3A 对齐」即可；关闭 O3A 时系统仍会在选完映射后按映射原子做 Kabsch 刚性精修，把映射原子对齐到重合。</li>
+</ul>
+<p>映射参数：</p>
+<ul>
+<li>「最大 3D 偏移」上限 1.0 Å，建议保持默认 0.75 Å。映射原子 3D 偏移超过 1.0 Å 的 hybrid topology 会在传播阶段因成键应变爆炸（NaN），系统会直接拒绝并提前失败。</li>
+<li>不勾选「允许元素变化映射」，除非明确知道自己在做什么。</li>
+</ul>
+<p>Protocol 参数：</p>
+<ul>
+<li>timestep 建议 1–2 fs；minimization_steps ≥ 20000。首次验证一个新体系时，可先用较短的 production 步数确认整条链路能跑通，再放大到正式长度。</li>
+</ul>
+<h2 id="_4">输出</h2>
 <ul>
 <li>ΔG / ΔΔG 表格</li>
 <li>轨迹</li>
