@@ -12,6 +12,29 @@ FEP/analysis is reserved for free-energy calculations, trajectory inspection, un
 - ligand series
 - simulation settings
 
+## Input and parameter requirements
+
+Production RBFE success depends mainly on input quality and mapping parameters:
+
+Protein input:
+
+- The protein PDB must carry complete hydrogens; when hydrogens are missing the system rebuilds them with PDBFixer, but rebuilt side chains are placed without clash checking and disordered side chains (e.g. arginine guanidinium groups) can land on neighboring atoms.
+- Before running, the system scans inter-residue heavy-atom contacts (< 1.6 Å fails the job and lists the residues). For disordered charged side chains far from the pocket (> 10 Å), set "receptor clash handling" to "truncate to ALA" at submission time and list the residues (e.g. `A:741`, `A:832`); truncating only remote residues has negligible impact on ΔΔG.
+
+Ligand series:
+
+- Use a congeneric series so atom mappings exist; prepare all ligands together as a 3D SDF with explicit hydrogens.
+- Ligand poses should share one binding-site frame. Keep the default "automatic O3A alignment"; even with O3A disabled, the system rigidly refines each ligand onto the reference over the mapped atoms (Kabsch) after mapping selection.
+
+Mapping parameters:
+
+- "Max 3D offset" is capped at 1.0 Å; keep the default 0.75 Å. A hybrid topology whose mapped atoms deviate by more than 1.0 Å explodes from valence strain during propagation (NaN), so the system rejects it and fails early.
+- Leave "allow element changes" off unless you know why you need it.
+
+Protocol parameters:
+
+- Prefer timestep 1–2 fs and minimization_steps ≥ 20000. When validating a new target, first confirm the full chain with shorter production steps before scaling up.
+
 ## Outputs
 
 - ΔG / ΔΔG tables
