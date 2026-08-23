@@ -2549,15 +2549,19 @@
 <li><strong>Workflow Design</strong>: Completed the full data flow design from OpenFold3 conformation generation to FEP validation, as well as the single-server progressive validation plan.</li>
 <li><strong>Existing Component Integration</strong>: <code>openfold3</code>, <code>gromacs</code>, <code>molecule-gen</code>, <code>fep</code>, and related components now share one asset chain.</li>
 <li><strong>Pocket Analyzer MVP</strong>: GROMACS <code>pocket_discovery</code> can register <code>md_result</code>, candidate <code>pocket</code> assets, and a complete downloadable result package.</li>
+<li><strong>FEP Engine Hardening, Full-Chain Production Run (2026-08-23, server6)</strong>: Fixed a three-layer failure chain (receptor clashes entering propagation, over-deviant mapped atoms entering the hybrid topology, openmmtools FIRE minimization stalling on strained systems) plus receptor guards (cofactor precheck, terminal rebuild, unresolved-sidechain ALA truncation). The first full production RBFE completed on PI3KA H1047R (job <code>42bdf7f8</code>, ΔΔG = 19.02 ± 10.60 kcal/mol); fixes are committed (<code>bfba633</code>, <code>1775440</code>, <code>378060f</code>) and deployed to both amd and thor images.</li>
 </ul>
 <h3 id="42-in-progress">4.2 In Progress</h3>
 <ul>
-<li><strong>OpenFold3 Conformation-Generation Validation</strong>: Validate template perturbation, ligand-induced conformation generation, result screening, and UI chaining through the existing <code>wa-dd-openfold3</code> component.</li>
+<li><strong>KRAS G12C L0 Baseline (server6 restart)</strong>: The old instance's job history was not migrated; baseline assets were rebuilt on server6 (cofactor-free bare receptors, <code>fep_md</code> ligand library) and the formal APO/OPEN RBFE jobs are running. See the Chinese execution reference for all asset/job IDs.</li>
+<li><strong>OpenFold3 Conformation-Generation Validation</strong>: The <code>AssetFile.size</code> worker bug is fixed (<code>a43b816</code>, images after 2026-08-20 include it); template-perturbation and ligand-induced predictions are ready to resubmit on server6.</li>
 </ul>
 <h3 id="43-planned">4.3 Planned</h3>
 <ul>
 <li><strong>Pocket Analyzer Depth</strong>: Add fpocket, MDAnalysis, water-network analysis, and multi-frame pocket-event scoring without changing the standard <code>pocket</code> asset contract.</li>
 <li><strong>Case Evidence</strong>: Fill the KRAS G12C L0-L3 example with real outputs, screenshots, and threshold evidence.</li>
+<li><strong>Protein Preparation Source Fix</strong>: Default prepared proteins still carry chain-internal termini (no H1/H2/H3, no OXT); FEP rebuilds them at run time, a source-side fix is pending.</li>
+<li><strong>ABFE Evaluation</strong>: FEP currently supports RBFE only; cross-conformation comparisons rely on paired RBFE differences. Introducing an ABFE protocol would enable absolute ΔG.</li>
 </ul>
 <h3 id="44-milestones">4.4 Milestones</h3>
 <table>
@@ -2565,24 +2569,34 @@
 <tr>
 <th style="text-align: left;">Timeline</th>
 <th style="text-align: left;">Milestone</th>
+<th style="text-align: left;">Status</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align: left;"><strong>Phase 1 (Week 1)</strong></td>
 <td style="text-align: left;">Run L1 conformation generation and candidate screening with <code>wa-dd-openfold3</code>.</td>
+<td style="text-align: left;">Not started (bug fixed, ready to retry)</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Phase 2 (Week 2)</strong></td>
 <td style="text-align: left;">Run L0 baseline FEP and L2 physical validation with <code>wa-dd-gromacs</code>.</td>
+<td style="text-align: left;">L0 running on server6; L2 waits on L1</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Phase 3 (Week 3)</strong></td>
 <td style="text-align: left;">Use the GROMACS pocket analyzer to emit standard <code>pocket</code> assets and complete L3 closed-loop discovery.</td>
+<td style="text-align: left;">Not started</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Phase 4 (Week 4)</strong></td>
 <td style="text-align: left;">Add fpocket/MDAnalysis scoring, water-network analysis, and complete case evidence.</td>
+<td style="text-align: left;">Not started</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>(Inserted 2026-08-23)</strong></td>
+<td style="text-align: left;">FEP engine hardening + full PI3KA chain.</td>
+<td style="text-align: left;">✅ Done</td>
 </tr>
 </tbody>
 </table>

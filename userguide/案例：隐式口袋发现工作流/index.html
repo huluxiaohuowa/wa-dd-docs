@@ -2393,13 +2393,13 @@
 <td style="text-align: left;"><strong>1. OpenFold3 构象系综生成</strong></td>
 <td style="text-align: left;">利用 OpenFold3 模型，通过模板扰动和配体诱导策略，生成蛋白的多个候选构象。</td>
 <td style="text-align: left;"><code>wa-dd-openfold3</code></td>
-<td style="text-align: left;">✅ 已接入</td>
+<td style="text-align: left;">✅ 已接入（<code>AssetFile.size</code> worker bug 已修复，2026-08-20 后镜像可用）；闭环内尚未实测一轮</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>2. MD 物理验证</strong></td>
 <td style="text-align: left;">使用 GROMACS 对候选构象进行增强采样的 MD 模拟，验证口袋打开。</td>
 <td style="text-align: left;"><code>wa-dd-gromacs</code> (<code>pocket_discovery</code> / aMD / analysis)</td>
-<td style="text-align: left;">✅ 已接入</td>
+<td style="text-align: left;">✅ 已接入；闭环内尚未实测一轮</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>3. 口袋与水网络分析</strong></td>
@@ -2411,7 +2411,7 @@
 <td style="text-align: left;"><strong>4. 配体生成与复合物预测</strong></td>
 <td style="text-align: left;">在验证过的 OPEN 构象上生成配体，并通过 OpenFold3 预测复合物结构，FEP 验证。</td>
 <td style="text-align: left;"><code>wa-dd-molecule-gen</code>, <code>wa-dd-openfold3</code>, <code>wa-dd-fep</code></td>
-<td style="text-align: left;">✅ 已接入</td>
+<td style="text-align: left;">✅ 已接入；FEP 引擎已加固并于 2026-08-23 在 PI3KA H1047R 上完整跑通正式 RBFE</td>
 </tr>
 </tbody>
 </table>
@@ -2550,15 +2550,19 @@
 <li><strong>工作流设计</strong>：完成了从 OpenFold3 构象生成到 FEP 验证的完整数据流设计，以及单服务器渐进式验证方案。</li>
 <li><strong>现有组件集成</strong>：<code>openfold3</code>、<code>gromacs</code>、<code>molecule-gen</code>、<code>fep</code> 等组件已纳入同一资产链。</li>
 <li><strong>Pocket analyzer MVP</strong>：GROMACS <code>pocket_discovery</code> 输出可登记 <code>md_result</code>、候选 <code>pocket</code> 资产和可打包下载的完整结果文件。</li>
+<li><strong>FEP 引擎加固与全流程贯通（2026-08-23，server6）</strong>：修复三连环根因（受体原子冲突进入传播、映射原子 3D 偏差过大进入 hybrid topology、openmmtools FIRE 最小化对高应变体系松弛不足），并追加受体温和加固（辅因子预检、末端自动重建、未解析侧链自动截 ALA）。PI3KA H1047R 正式 RBFE 首次完整跑通（任务 <code>42bdf7f8</code>，ΔΔG = 19.02 ± 10.60 kcal/mol），修复已固化为代码（<code>bfba633</code>、<code>1775440</code>、<code>378060f</code>）并部署 amd/thor 双端镜像。</li>
 </ul>
 <h3 id="42">4.2 进行中</h3>
 <ul>
-<li><strong>OpenFold3 构象生成验证</strong>：通过现有 <code>wa-dd-openfold3</code> 组件验证模板扰动和配体诱导构象生成的参数规范、结果筛选和 UI 串联。</li>
+<li><strong>KRAS G12C L0 基准验证（server6 重启）</strong>：旧实例的任务历史未迁移，已在 server6 项目 <code>cryptic-pocket-kras-g12c-l0</code> 重建基准资产（含去辅因子裸受体、<code>fep_md</code> 配体库），正式 APO/OPEN RBFE 已提交运行。执行细节与全部资产/任务 ID 见<a href="../%E9%9A%90%E5%BC%8F%E5%8F%A3%E8%A2%8B%E9%97%AD%E7%8E%AF%E9%AA%8C%E8%AF%81%E6%89%A7%E8%A1%8C%E5%8F%82%E8%80%83/">隐式口袋闭环验证执行参考</a>。</li>
+<li><strong>OpenFold3 构象生成验证</strong>：<code>AssetFile.size</code> worker bug 已修复（<code>a43b816</code>，2026-08-20 后镜像包含），模板扰动和配体诱导预测待在 server6 重提并筛选。</li>
 </ul>
 <h3 id="43">4.3 规划中</h3>
 <ul>
 <li><strong>Pocket analyzer 深度增强</strong>：在当前标准 <code>pocket</code> 资产合同不变的前提下，补充 <code>fpocket</code>、<code>MDAnalysis</code>、水网络和多帧口袋事件评分。</li>
 <li><strong>案例验证数据</strong>：用 KRAS G12C 示例补齐 L0-L3 的实际输出、截图和阈值证据。</li>
+<li><strong>蛋白准备源头修复</strong>：默认准备产物输出链内式末端（缺 H1/H2/H3、OXT）；当前由 FEP worker 运行时兜底重建，源头修复待做。</li>
+<li><strong>ABFE 评估</strong>：当前 FEP 仅支持 RBFE，构象间比较依赖同配体对双 RBFE 差值；如需绝对 ΔG 需评估引入 ABFE 协议。</li>
 </ul>
 <h3 id="44">4.4 里程碑</h3>
 <table>
@@ -2566,24 +2570,34 @@
 <tr>
 <th style="text-align: left;">时间</th>
 <th style="text-align: left;">里程碑</th>
+<th style="text-align: left;">状态</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align: left;"><strong>第一阶段 (Week 1)</strong></td>
 <td style="text-align: left;">用 <code>wa-dd-openfold3</code> 跑通 L1 构象生成和候选筛选。</td>
+<td style="text-align: left;">待开始（bug 已修复，可重试）</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>第二阶段 (Week 2)</strong></td>
 <td style="text-align: left;">用 <code>wa-dd-gromacs</code> 跑通 L0 基准 FEP + L2 物理验证。</td>
+<td style="text-align: left;">L0 进行中（server6 运行）；L2 待 L1 产出</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>第三阶段 (Week 3)</strong></td>
 <td style="text-align: left;">基于 GROMACS pocket analyzer 输出标准 <code>pocket</code> 资产并跑通 L3 闭环发现。</td>
+<td style="text-align: left;">待开始</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>第四阶段 (Week 4)</strong></td>
 <td style="text-align: left;">增强 fpocket/MDAnalysis 评分、补齐水网络分析和完整案例证据。</td>
+<td style="text-align: left;">待开始</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>(2026-08-23 插入)</strong></td>
+<td style="text-align: left;">FEP 引擎加固 + PI3KA 全流程贯通。</td>
+<td style="text-align: left;">✅ 完成</td>
 </tr>
 </tbody>
 </table>
