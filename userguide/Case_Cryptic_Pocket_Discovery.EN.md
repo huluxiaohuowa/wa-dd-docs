@@ -139,21 +139,26 @@ Given the current available resources being a single server (tc232/server6), we 
 - **Workflow Design**: Completed the full data flow design from OpenFold3 conformation generation to FEP validation, as well as the single-server progressive validation plan.
 - **Existing Component Integration**: `openfold3`, `gromacs`, `molecule-gen`, `fep`, and related components now share one asset chain.
 - **Pocket Analyzer MVP**: GROMACS `pocket_discovery` can register `md_result`, candidate `pocket` assets, and a complete downloadable result package.
+- **FEP Engine Hardening, Full-Chain Production Run (2026-08-23, server6)**: Fixed a three-layer failure chain (receptor clashes entering propagation, over-deviant mapped atoms entering the hybrid topology, openmmtools FIRE minimization stalling on strained systems) plus receptor guards (cofactor precheck, terminal rebuild, unresolved-sidechain ALA truncation). The first full production RBFE completed on PI3KA H1047R (job `42bdf7f8`, ΔΔG = 19.02 ± 10.60 kcal/mol); fixes are committed (`bfba633`, `1775440`, `378060f`) and deployed to both amd and thor images.
 
 ### 4.2 In Progress
-- **OpenFold3 Conformation-Generation Validation**: Validate template perturbation, ligand-induced conformation generation, result screening, and UI chaining through the existing `wa-dd-openfold3` component.
+- **KRAS G12C L0 Baseline (server6 restart)**: The old instance's job history was not migrated; baseline assets were rebuilt on server6 (cofactor-free bare receptors, `fep_md` ligand library) and the formal APO/OPEN RBFE jobs are running. See the Chinese execution reference for all asset/job IDs.
+- **OpenFold3 Conformation-Generation Validation**: The `AssetFile.size` worker bug is fixed (`a43b816`, images after 2026-08-20 include it); template-perturbation and ligand-induced predictions are ready to resubmit on server6.
 
 ### 4.3 Planned
 - **Pocket Analyzer Depth**: Add fpocket, MDAnalysis, water-network analysis, and multi-frame pocket-event scoring without changing the standard `pocket` asset contract.
 - **Case Evidence**: Fill the KRAS G12C L0-L3 example with real outputs, screenshots, and threshold evidence.
+- **Protein Preparation Source Fix**: Default prepared proteins still carry chain-internal termini (no H1/H2/H3, no OXT); FEP rebuilds them at run time, a source-side fix is pending.
+- **ABFE Evaluation**: FEP currently supports RBFE only; cross-conformation comparisons rely on paired RBFE differences. Introducing an ABFE protocol would enable absolute ΔG.
 
 ### 4.4 Milestones
-| Timeline | Milestone |
-| :--- | :--- |
-| **Phase 1 (Week 1)** | Run L1 conformation generation and candidate screening with `wa-dd-openfold3`. |
-| **Phase 2 (Week 2)** | Run L0 baseline FEP and L2 physical validation with `wa-dd-gromacs`. |
-| **Phase 3 (Week 3)** | Use the GROMACS pocket analyzer to emit standard `pocket` assets and complete L3 closed-loop discovery. |
-| **Phase 4 (Week 4)** | Add fpocket/MDAnalysis scoring, water-network analysis, and complete case evidence. |
+| Timeline | Milestone | Status |
+| :--- | :--- | :--- |
+| **Phase 1 (Week 1)** | Run L1 conformation generation and candidate screening with `wa-dd-openfold3`. | Not started (bug fixed, ready to retry) |
+| **Phase 2 (Week 2)** | Run L0 baseline FEP and L2 physical validation with `wa-dd-gromacs`. | L0 running on server6; L2 waits on L1 |
+| **Phase 3 (Week 3)** | Use the GROMACS pocket analyzer to emit standard `pocket` assets and complete L3 closed-loop discovery. | Not started |
+| **Phase 4 (Week 4)** | Add fpocket/MDAnalysis scoring, water-network analysis, and complete case evidence. | Not started |
+| **(Inserted 2026-08-23)** | FEP engine hardening + full PI3KA chain. | ✅ Done |
 
 ---
 
