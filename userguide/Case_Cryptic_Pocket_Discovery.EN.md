@@ -142,8 +142,10 @@ Given the current available resources being a single server (tc232/server6), we 
 - **FEP Engine Hardening, Full-Chain Production Run (2026-08-23, server6)**: Fixed a three-layer failure chain (receptor clashes entering propagation, over-deviant mapped atoms entering the hybrid topology, openmmtools FIRE minimization stalling on strained systems) plus receptor guards (cofactor precheck, terminal rebuild, unresolved-sidechain ALA truncation). The first full production RBFE completed on PI3KA H1047R (job `42bdf7f8`, ΔΔG = 19.02 ± 10.60 kcal/mol); fixes are committed (`bfba633`, `1775440`, `378060f`) and deployed to both amd and thor images.
 
 ### 4.2 In Progress
-- **KRAS G12C L0 Baseline (server6)**: Baseline assets were rebuilt on server6 and the L0 chain now runs end to end (cofactor-free bare receptors, `fep_md` ligand library, element-change RBFE submission; the reproducible procedure is section 5.1 of the Chinese execution reference). The APO job `6273dcd5` completed (Adagrasib edge ΔΔG = -7.48 ± 2.95 kcal/mol, interpretable; Sotorasib edge -99.15 ± 7.68 is non-physical with only 11 mapped atoms and motivated the low-reliability annotation in `7a55400`). The OPEN job `484407ba` reached its final analysis phase when server6 lost network access; confirm/retry after recovery, then judge the ΔΔΔG conformational preference.
-- **OpenFold3 Conformation-Generation Validation**: The `AssetFile.size` worker bug is fixed (`a43b816`, images after 2026-08-20 include it); template-perturbation and ligand-induced predictions are ready to resubmit on server6.
+- **OpenFold3 Conformation-Generation Validation (next step)**: The `AssetFile.size` worker bug is fixed (`a43b816`, images after 2026-08-20 include it); template-perturbation and ligand-induced predictions are ready to resubmit on server6.
+
+### 4.2.1 L0 Baseline Completed (2026-08-24)
+Both formal RBFE jobs ran end to end on server6 (APO `6273dcd5`, OPEN `484407ba`; reproducible procedure in section 5.1 of the Chinese execution reference). The Adagrasib edge gives ΔΔΔG = **-1.91 kcal/mol** (OPEN favored over APO — direction consistent with the cryptic-pocket hypothesis; combined uncertainty ±7.6, not statistically significant, needs longer sampling or a closer ligand pair). The Sotorasib edges diverged in both runs (-99 / 3e+13) and motivated the low-reliability annotation (`7a55400`, deployed).
 
 ### 4.3 Planned
 - **Pocket Analyzer Depth**: Add fpocket, MDAnalysis, water-network analysis, and multi-frame pocket-event scoring without changing the standard `pocket` asset contract.
@@ -155,7 +157,7 @@ Given the current available resources being a single server (tc232/server6), we 
 | Timeline | Milestone | Status |
 | :--- | :--- | :--- |
 | **Phase 1 (Week 1)** | Run L1 conformation generation and candidate screening with `wa-dd-openfold3`. | Not started (bug fixed, ready to retry) |
-| **Phase 2 (Week 2)** | Run L0 baseline FEP and L2 physical validation with `wa-dd-gromacs`. | L0 chain proven (APO completed 2026-08-24); OPEN final phase hit a host network outage, pending confirmation; L2 waits on L1 |
+| **Phase 2 (Week 2)** | Run L0 baseline FEP and L2 physical validation with `wa-dd-gromacs`. | ✅ L0 done (2026-08-24, both formal RBFE jobs end to end; ΔΔΔG = -1.91 kcal/mol, right direction, large uncertainty); L2 waits on L1 |
 | **Phase 3 (Week 3)** | Use the GROMACS pocket analyzer to emit standard `pocket` assets and complete L3 closed-loop discovery. | Not started |
 | **Phase 4 (Week 4)** | Add fpocket/MDAnalysis scoring, water-network analysis, and complete case evidence. | Not started |
 | **(Inserted 2026-08-23)** | FEP engine hardening + full PI3KA chain. | ✅ Done |
