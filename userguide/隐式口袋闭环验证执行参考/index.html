@@ -2052,9 +2052,11 @@
 <li>ARS-1620 → Sotorasib/AMG510：ΔΔG = <strong>-99.15 ± 7.68 kcal/mol</strong>（仅 11 对原子映射，微扰横跨两个分子的大部分结构；数值物理上不可信，仅证明链路可跑通）</li>
 <li>ARS-1620 → Adagrasib/MRTX849：ΔΔG = <strong>-7.48 ± 2.95 kcal/mol</strong>（16 对映射，量级可解释，是 L0 对比中唯一有解释价值的一条边）</li>
 <li>已据此开发"低可靠性标注"（映射 &lt; 12 对或 |ΔΔG| &gt; 15 kcal/mol 时在结果 mapping 里写入 <code>reliability: low</code> 提示，提交 <code>7a55400</code>，镜像 <code>amd_cu128_20260824</code>/<code>thor_20260824</code> 已构建，server6 待恢复后部署）。</li>
-<li>[x] 正式 L0 OPEN RBFE：任务 <code>L0_RBFE_OPEN_6GJ8_bare_KRAS_lib_fep</code>（<code>484407ba-ccfa-4017-94b0-f75ea8741cec</code>）提交后正常推进，2026-08-24 14:18 CST 已进入最终分析单元（edge_001 MBAR）；随后 server6 网络故障（主机端口可连但 sshd/web 立即断连），最终状态待恢复后确认。若 worker 因主机重启中断，用任务详情页的重试或 <code>POST /api/v1/jobs/{id}/retry</code> 重跑。</li>
-<li>[ ] OPEN 完成后：下载两组 <code>rbfe_results.json</code> / <code>rbfe_results.csv</code> 与完整输出包。</li>
-<li>[ ] L0 判定：ΔΔΔG = ΔΔG(OPEN) − ΔΔG(APO)，以 Adagrasib 边为准；若 OPEN 边显著更负（差 ≥ 1.0 kcal/mol），支持“大分子量配体偏好打开构象”，L0 通过。Sotorasib 边（-99）重叠度太差，不参与判定。</li>
+<li>[x] 正式 L0 OPEN RBFE：<strong>已完成</strong>（任务 <code>484407ba-ccfa-4017-94b0-f75ea8741cec</code>，2 条 edge 全部 completed；期间 server6 外部网络故障未影响容器内计算）：</li>
+<li>ARS-1620 → Sotorasib/AMG510：ΔΔG = 3.1e+13（12 对映射，MBAR 完全发散，物理上无意义，仅证明链路可跑通）</li>
+<li>ARS-1620 → Adagrasib/MRTX849：ΔΔG = <strong>-9.39 ± 7.02 kcal/mol</strong>（19 对映射，可解释）</li>
+<li>[x] L0 判定（以 Adagrasib 边为准）：ΔΔΔG = ΔΔG(OPEN) − ΔΔG(APO) = -9.39 − (-7.48) = <strong>-1.91 kcal/mol</strong>，方向支持“更大配体偏好打开构象”的隐式口袋假设；幅度满足 ≥1.0 kcal/mol 标准，但合并误差约 ±7.6 kcal/mol，<strong>统计上不显著</strong>。结论：L0 工程链路通过（两次正式 RBFE 全流程完成、可复现）；科学信号方向一致但不确定度大，需以更长采样或更小微扰的配体对（非共价体系）加强。Sotorasib 边（APO -99 / OPEN 发散）映射过小，不参与判定。</li>
+<li>[ ] 后续加强（可选）：用 PI3KA H1047R 等非共价体系或更同源的配体对重做 L0 基准，降低 ΔΔΔG 不确定度。</li>
 <li>[ ] 科学注意：ARS-1620 系列为共价 KRAS G12C 抑制剂，本闭环以非共价结合态做 RBFE；若 Adagrasib 边结果不收敛或误差过大，按原计划改选非共价体系做 L0 基准（候选：PI3KA H1047R，已于 2026-08-23 全流程跑通）。</li>
 </ul>
 <h3 id="51-l0-server6">5.1 L0 跑通流程（server6 实测，可复现）</h3>

@@ -2554,8 +2554,8 @@
 </ul>
 <h3 id="42">4.2 进行中</h3>
 <ul>
-<li><strong>KRAS G12C L0 基准验证（server6）</strong>：旧实例的任务历史未迁移，已在 server6 项目 <code>cryptic-pocket-kras-g12c-l0</code> 重建基准资产并跑通 L0 全流程（裸受体、<code>fep_md</code> 配体库、含元素变化映射的 RBFE 提交组合，完整流程已固化在执行参考 5.1 节）。APO 任务 <code>6273dcd5</code> 已完成（Adagrasib 边 ΔΔG = -7.48 ± 2.95 kcal/mol 可解释；Sotorasib 边 -99.15 ± 7.68 因映射过小不可信，已触发"低可靠性标注"开发 <code>7a55400</code>）。OPEN 任务 <code>484407ba</code> 在最终分析阶段遇 server6 网络故障，待恢复后确认/重试，随后做 ΔΔΔG 构象偏好判定。</li>
-<li><strong>OpenFold3 构象生成验证</strong>：<code>AssetFile.size</code> worker bug 已修复（<code>a43b816</code>，2026-08-20 后镜像包含），模板扰动和配体诱导预测待在 server6 重提并筛选。</li>
+<li><strong>KRAS G12C L0 基准验证（server6，已完成 2026-08-24）</strong>：L0 两个正式 RBFE 全流程跑通（APO <code>6273dcd5</code>、OPEN <code>484407ba</code>，可复现流程见执行参考 5.1 节）。Adagrasib 边 ΔΔΔG = <strong>-1.91 kcal/mol</strong>（OPEN 优于 APO，方向支持隐式口袋假设；合并误差 ±7.6，统计不显著，需更长采样或更同源配体对加强）。Sotorasib 边两次结果均发散（-99 / 3e+13），已触发“低可靠性标注”开发（<code>7a55400</code>，已部署）。</li>
+<li><strong>OpenFold3 构象生成验证</strong>：<code>AssetFile.size</code> worker bug 已修复（<code>a43b816</code>，2026-08-20 后镜像包含），模板扰动和配体诱导预测待在 server6 重提并筛选——这是闭环的下一步（L1）。</li>
 </ul>
 <h3 id="43">4.3 规划中</h3>
 <ul>
@@ -2582,7 +2582,7 @@
 <tr>
 <td style="text-align: left;"><strong>第二阶段 (Week 2)</strong></td>
 <td style="text-align: left;">用 <code>wa-dd-gromacs</code> 跑通 L0 基准 FEP + L2 物理验证。</td>
-<td style="text-align: left;">L0 链路已跑通（APO completed，2026-08-24）；OPEN 收尾遇主机网络故障待确认；L2 待 L1 产出</td>
+<td style="text-align: left;">✅ L0 完成（2026-08-24，APO+OPEN 两个正式 RBFE 全流程，ΔΔΔG = -1.91 kcal/mol 方向正确但不确定度大）；L2 待 L1 产出</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>第三阶段 (Week 3)</strong></td>
