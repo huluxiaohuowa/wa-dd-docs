@@ -1710,6 +1710,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="5. 第二阶段：L0 FEP 基准验证（server6）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-l0-server6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 L0 跑通流程（server6 实测，可复现）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1861,6 +1878,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="5. 第二阶段：L0 FEP 基准验证（server6）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-l0-server6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 L0 跑通流程（server6 实测，可复现）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2014,13 +2048,22 @@
 <li>[x] 尝试 2（允许元素变化）：失败——默认配体准备产物缺电荷，OpenFE am1bcc 无可用工具链。改用 <code>fep_md</code> 准备选项。</li>
 <li>[x] 尝试 3（fep_md 库 + 默认 prepared 蛋白）：失败——蛋白含 GDP/GCP/MG/F0K，amber14 模板错误；且默认准备产物末端为“链内式”（缺 H1/H2/H3、OXT）。重建裸受体蛋白。</li>
 <li>[x] 2026-08-23 FEP worker 加固（已部署 <code>amd_cu128_20260823</code>）：辅因子预检快速报错、末端不完整自动 PDBFixer 重建、PDBFixer 重建的未解析侧链冲突自动截 ALA。两个裸受体均通过 amber14 模板化验证。</li>
-<li>[x] 正式重提（进行中）：</li>
-<li>APO：任务 <code>L0_RBFE_APO_4OBE_bare_KRAS_lib_fep</code>（<code>6273dcd5-5bf1-4bcb-88fc-a539ce792622</code>），参考配体 ARS-1620，11 λ 窗口，timestep 1 fs，production 250 ps，允许元素变化映射。</li>
-<li>OPEN：任务 <code>L0_RBFE_OPEN_6GJ8_bare_KRAS_lib_fep</code>（<code>484407ba-ccfa-4017-94b0-f75ea8741cec</code>），同参数。</li>
-<li>[ ] 等待两个任务完成后，下载 <code>rbfe_results.json</code> / <code>rbfe_results.csv</code> 与完整输出包。</li>
-<li>[ ] 按第 2 节标准比较：同配体边（如 ARS-1620→Sotorasib）在 OPEN 与 APO 上的 ΔΔG 差值是否 ≥ 1.0 kcal/mol（OPEN 更优）。</li>
-<li>[ ] 科学注意：ARS-1620 系列为共价 KRAS G12C 抑制剂，本闭环以非共价结合态做 RBFE；若结果不收敛或误差过大，按原计划改选非共价体系做 L0 基准（候选：PI3KA H1047R，已于 2026-08-23 全流程跑通）。</li>
+<li>[x] 正式 L0 APO RBFE：<strong>已完成</strong>（2026-08-24 09:26 CST，任务 <code>L0_RBFE_APO_4OBE_bare_KRAS_lib_fep</code>，job ID <code>6273dcd5-5bf1-4bcb-88fc-a539ce792622</code>，总耗时约 11 小时，2 条 edge 全部 completed）：</li>
+<li>ARS-1620 → Sotorasib/AMG510：ΔΔG = <strong>-99.15 ± 7.68 kcal/mol</strong>（仅 11 对原子映射，微扰横跨两个分子的大部分结构；数值物理上不可信，仅证明链路可跑通）</li>
+<li>ARS-1620 → Adagrasib/MRTX849：ΔΔG = <strong>-7.48 ± 2.95 kcal/mol</strong>（16 对映射，量级可解释，是 L0 对比中唯一有解释价值的一条边）</li>
+<li>已据此开发"低可靠性标注"（映射 &lt; 12 对或 |ΔΔG| &gt; 15 kcal/mol 时在结果 mapping 里写入 <code>reliability: low</code> 提示，提交 <code>7a55400</code>，镜像 <code>amd_cu128_20260824</code>/<code>thor_20260824</code> 已构建，server6 待恢复后部署）。</li>
+<li>[x] 正式 L0 OPEN RBFE：任务 <code>L0_RBFE_OPEN_6GJ8_bare_KRAS_lib_fep</code>（<code>484407ba-ccfa-4017-94b0-f75ea8741cec</code>）提交后正常推进，2026-08-24 14:18 CST 已进入最终分析单元（edge_001 MBAR）；随后 server6 网络故障（主机端口可连但 sshd/web 立即断连），最终状态待恢复后确认。若 worker 因主机重启中断，用任务详情页的重试或 <code>POST /api/v1/jobs/{id}/retry</code> 重跑。</li>
+<li>[ ] OPEN 完成后：下载两组 <code>rbfe_results.json</code> / <code>rbfe_results.csv</code> 与完整输出包。</li>
+<li>[ ] L0 判定：ΔΔΔG = ΔΔG(OPEN) − ΔΔG(APO)，以 Adagrasib 边为准；若 OPEN 边显著更负（差 ≥ 1.0 kcal/mol），支持“大分子量配体偏好打开构象”，L0 通过。Sotorasib 边（-99）重叠度太差，不参与判定。</li>
+<li>[ ] 科学注意：ARS-1620 系列为共价 KRAS G12C 抑制剂，本闭环以非共价结合态做 RBFE；若 Adagrasib 边结果不收敛或误差过大，按原计划改选非共价体系做 L0 基准（候选：PI3KA H1047R，已于 2026-08-23 全流程跑通）。</li>
 </ul>
+<h3 id="51-l0-server6">5.1 L0 跑通流程（server6 实测，可复现）</h3>
+<ol>
+<li><strong>蛋白</strong>：PDB ID 导入 <code>4OBE</code>、<code>6GJ8</code> → 蛋白准备。默认准备会保留 GDP/GCP、Mg²⁺（及 6GJ8 的共价片段 F0K），<strong>FEP 不能用</strong>；需在蛋白准备的“组分清理”中删除这些组分，产出裸受体（4OBE：GDP×2 + MG×2；6GJ8：F0K + MG + GCP）。FEP worker 2026-08-23 起会对含辅因子的蛋白直接报错并列出组分名。</li>
+<li><strong>配体库</strong>：三个抑制剂的 PubChem Canonical SMILES 建 SDF 库 → 配体准备时<strong>必须选择“FEP/MD 用途”（<code>target_use: fep_md</code>）</strong>，普通准备产物缺电荷，OpenFE 会失败。</li>
+<li><strong>FEP 提交参数</strong>（实测可跑通组合）：reference 配体 ARS-1620；映射策略 Kartograf + 最大 3D 偏移 0.75 Å；构象对齐自动（内部含 O3A + 映射原子 Kabsch 精修）；<strong>勾选“允许元素变化映射”</strong>（ARS-1620 与 Sotorasib/Adagrasib 有 Cl/F 取代差异，不勾会在任务早期被拒）；11 个 λ 窗口；timestep 1 fs；minimization 50000；equilibration 50000 步；production 250000 步（250 ps/窗口）。单任务约 11 小时（含每边的复合物腿 + 两条溶剂腿与 MBAR 分析）。</li>
+<li><strong>结果解读</strong>：优先看 <code>mapped_atoms</code> 数量；映射少于 12 对或 |ΔΔG| &gt; 15 kcal/mol 的边只作为链路验证，不作为化学结论。</li>
+</ol>
 <h2 id="6-l1-openfold3">6. 第三阶段：L1 OpenFold3 构象生成</h2>
 <ul>
 <li>[ ] 前置条件已具备：L1 曾因 openfold3 worker 的 <code>AssetFile.size</code> 字段 bug 失败（旧实例任务 <code>4c1a97e9</code>、<code>3176f6cd</code>）。修复提交 <code>a43b816</code>（2026-08-20）已包含在 server6 当前 openfold3 镜像（<code>amd_cu128_20260820</code>，构建于修复之后），可直接重试。</li>
