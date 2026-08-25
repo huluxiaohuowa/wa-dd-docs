@@ -2125,13 +2125,18 @@
 <tbody>
 <tr>
 <td>Available</td>
-<td>Projects and assets, protein preparation, ligand preparation, docking tasks, molecule generation, interaction analysis</td>
+<td>Projects and assets, protein preparation, structure prediction, ligand preparation, docking tasks, molecule generation, interaction analysis</td>
 <td>Create and reuse assets, submit jobs, and inspect, filter, export, or download outputs.</td>
 </tr>
 <tr>
 <td>Available</td>
 <td>FEP / RBFE production calculation</td>
 <td>Real ΔG/ΔΔG free energy calculations via OpenFE + OpenMM (CUDA); choose dry-run planning or full production simulation; output edge result tables, FEP-annotated SDF, and trajectory files.</td>
+</tr>
+<tr>
+<td>Available</td>
+<td>GROMACS / MD</td>
+<td>EM, NVT, NPT, production MD, aMD, Metadynamics, Umbrella, binding analysis, cryptic-pocket discovery, and trajectory post-processing job types; checkpoint resume is supported.</td>
 </tr>
 <tr>
 <td>Available</td>
@@ -2150,12 +2155,13 @@
 <li><strong>Projects and assets</strong>: isolate projects, assets, jobs, and files per user. Assets can be previewed, downloaded, renamed, deleted, and copied to another project. The UI is name-first: users select by asset name, type, and source instead of memorizing raw IDs.</li>
 <li><strong>Protein and ligand preparation</strong>: import PDB ID/local PDB or SMILES/SDF/MOL/MOL2/PDB, inspect structures in 3D, define pockets, edit molecules with Ketcher, and run protein or ligand preparation. Ligand assets are grouped by source, including raw ligands, prepared ligands, docking poses, molecule-generation outputs, and FEP outputs, and can be opened in 2D/3D, sorted, filtered, merged, or exported.</li>
 <li><strong>Docking and interaction analysis</strong>: submit Uni-Dock GPU docking jobs (Vina/Vinardo scoring). Each docking task emits one merged SDF pose library plus reports. Interaction analysis can compare selected poses from docking, generation, or FEP outputs, inspect geometric contacts, export tables/SDF, or save a new selected-poses asset.</li>
+<li><strong>Structure prediction</strong>: four engines are available: OpenFold3, ESMFold, Boltz-2, and Chai-1. ESMFold suits fast single-chain prediction; OpenFold3, Boltz-2, and Chai-1 support multi-component or complex candidates. Model files are managed by Model Zoo and outputs are registered as structure assets.</li>
 <li><strong>Molecule generation</strong>: PocketXMol provides pocket de novo generation and fragment growing. Results are reusable <code>prepared_ligand</code> or <code>prepared_ligand_library</code> assets. <code>Scaffold hopping</code> and <code>linker design</code> require an atom-anchor selector and are not available yet.</li>
 <li><strong>FEP / RBFE production calculation</strong>: real relative binding free energy calculations via OpenFE + OpenMM (CUDA). Supports star-topology networks, Lomap atom mapping, dry-run planning preview, and full production simulation. Each edge outputs ΔΔG (kcal/mol), uncertainty, and trajectory files (DCD). Results are summarized as an <code>fep_result</code> edge table plus an FEP-annotated <code>fep_output</code> SDF. Launch directly from docking pose libraries or prepared ligand SDFs.</li>
 <li><strong>GROMACS / MD worker</strong>: a GROMACS + CUDA molecular dynamics entrypoint. It supports EM, NVT, NPT, production MD, aMD, Metadynamics, Umbrella, binding analysis, cryptic-pocket discovery, and trajectory post-processing job types. The Web UI exposes structured core parameters, full <code>.mdp</code>/command/file advanced editors, GPU visibility control, and grouped trajectory/energy/analysis/structure/parameter/log outputs. AMD defaults to CUDA 12.8 and Thor defaults to CUDA 13; Dockerfiles build the latest upstream GROMACS main branch by default, and <code>GROMACS_CUDA_TARGET_SM</code> controls the multi-GPU-architecture build target set.</li>
 <li><strong>Model Zoo</strong>: centrally manages project models, pins PocketXMol and DeepTernary at the top, and supports custom ModelScope / HuggingFace repository downloads. Model paths use a <code>/data/export/ms|hf/.../current</code> compatible layout for later VOS model-hub integration.</li>
 <li><strong>TPD / PROTAC</strong>: DeepTernary jobs take POI, E3, degrader/MGD, and PROTAC auxiliary PDB assets as inputs and produce a reusable <code>ternary_complex</code> structural hypothesis. Binary ligand/mask PDB assets can be generated from cocrystal ligands on the protein page or uploaded as PDB assets on the ligand page.</li>
-<li><strong>Agent / Pi</strong>: each user has separate conversations, context, and encrypted model configuration. Its controlled tools can access only projects, assets, and jobs within that user's permissions.</li>
+<li><strong>Agent workbench</strong>: each user has separate conversations, context, and encrypted model configuration, and can choose Pi or Prime per session. Prime runs on the real <code>AgentSession</code> runtime with its built-in terminal tool disabled; both access only the projects, assets, and jobs that user has permission to see through the controlled <code>wa_dd_api</code>.</li>
 <li><strong>Administration, user docs, and automation</strong>: administrators can approve users and manage global jobs. The system-resources view reports host CPU, memory, disk, and GPU state. The Web image converts <code>userguide/*.md</code> into in-app user documentation. API documentation is generated from FastAPI OpenAPI and supports automation chaining with <code>project_id</code>, <code>asset_id</code>, and <code>job_id</code>.</li>
 </ul>
 <p><img alt="WA-DD Administration and System Resources: manage users, files, projects, and global tasks; inspect host CPU, memory, GPU, and disk metrics" src="/userguide/images/admin-system-resources.jpg" /></p>
@@ -2215,8 +2221,8 @@ cd deploy
 ./deploy.sh --profile amd --root /data/vos_workspace --component ligand-prep
 ./deploy.sh --profile thor --root /data/vos_workspace --component molecule-gen
 </code></pre>
-<p>Components are <code>web</code>, <code>model-zoo</code>, <code>host-metrics</code>, <code>protein-prep</code>, <code>ligand-prep</code>, <code>unidock</code>, <code>molecule-gen</code>, <code>deepternary</code>, <code>pi-agent</code>, <code>fep</code>, <code>gromacs</code>, and <code>all</code>. Component mode updates only its matching <code>images.env</code> entry and replaces only that service with Compose <code>--no-deps --force-recreate</code>; complete mode continues to discover all images and update the complete service group.</p>
-<p>To publish a new image, run <code>./build_image.sh --profile amd|thor --component web|model-zoo|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|deepternary|pi-agent|fep|gromacs|all</code> only in an explicitly chosen build environment. Tags are derived from component GPU capability and pushed to <code>huluxiaohuowa</code>; <code>model-zoo</code> is a CPU component, uses the same <code>Dockerfile.model-zoo</code>, and is tagged only by amd/arm platform; the CPU Pi worker and the DeepTernary TPD / PROTAC GPU component are both included in <code>all</code>, while FEP and GROMACS remain large GPU images that must be built explicitly with <code>--component fep</code> or <code>--component gromacs</code>. GROMACS Dockerfiles build from the latest upstream main branch by default; AMD defaults to <code>GROMACS_CUDA_TARGET_SM=60;61;70;75;80;86;89;90;100;120</code>, Thor defaults to <code>87;110;120</code>, and either can be narrowed if the selected CUDA image rejects an SM target. The next <code>deploy.sh</code> run discovers and adopts the newest matching tag. Because the current Compose group includes FEP, GROMACS, and DeepTernary workers, their platform-specific images must already exist in the registry before a first deployment or the deployment script will fail clearly; when no Thor DeepTernary tag exists yet, <code>deploy.sh --check</code> writes the reserved full image name first so the tc81 build can fill it later. Pi persists its configuration and conversations under <code>WA_DD_DATA_HOST_DIR/pi</code>; see <a href="../userguide/pi-agent.EN/">Agent / Pi</a>.</p>
+<p>Components are <code>web</code>, <code>model-zoo</code>, <code>host-metrics</code>, <code>protein-prep</code>, <code>ligand-prep</code>, <code>unidock</code>, <code>molecule-gen</code>, <code>deepternary</code>, <code>openfold3</code>, <code>esmfold</code>, <code>boltz2</code>, <code>chai1</code>, <code>pi-agent</code>, <code>fep</code>, <code>gromacs</code>, and <code>all</code>. Component mode updates only its matching <code>images.env</code> entry and replaces only that service with Compose <code>--no-deps --force-recreate</code>; complete mode continues to discover all images and update the complete service group.</p>
+<p>To publish a new image, run <code>./build_image.sh --profile amd|thor --component web|model-zoo|host-metrics|protein-prep|ligand-prep|unidock|molecule-gen|deepternary|openfold3|esmfold|boltz2|chai1|pi-agent|fep|gromacs|all</code> only in an explicitly chosen build environment. Tags are derived from component GPU capability and pushed to <code>huluxiaohuowa</code>; <code>model-zoo</code> is a CPU component, uses the same <code>Dockerfile.model-zoo</code>, and is tagged only by amd/arm platform; the CPU Pi worker and the DeepTernary TPD / PROTAC GPU component are both included in <code>all</code>, while FEP and GROMACS remain large GPU images that must be built explicitly with <code>--component fep</code> or <code>--component gromacs</code>. GROMACS Dockerfiles build from the latest upstream main branch by default; AMD defaults to <code>GROMACS_CUDA_TARGET_SM=60;61;70;75;80;86;89;90;100;120</code>, Thor defaults to <code>87;110;120</code>, and either can be narrowed if the selected CUDA image rejects an SM target. The next <code>deploy.sh</code> run discovers and adopts the newest matching tag. Because the current Compose group includes FEP, GROMACS, DeepTernary, and structure-prediction workers, their platform-specific images must already exist in the registry before a first deployment or the deployment script will fail clearly; when no Thor DeepTernary tag exists yet, <code>deploy.sh --check</code> writes the reserved full image name first so the tc81 build can fill it later. Pi persists its configuration and conversations under <code>WA_DD_DATA_HOST_DIR/pi</code>; see <a href="../userguide/pi-agent.EN/">Agent / Pi</a>.</p>
 <h3 id="quick-start">Quick Start</h3>
 <p><strong>First-time deployment:</strong></p>
 <pre><code class="language-bash">cd deploy
@@ -2278,6 +2284,16 @@ password: admin123456
 <td>NVIDIA GPU</td>
 </tr>
 <tr>
+<td>DeepTernary</td>
+<td>TPD / PROTAC ternary-complex structural modeling</td>
+<td>NVIDIA GPU</td>
+</tr>
+<tr>
+<td>Structure prediction</td>
+<td>OpenFold3 / ESMFold / Boltz-2 / Chai-1 protein and complex structure prediction</td>
+<td>NVIDIA GPU</td>
+</tr>
+<tr>
 <td>FEP</td>
 <td>OpenFE + OpenMM free energy calculation</td>
 <td>NVIDIA GPU (AMD or Thor)</td>
@@ -2286,6 +2302,11 @@ password: admin123456
 <td>GROMACS</td>
 <td>GROMACS + CUDA molecular dynamics, trajectory analysis, and checkpoint resume</td>
 <td>NVIDIA GPU (AMD or Thor)</td>
+</tr>
+<tr>
+<td>Agent workers</td>
+<td>Pi / Prime / Jcode agent session runtimes</td>
+<td>CPU</td>
 </tr>
 </tbody>
 </table>
@@ -2341,9 +2362,11 @@ ln -sfn snapshots/manual &quot;${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxia
 <li><a href="../userguide/ligand-preparation-research-and-framework.EN/">Ligand preparation framework</a></li>
 <li><a href="../userguide/docking-tasks.EN/">Docking tasks</a></li>
 <li><a href="../userguide/molecule-generation.EN/">Molecule generation</a></li>
+<li><a href="../userguide/structure-prediction/">Structure prediction</a> (Chinese)</li>
 <li><a href="../userguide/model-zoo.EN/">Model Zoo</a></li>
 <li><a href="../userguide/fep-analysis.EN/">FEP and analysis</a></li>
 <li><a href="../userguide/gromacs-md.EN/">GROMACS / MD</a></li>
+<li><a href="../userguide/Case_Cryptic_Pocket_Discovery.EN/">Cryptic pocket discovery case</a></li>
 <li><a href="../userguide/interaction-analysis.EN/">Interaction analysis</a></li>
 <li><a href="../userguide/tpd-protac.EN/">TPD / PROTAC</a></li>
 <li><a href="../userguide/sar.EN/">SAR</a></li>

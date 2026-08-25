@@ -2125,13 +2125,18 @@
 <tbody>
 <tr>
 <td>已可用</td>
-<td>项目与资产、蛋白处理、配体处理、对接任务、分子生成、相互作用分析</td>
+<td>项目与资产、蛋白处理、结构预测、配体处理、对接任务、分子生成、相互作用分析</td>
 <td>可创建并复用资产、提交任务、查看、筛选、导出或下载输出。</td>
 </tr>
 <tr>
 <td>已可用</td>
 <td>FEP / RBFE 生产计算</td>
 <td>支持 OpenFE + OpenMM（CUDA）进行真实 ΔG/ΔΔG 自由能计算；可选择 dry-run 规划或完整生产模拟；输出 edge 结果表、带 FEP 字段的 SDF 和轨迹文件。</td>
+</tr>
+<tr>
+<td>已可用</td>
+<td>GROMACS / MD</td>
+<td>支持 EM、NVT、NPT、生产 MD、aMD、Metadynamics、Umbrella、结合分析、隐式口袋发现和轨迹后处理等任务；支持 checkpoint 续跑。</td>
 </tr>
 <tr>
 <td>已可用</td>
@@ -2150,6 +2155,7 @@
 <li><strong>项目与资产</strong>：按用户隔离项目、资产、任务和文件；资产支持预览、下载、重命名、删除和复制到其他项目。操作优先使用资产名称、类型和来源，不要求用户记裸 ID。</li>
 <li><strong>蛋白与配体处理</strong>：支持 PDB ID/本地 PDB、SMILES/SDF/MOL/MOL2/PDB 导入，3D 预览、口袋定义、Ketcher 2D 编辑及蛋白/配体准备。配体资产按原始配体、准备后配体、对接构象、分子生成和 FEP 输出分组，可打开 2D/3D、排序、筛选、合并、导出。</li>
 <li><strong>对接与相互作用分析</strong>：使用 Uni-Dock GPU（Vina/Vinardo 评分）提交对接任务；每组任务输出一个合并 SDF pose library 和报告。相互作用分析可从对接、生成或 FEP 输出中多选构象，检查几何接触、导出表格/SDF 或生成新资产。</li>
+<li><strong>结构预测</strong>：提供 OpenFold3、ESMFold、Boltz-2 和 Chai-1 四种引擎。ESMFold 适合单链快速预测，OpenFold3、Boltz-2 和 Chai-1 支持多组分或复合物候选；模型文件由 Model Zoo 管理，输出按结构资产登记。</li>
 <li><strong>分子生成</strong>：PocketXMol 支持口袋 de novo 生成和 fragment growing；结果保存为可复用的 <code>prepared_ligand</code> 或 <code>prepared_ligand_library</code>。<code>scaffold hopping</code> 与 <code>linker design</code> 需要原子锚点选择器，当前未开放。</li>
 <li><strong>FEP / RBFE 生产计算</strong>：基于 OpenFE + OpenMM（CUDA）执行真实相对结合自由能计算。支持 star 拓扑网络、Lomap 原子映射、dry-run 规划预览和完整生产模拟。每个 edge 输出 ΔΔG (kcal/mol)、误差和轨迹文件（DCD），结果汇总为 <code>fep_result</code> edge 表和带 FEP 字段的 <code>fep_output</code> SDF。支持从对接姿势库或准备好的配体 SDF 直接启动。</li>
 <li><strong>GROMACS / MD worker</strong>：基于 GROMACS + CUDA 的分子动力学任务入口。支持 EM、NVT、NPT、生产 MD、aMD、Metadynamics、Umbrella、结合分析、隐式口袋发现和轨迹后处理任务类型；页面提供结构化核心参数、完整 <code>.mdp</code>/命令/文件高级编辑、GPU 可见卡控制和轨迹/能量/分析/结构/参数/日志输出分组。AMD 镜像默认 CUDA 12.8，Thor 镜像默认 CUDA 13，Dockerfile 每次默认从 upstream 最新 GROMACS main 构建，<code>GROMACS_CUDA_TARGET_SM</code> 可覆盖一次编译的 GPU 架构集合。</li>
@@ -2283,6 +2289,16 @@ cd deploy
 <td>NVIDIA GPU</td>
 </tr>
 <tr>
+<td>DeepTernary</td>
+<td>TPD / PROTAC 三元复合物结构建模</td>
+<td>NVIDIA GPU</td>
+</tr>
+<tr>
+<td>结构预测</td>
+<td>OpenFold3 / ESMFold / Boltz-2 / Chai-1 蛋白与复合物结构预测</td>
+<td>NVIDIA GPU</td>
+</tr>
+<tr>
 <td>FEP</td>
 <td>OpenFE + OpenMM 自由能计算</td>
 <td>NVIDIA GPU（AMD 或 Thor）</td>
@@ -2291,6 +2307,11 @@ cd deploy
 <td>GROMACS</td>
 <td>GROMACS + CUDA 分子动力学、轨迹分析和 checkpoint resume</td>
 <td>NVIDIA GPU（AMD 或 Thor）</td>
+</tr>
+<tr>
+<td>Agent workers</td>
+<td>Pi / Prime / Jcode Agent 会话运行时</td>
+<td>CPU</td>
 </tr>
 </tbody>
 </table>
@@ -2348,9 +2369,11 @@ ln -sfn snapshots/manual &quot;${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxia
 <li><a href="userguide/ligand-preparation-research-and-framework/">配体准备功能框架</a></li>
 <li><a href="userguide/docking-tasks/">对接任务</a></li>
 <li><a href="userguide/molecule-generation/">分子生成</a></li>
+<li><a href="userguide/structure-prediction/">结构预测</a></li>
 <li><a href="userguide/model-zoo/">Model Zoo</a></li>
 <li><a href="userguide/fep-analysis/">FEP 与分析</a></li>
 <li><a href="userguide/gromacs-md/">GROMACS / MD</a></li>
+<li><a href="userguide/%E6%A1%88%E4%BE%8B%EF%BC%9A%E9%9A%90%E5%BC%8F%E5%8F%A3%E8%A2%8B%E5%8F%91%E7%8E%B0%E5%B7%A5%E4%BD%9C%E6%B5%81/">案例：隐式口袋发现工作流</a></li>
 <li><a href="userguide/interaction-analysis/">相互作用分析</a></li>
 <li><a href="userguide/tpd-protac/">TPD / PROTAC</a></li>
 <li><a href="userguide/tpd-protac-5t35-case/">TPD / PROTAC 5T35 案例</a></li>
