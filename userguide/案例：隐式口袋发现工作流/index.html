@@ -2403,9 +2403,9 @@
 </tr>
 <tr>
 <td style="text-align: left;"><strong>3. 口袋与水网络分析</strong></td>
-<td style="text-align: left;">从 MD 输出中提取口袋候选事件、体积曲线和候选口袋结构，并注册为标准 <code>pocket</code> 资产。</td>
-<td style="text-align: left;"><code>wa-dd-gromacs</code> 内置 pocket analyzer</td>
-<td style="text-align: left;">✅ MVP 已接入；深度 fpocket/MDAnalysis 评分待增强</td>
+<td style="text-align: left;">从 MD 输出中提取口袋候选事件、体积曲线和候选口袋结构，注册为标准 <code>pocket</code> 资产；并把聚类代表构象组装为 <code>pocket_ensemble</code>（动态口袋集合）资产，供对接页按口袋扇出。</td>
+<td style="text-align: left;"><code>wa-dd-gromacs</code> 内置 pocket analyzer + pocket ensemble</td>
+<td style="text-align: left;">✅ 已接入（<code>pocket_ensemble</code> 与 ensemble 对接 2026-08-25 上线）；深度 fpocket/MDAnalysis 评分待增强</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>4. 配体生成与复合物预测</strong></td>
@@ -2551,6 +2551,7 @@
 <li><strong>现有组件集成</strong>：<code>openfold3</code>、<code>gromacs</code>、<code>molecule-gen</code>、<code>fep</code> 等组件已纳入同一资产链。</li>
 <li><strong>Pocket analyzer MVP</strong>：GROMACS <code>pocket_discovery</code> 输出可登记 <code>md_result</code>、候选 <code>pocket</code> 资产和可打包下载的完整结果文件。</li>
 <li><strong>FEP 引擎加固与全流程贯通（2026-08-23，server6）</strong>：修复三连环根因（受体原子冲突进入传播、映射原子 3D 偏差过大进入 hybrid topology、openmmtools FIRE 最小化对高应变体系松弛不足），并追加受体温和加固（辅因子预检、末端自动重建、未解析侧链自动截 ALA）。PI3KA H1047R 正式 RBFE 首次完整跑通（任务 <code>42bdf7f8</code>，ΔΔG = 19.02 ± 10.60 kcal/mol），修复已固化为代码（<code>bfba633</code>、<code>1775440</code>、<code>378060f</code>）并部署 amd/thor 双端镜像。</li>
+<li><strong>动态口袋集合与 ensemble 对接（2026-08-25，<code>133acb5</code>）</strong>：GROMACS <code>pocket_discovery</code> 解析 <code>cluster.log</code> 聚类表、拆分聚类代表构象并按构象重新计算口袋残基组成，登记 <code>pocket_ensemble</code> 资产（含聚类占比、每口袋代表结构/口袋 PDB）。对接页口袋选择器可直接选择动态口袋集合，Uni-Dock 按"口袋 × 配体"扇出，pose library 记录 <code>WA_DD_POCKET_*</code> 属性并输出跨口袋共识排序；MD 派生 <code>md_structure</code> 也可直接作为对接/生成受体。amd/thor 镜像已构建并部署 server6。</li>
 </ul>
 <h3 id="42">4.2 进行中</h3>
 <ul>
@@ -2559,7 +2560,7 @@
 </ul>
 <h3 id="43">4.3 规划中</h3>
 <ul>
-<li><strong>Pocket analyzer 深度增强</strong>：在当前标准 <code>pocket</code> 资产合同不变的前提下，补充 <code>fpocket</code>、<code>MDAnalysis</code>、水网络和多帧口袋事件评分。</li>
+<li><strong>Pocket analyzer 深度增强</strong>：聚类代表构象→<code>pocket_ensemble</code> 已交付（见 4.1）；在标准 <code>pocket</code> 资产合同不变的前提下，继续补充 <code>fpocket</code>、<code>MDAnalysis</code>、水网络和逐帧口袋事件评分。</li>
 <li><strong>案例验证数据</strong>：用 KRAS G12C 示例补齐 L0-L3 的实际输出、截图和阈值证据。</li>
 <li><strong>蛋白准备源头修复</strong>：默认准备产物输出链内式末端（缺 H1/H2/H3、OXT）；当前由 FEP worker 运行时兜底重建，源头修复待做。</li>
 <li><strong>ABFE 评估</strong>：当前 FEP 仅支持 RBFE，构象间比较依赖同配体对双 RBFE 差值；如需绝对 ΔG 需评估引入 ABFE 协议。</li>
@@ -2637,7 +2638,7 @@
 <td style="text-align: left;">MD 与口袋分析</td>
 <td style="text-align: left;">GROMACS / MD</td>
 <td style="text-align: left;">蛋白/复合物/拓扑/轨迹资产，<code>pocket_discovery</code> 协议</td>
-<td style="text-align: left;"><code>md_result</code>、<code>pocket_analyzer_report.json</code>、<code>pocket_events.csv</code>、<code>pocket_volume.csv</code>、标准 <code>pocket</code> 资产</td>
+<td style="text-align: left;"><code>md_result</code>、<code>pocket_analyzer_report.json</code>、<code>pocket_events.csv</code>、<code>pocket_volume.csv</code>、标准 <code>pocket</code> 资产、动态口袋集合 <code>pocket_ensemble</code> 资产</td>
 </tr>
 <tr>
 <td style="text-align: left;">分子生成</td>
@@ -2656,6 +2657,7 @@
 <h3 id="52">5.2 标准资产衔接</h3>
 <ul>
 <li>GROMACS <code>pocket_discovery</code> 会把口袋分析结果写入同一个任务输出，并在存在代表结构时生成标准 <code>pocket</code> 资产。</li>
+<li><code>pocket_discovery</code> 同时登记 <code>pocket_ensemble</code>（动态口袋集合）资产；“对接任务”页的口袋选择器可直接选择它，无需再选蛋白，系统按每个口袋的聚类代表构象扇出对接，并在 pose library 中标注口袋来源与聚类占比。</li>
 <li>标准 <code>pocket</code> 资产可直接被“对接任务”和“分子生成”页面选择，不需要手动复制中心坐标或文件路径。</li>
 <li>任务右上角的输出按钮会列出任务登记的资产；“打包下载全部输出”会下载该任务的全部结果文件。</li>
 <li>每个结果文件仍可在资产详情中单独打开或下载，适合检查 <code>json</code>、<code>csv</code>、<code>xvg</code>、<code>pdb</code>、<code>gro</code>、<code>log</code> 等输出。</li>

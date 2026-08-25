@@ -2007,7 +2007,7 @@
 </tr>
 <tr>
 <td style="text-align: left;">L2 物理验证</td>
-<td style="text-align: left;">GROMACS <code>md_result</code> 资产；<code>pocket_analyzer_report.json</code>、<code>pocket_events.csv</code>、<code>pocket_volume.csv</code>；标准 <code>pocket</code> 资产</td>
+<td style="text-align: left;">GROMACS <code>md_result</code> 资产；<code>pocket_analyzer_report.json</code>、<code>pocket_events.csv</code>、<code>pocket_volume.csv</code>；标准 <code>pocket</code> 资产；动态口袋集合 <code>pocket_ensemble</code> 资产</td>
 <td style="text-align: left;">AI 候选构象 RMSD 漂移 &lt; 2.0 Å，且口袋事件与体积曲线支持口袋打开</td>
 </tr>
 <tr>
@@ -2081,6 +2081,7 @@
 <li>[ ] 协议选择 <code>pocket_discovery</code>，使用 5 ns aMD 或当前资源允许的等效参数。</li>
 <li>[ ] 等待任务完成后，打开 <code>md_result</code> 资产。</li>
 <li>[ ] 检查 <code>pocket_analyzer_report.json</code>、<code>pocket_events.csv</code>、<code>pocket_volume.csv</code>、代表结构和标准 <code>pocket</code> 资产。</li>
+<li>[ ] 检查同任务登记的 <code>pocket_ensemble</code>（动态口袋集合）资产；如需对接验证，可在"对接任务"页直接选择它做 ensemble 对接扇出。</li>
 <li>[ ] 使用“打包下载全部输出”保存完整 MD 与口袋分析结果。</li>
 </ul>
 <h2 id="8-l3">8. 第五阶段：L3 配体生成与复合物验证（未开始）</h2>
@@ -2111,7 +2112,7 @@
 <li><strong>OpenFE 受体只接受 amber14 可模板化的裸聚合链</strong>：晶体辅因子（GDP/GCP、Mg²⁺）、共价配体片段（如 6GJ8 的 F0K）必须在蛋白准备阶段删除，等价于在无辅因子/非共价状态下做 FEP；自定义力场参数化的辅因子保留方式暂不支持。</li>
 <li><strong>蛋白准备默认输出为“链内式”末端</strong>（缺 H1/H2/H3、OXT）：FEP worker 会在运行时自动重建兜底（2026-08-23 起），但蛋白准备源头修复仍在待办。</li>
 <li><strong>默认配体准备不产生 FEP 可用电荷</strong>：FEP 输入库必须选择“FEP/MD 用途”准备变体。</li>
-<li><strong>pocket analyzer 仍是 MVP</strong>：fpocket、MDAnalysis、水网络、多帧口袋事件评分尚未增强（不阻断闭环，降低证据质量）。</li>
+<li><strong>pocket analyzer 深度评分仍未增强</strong>：聚类代表构象→<code>pocket_ensemble</code> 已于 2026-08-25 交付；fpocket、MDAnalysis、水网络、逐帧口袋事件评分尚未增强（不阻断闭环，降低证据质量）。</li>
 <li><strong>L1 OpenFold3 构象生成策略</strong>（模板扰动/配体诱导的参数规范与筛选）尚未实际验证过一轮，属于下一步。</li>
 </ol>
 

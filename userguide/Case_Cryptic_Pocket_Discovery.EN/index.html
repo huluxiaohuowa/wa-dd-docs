@@ -2424,9 +2424,9 @@
 </tr>
 <tr>
 <td style="text-align: left;"><strong>3. Pocket and Water Network Analysis</strong></td>
-<td style="text-align: left;">Extract candidate pocket events, pocket-volume curves, and candidate pocket structures from MD outputs, then register reusable standard <code>pocket</code> assets.</td>
-<td style="text-align: left;">Built-in pocket analyzer in <code>wa-dd-gromacs</code></td>
-<td style="text-align: left;">✅ MVP integrated; deeper fpocket/MDAnalysis scoring remains planned</td>
+<td style="text-align: left;">Extract candidate pocket events, pocket-volume curves, and candidate pocket structures from MD outputs, then register reusable standard <code>pocket</code> assets; assemble cluster representative structures into a <code>pocket_ensemble</code> (dynamic pocket ensemble) asset for fan-out docking.</td>
+<td style="text-align: left;">Built-in pocket analyzer + pocket ensemble in <code>wa-dd-gromacs</code></td>
+<td style="text-align: left;">✅ Integrated (<code>pocket_ensemble</code> and ensemble docking live since 2026-08-25); deeper fpocket/MDAnalysis scoring remains planned</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>4. Ligand Generation and Complex Prediction</strong></td>
@@ -2572,6 +2572,7 @@
 <li><strong>Existing Component Integration</strong>: <code>openfold3</code>, <code>gromacs</code>, <code>molecule-gen</code>, <code>fep</code>, and related components now share one asset chain.</li>
 <li><strong>Pocket Analyzer MVP</strong>: GROMACS <code>pocket_discovery</code> can register <code>md_result</code>, candidate <code>pocket</code> assets, and a complete downloadable result package.</li>
 <li><strong>FEP Engine Hardening, Full-Chain Production Run (2026-08-23, server6)</strong>: Fixed a three-layer failure chain (receptor clashes entering propagation, over-deviant mapped atoms entering the hybrid topology, openmmtools FIRE minimization stalling on strained systems) plus receptor guards (cofactor precheck, terminal rebuild, unresolved-sidechain ALA truncation). The first full production RBFE completed on PI3KA H1047R (job <code>42bdf7f8</code>, ΔΔG = 19.02 ± 10.60 kcal/mol); fixes are committed (<code>bfba633</code>, <code>1775440</code>, <code>378060f</code>) and deployed to both amd and thor images.</li>
+<li><strong>Dynamic Pocket Ensemble and Ensemble Docking (2026-08-25, <code>133acb5</code>)</strong>: GROMACS <code>pocket_discovery</code> now parses the <code>cluster.log</code> table, splits cluster representative structures, recomputes per-conformer pocket residue composition, and registers a <code>pocket_ensemble</code> asset (cluster populations, per-pocket representative and pocket PDBs). The docking page accepts the ensemble directly in its pocket picker; Uni-Dock fans out over "pocket x ligand" runs, the pose library records <code>WA_DD_POCKET_*</code> properties, and the report adds cross-pocket consensus ranking. MD-derived <code>md_structure</code> assets are also accepted as docking/generation receptors. amd/thor images are built and deployed on server6.</li>
 </ul>
 <h3 id="42-in-progress">4.2 In Progress</h3>
 <ul>
@@ -2581,7 +2582,7 @@
 <p>Both formal RBFE jobs ran end to end on server6 (APO <code>6273dcd5</code>, OPEN <code>484407ba</code>; reproducible procedure in section 5.1 of the Chinese execution reference). The Adagrasib edge gives ΔΔΔG = <strong>-1.91 kcal/mol</strong> (OPEN favored over APO — direction consistent with the cryptic-pocket hypothesis; combined uncertainty ±7.6, not statistically significant, needs longer sampling or a closer ligand pair). The Sotorasib edges diverged in both runs (-99 / 3e+13) and motivated the low-reliability annotation (<code>7a55400</code>, deployed).</p>
 <h3 id="43-planned">4.3 Planned</h3>
 <ul>
-<li><strong>Pocket Analyzer Depth</strong>: Add fpocket, MDAnalysis, water-network analysis, and multi-frame pocket-event scoring without changing the standard <code>pocket</code> asset contract.</li>
+<li><strong>Pocket Analyzer Depth</strong>: Cluster representative structures → <code>pocket_ensemble</code> are delivered (see 4.1); continue to add fpocket, MDAnalysis, water-network analysis, and per-frame pocket-event scoring without changing the standard <code>pocket</code> asset contract.</li>
 <li><strong>Case Evidence</strong>: Fill the KRAS G12C L0-L3 example with real outputs, screenshots, and threshold evidence.</li>
 <li><strong>Protein Preparation Source Fix</strong>: Default prepared proteins still carry chain-internal termini (no H1/H2/H3, no OXT); FEP rebuilds them at run time, a source-side fix is pending.</li>
 <li><strong>ABFE Evaluation</strong>: FEP currently supports RBFE only; cross-conformation comparisons rely on paired RBFE differences. Introducing an ABFE protocol would enable absolute ΔG.</li>
@@ -2659,7 +2660,7 @@
 <td style="text-align: left;">MD and pocket analysis</td>
 <td style="text-align: left;">GROMACS / MD</td>
 <td style="text-align: left;">Protein/complex/topology/trajectory assets, <code>pocket_discovery</code> protocol</td>
-<td style="text-align: left;"><code>md_result</code>, <code>pocket_analyzer_report.json</code>, <code>pocket_events.csv</code>, <code>pocket_volume.csv</code>, standard <code>pocket</code> assets</td>
+<td style="text-align: left;"><code>md_result</code>, <code>pocket_analyzer_report.json</code>, <code>pocket_events.csv</code>, <code>pocket_volume.csv</code>, standard <code>pocket</code> assets, dynamic <code>pocket_ensemble</code> asset</td>
 </tr>
 <tr>
 <td style="text-align: left;">Molecule generation</td>
@@ -2678,6 +2679,7 @@
 <h3 id="52-standard-asset-chaining">5.2 Standard Asset Chaining</h3>
 <ul>
 <li>GROMACS <code>pocket_discovery</code> writes pocket-analysis outputs into the same task result and creates a standard <code>pocket</code> asset when a representative structure is available.</li>
+<li><code>pocket_discovery</code> also registers a <code>pocket_ensemble</code> (dynamic pocket ensemble) asset; the Docking page pocket picker accepts it directly without a separate receptor — docking fans out over each pocket's cluster representative structure and tags poses with pocket origin and cluster population.</li>
 <li>Standard <code>pocket</code> assets can be selected directly in the Docking and Molecule Generation pages; users do not need to manually copy center coordinates or file paths.</li>
 <li>The task-output button in the upper-right task panel lists registered output assets; "download all outputs" packages all result files for that task.</li>
 <li>Individual result files remain openable or downloadable from asset details, including <code>json</code>, <code>csv</code>, <code>xvg</code>, <code>pdb</code>, <code>gro</code>, and <code>log</code> outputs.</li>
