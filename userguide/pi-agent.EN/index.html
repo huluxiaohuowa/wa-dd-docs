@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#agent-workbench-pi-prime-jcode" class="md-skip">
+        <a href="#agent-workbench-pi-prime" class="md-skip">
           跳转至
         </a>
       
@@ -1676,8 +1676,8 @@
 <blockquote>
 <p><a href="../pi-agent/">中文文档</a></p>
 </blockquote>
-<h1 id="agent-workbench-pi-prime-jcode">Agent workbench (Pi / Prime / JCode)</h1>
-<p>The Agent page supports personal CADD sessions powered by Pi Agent Core, Prime Agent, or JCode. Each WA-DD user can only see their own sessions, context, and model configuration; all three runtimes share one encrypted model configuration.</p>
+<h1 id="agent-workbench-pi-prime">Agent workbench (Pi / Prime)</h1>
+<p>The Agent page supports personal CADD sessions powered by Pi Agent Core or Prime Agent. Each WA-DD user can only see their own sessions, context, and model configuration; both runtimes share one encrypted model configuration. The former JCode runtime has been retired; historical JCode sessions remain viewable but can no longer send messages.</p>
 <p>Each request carries the project currently selected in the page. For ligand discovery, the Agent first queries ligand-specific assets in that project and then reads molecules and SMILES from the selected asset; it does not infer results from a truncated general asset list.</p>
 <p><img alt="Agent research workbench: Pi or Prime conversation in the center and independently scrollable Sciverse evidence on the right" src="../images/agent-research-workbench.png" /></p>
 <p><img alt="Agent workbench: use Pi or Prime to manage personal sessions and model configuration, and call research tools within the current project permissions" src="../images/agent-workbench-overview.png" /></p>
@@ -1685,6 +1685,7 @@
 <p>The first time you open the page, you will be asked to fill in the model endpoint, model name, and API Key for the current account. Each user's API Key is encrypted and stored independently, and the page never echoes it back. When editing later, an empty secret keeps the existing saved value and never clears it. You may optionally provide one Sciverse Key; the same key is used for Sciverse and DianShi and is decrypted only while the current user's Agent invokes those tools.</p>
 <p>With Sciverse configured, a dedicated research-evidence column on the right shows <strong>Search literature</strong> and <strong>Query DianShi</strong> actions. They fill the corresponding instruction into the composer; after it is sent, the Agent can retrieve citable literature evidence and use DianShi substance, reaction, similarity, and reference tools. Title, snippet, page, and <code>doc_id</code> cards scroll inside that column rather than covering the conversation. SeqStudio currently exposes online/local workflows only and has no public HTTP API, so its key is not represented as a callable integration.</p>
 <p>Pi and Prime only expose the controlled <code>wa_dd_api</code> tool: it reads projects, assets, and tasks within the current user's permissions, and submits allowed preparation, docking, or FEP API requests. Prime's built-in IPython and shell tools are disabled, and the Prime worker has no host directory, Docker socket, or other users' tokens.</p>
+<p>While a reply is streaming, the composer supports the message queue: pressing Enter sends a steering message that is injected right after the current turn's tool calls finish; pressing Alt+Enter sends a follow-up message that is delivered only after the current run settles. The "steering / follow-up delivery" selectors below the input choose one-at-a-time (the default, best for sequential dependent instructions) or all (batch delivery for many independent tasks); the choice is remembered in the browser and applies immediately to a running session. Pending messages are listed in the queue panel under the conversation and can be cleared with one action before delivery.</p>
 <p>Pi reuses the existing <code>WA_DD_DATA_HOST_DIR</code> mount; encrypted configuration and session context mirrors are persistently saved to <code>/data/pi</code> inside the container, which corresponds to <code>${WA_DD_DATA_HOST_DIR}/pi</code> on the host. PostgreSQL remains the authoritative record for permission checks and queries.</p>
 <p>On first startup, a read-only deployment encryption master key is generated in this persistent directory. Typically no environment variable needs to be set; if you want it managed by a key management system, you may optionally set <code>WA_DD_PI_CONFIG_ENCRYPTION_KEY</code> to override the auto-generated key. It is not the user's model API Key.</p>
 <p>Build the Pi worker:</p>
