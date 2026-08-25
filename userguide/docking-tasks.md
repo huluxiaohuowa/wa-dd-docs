@@ -8,9 +8,9 @@
 
 ## 输入
 
-- `prepared_protein` asset
+- `prepared_protein` asset（也接受 `protein`、`complex` 和 MD 派生的 `md_structure` 资产作为受体）
 - `ligand` 或 `prepared_ligand` asset
-- `pocket` asset
+- `pocket` asset，或 GROMACS `pocket_discovery` 输出的 `pocket_ensemble`（动态口袋集合）asset：选择口袋集合时无需再选蛋白，每个口袋使用对应聚类代表构象作为受体
 - Uni-Dock 为传统对接引擎，无需神经网络模型文件
 
 ## 输出
@@ -18,6 +18,7 @@
 - `JobOut`
 - `result` asset：包含 Uni-Dock 报告、pose 表、worker log 和任务摘要。
 - 1 个 `prepared_ligand_library` / `docking_pose_library`：把本次任务全部成功 pose 合并到同一个 SDF；每条 SDF 记录保留分子名、SMILES、对接打分和 pose 序号，可单选、多选、排序、导出或进入相互作用分析/FEP。
+- 使用 `pocket_ensemble` 时，任务按"口袋 × 配体"扇出，所有 pose 仍合并进同一个 SDF，每条记录额外带 `WA_DD_POCKET_INDEX / POCKET_LABEL / POCKET_CENTER / POCKET_CLUSTER_POPULATION` 属性；报告和 pose 表新增跨口袋共识排序（每分子最优分数、最优口袋、口袋命中率），相互作用分析按口袋分别生成。
 
 ## 操作流程
 
@@ -25,7 +26,7 @@
 2. 在"配体处理"页导入 SDF/SMILES 或用 Ketcher 绘制分子。根据目标用途选择导出配置：
    - Uni-Dock/Vina：自动加氢、生成 3D 构象、计算 Gasteiger 电荷并准备 PDBQT。
    - FEP/MD：保留 3D 构象和后续力场参数交接记录。
-3. 在"对接任务"页从下拉列表选择蛋白、口袋和配体。页面会调用 `/api/v1/docking/compatibility` 检查当前组合是否可运行。
+3. 在"对接任务"页从下拉列表选择蛋白、口袋和配体。口袋下拉同时接受标准 `pocket` 和"动态口袋集合"（`pocket_ensemble`）资产；选择口袋集合时可不选蛋白。页面会调用 `/api/v1/docking/compatibility` 检查当前组合是否可运行。
 4. 选择对接方法（默认 Uni-Dock GPU）和相关参数。
 5. 点击"提交对接任务"。系统会创建 `docking` 类型任务并交由 Uni-Dock worker 执行。
 6. 在任务中心查看逐步进度；完成后到输出资产下载结构、报告或把 result asset 传给后续分析/FEP。

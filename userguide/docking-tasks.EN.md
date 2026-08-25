@@ -8,9 +8,9 @@ Docking tasks combine receptor, ligand, and pocket assets to predict binding pos
 
 ## Inputs
 
-- `prepared_protein` asset
+- `prepared_protein` asset (`protein`, `complex`, and MD-derived `md_structure` assets are also accepted as receptor)
 - `ligand` or `prepared_ligand` asset
-- `pocket` asset
+- `pocket` asset, or a `pocket_ensemble` (dynamic pocket ensemble) asset from GROMACS `pocket_discovery`: with an ensemble selected, no separate receptor is required and each pocket uses its own cluster representative structure as receptor
 - Uni-Dock is a traditional docking engine and does not require neural network model files
 
 ## Outputs
@@ -18,6 +18,7 @@ Docking tasks combine receptor, ligand, and pocket assets to predict binding pos
 - `JobOut`
 - `result` asset: includes the Uni-Dock report, pose table, worker log, and task summary.
 - 1 `prepared_ligand_library` / `docking_pose_library`: all successful poses from this task are merged into one SDF. Each SDF record keeps molecule name, SMILES, docking score, and pose index, and can be selected, sorted, exported, or reused by interaction analysis/FEP.
+- When a `pocket_ensemble` is used, the task fans out over "pocket x ligand" runs while still merging all poses into one SDF; each record additionally carries `WA_DD_POCKET_INDEX / POCKET_LABEL / POCKET_CENTER / POCKET_CLUSTER_POPULATION` properties, and the report and pose table add cross-pocket consensus ranking (best score, best pocket, and pocket-hit coverage per molecule). Interaction outputs are generated per pocket.
 
 ## Workflow
 
@@ -25,7 +26,7 @@ Docking tasks combine receptor, ligand, and pocket assets to predict binding pos
 2. Import SDF/SMILES or draw molecules in Ligand Processing. Select the export profile by target use:
    - Uni-Dock/Vina: add hydrogens, generate 3D conformers, assign Gasteiger charges, and prepare PDBQT.
    - FEP/MD: keep 3D conformers and force-field handoff metadata.
-3. In Docking Tasks, select receptor, pocket, and ligand from dropdowns. The page calls `/api/v1/docking/compatibility` to check whether the current combination is runnable.
+3. In Docking Tasks, select receptor, pocket, and ligand from dropdowns. The pocket dropdown accepts both standard `pocket` and dynamic pocket ensemble (`pocket_ensemble`) assets; when an ensemble is selected the receptor can be left empty. The page calls `/api/v1/docking/compatibility` to check whether the current combination is runnable.
 4. Choose the docking method (default: Uni-Dock GPU) and related parameters.
 5. Click `Submit Docking Task`. The system creates a `docking` job and dispatches it to the Uni-Dock worker.
 6. Track step-by-step progress in the Task Center. After completion, go to the output asset to download structures/reports, or reuse the result asset in analysis/FEP.

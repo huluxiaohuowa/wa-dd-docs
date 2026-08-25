@@ -53,7 +53,7 @@ graph TD
 | :--- | :--- | :--- | :--- |
 | **1. OpenFold3 Conformational Ensemble Generation** | Generate multiple candidate protein conformations using the OpenFold3 model through template perturbation and ligand induction strategies. | `wa-dd-openfold3` | ✅ Integrated |
 | **2. MD Physical Validation** | Perform enhanced sampling MD simulations on candidate conformations using GROMACS to validate pocket opening. | `wa-dd-gromacs` (`pocket_discovery` / aMD / analysis) | ✅ Integrated |
-| **3. Pocket and Water Network Analysis** | Extract candidate pocket events, pocket-volume curves, and candidate pocket structures from MD outputs, then register reusable standard `pocket` assets. | Built-in pocket analyzer in `wa-dd-gromacs` | ✅ MVP integrated; deeper fpocket/MDAnalysis scoring remains planned |
+| **3. Pocket and Water Network Analysis** | Extract candidate pocket events, pocket-volume curves, and candidate pocket structures from MD outputs, then register reusable standard `pocket` assets; assemble cluster representative structures into a `pocket_ensemble` (dynamic pocket ensemble) asset for fan-out docking. | Built-in pocket analyzer + pocket ensemble in `wa-dd-gromacs` | ✅ Integrated (`pocket_ensemble` and ensemble docking live since 2026-08-25); deeper fpocket/MDAnalysis scoring remains planned |
 | **4. Ligand Generation and Complex Prediction** | Generate ligands on validated OPEN conformations, predict complex structures via OpenFold3, and validate with FEP. | `wa-dd-molecule-gen`, `wa-dd-openfold3`, `wa-dd-fep` | ✅ Integrated |
 
 ### 2.3 OpenFold3 Conformational Ensemble Generation Strategies
@@ -140,6 +140,7 @@ Given the current available resources being a single server (tc232/server6), we 
 - **Existing Component Integration**: `openfold3`, `gromacs`, `molecule-gen`, `fep`, and related components now share one asset chain.
 - **Pocket Analyzer MVP**: GROMACS `pocket_discovery` can register `md_result`, candidate `pocket` assets, and a complete downloadable result package.
 - **FEP Engine Hardening, Full-Chain Production Run (2026-08-23, server6)**: Fixed a three-layer failure chain (receptor clashes entering propagation, over-deviant mapped atoms entering the hybrid topology, openmmtools FIRE minimization stalling on strained systems) plus receptor guards (cofactor precheck, terminal rebuild, unresolved-sidechain ALA truncation). The first full production RBFE completed on PI3KA H1047R (job `42bdf7f8`, ΔΔG = 19.02 ± 10.60 kcal/mol); fixes are committed (`bfba633`, `1775440`, `378060f`) and deployed to both amd and thor images.
+- **Dynamic Pocket Ensemble and Ensemble Docking (2026-08-25, `133acb5`)**: GROMACS `pocket_discovery` now parses the `cluster.log` table, splits cluster representative structures, recomputes per-conformer pocket residue composition, and registers a `pocket_ensemble` asset (cluster populations, per-pocket representative and pocket PDBs). The docking page accepts the ensemble directly in its pocket picker; Uni-Dock fans out over "pocket x ligand" runs, the pose library records `WA_DD_POCKET_*` properties, and the report adds cross-pocket consensus ranking. MD-derived `md_structure` assets are also accepted as docking/generation receptors. amd/thor images are built and deployed on server6.
 
 ### 4.2 In Progress
 - **OpenFold3 Conformation-Generation Validation (next step)**: The `AssetFile.size` worker bug is fixed (`a43b816`, images after 2026-08-20 include it); template-perturbation and ligand-induced predictions are ready to resubmit on server6.
@@ -148,7 +149,7 @@ Given the current available resources being a single server (tc232/server6), we 
 Both formal RBFE jobs ran end to end on server6 (APO `6273dcd5`, OPEN `484407ba`; reproducible procedure in section 5.1 of the Chinese execution reference). The Adagrasib edge gives ΔΔΔG = **-1.91 kcal/mol** (OPEN favored over APO — direction consistent with the cryptic-pocket hypothesis; combined uncertainty ±7.6, not statistically significant, needs longer sampling or a closer ligand pair). The Sotorasib edges diverged in both runs (-99 / 3e+13) and motivated the low-reliability annotation (`7a55400`, deployed).
 
 ### 4.3 Planned
-- **Pocket Analyzer Depth**: Add fpocket, MDAnalysis, water-network analysis, and multi-frame pocket-event scoring without changing the standard `pocket` asset contract.
+- **Pocket Analyzer Depth**: Cluster representative structures → `pocket_ensemble` are delivered (see 4.1); continue to add fpocket, MDAnalysis, water-network analysis, and per-frame pocket-event scoring without changing the standard `pocket` asset contract.
 - **Case Evidence**: Fill the KRAS G12C L0-L3 example with real outputs, screenshots, and threshold evidence.
 - **Protein Preparation Source Fix**: Default prepared proteins still carry chain-internal termini (no H1/H2/H3, no OXT); FEP rebuilds them at run time, a source-side fix is pending.
 - **ABFE Evaluation**: FEP currently supports RBFE only; cross-conformation comparisons rely on paired RBFE differences. Introducing an ABFE protocol would enable absolute ΔG.
@@ -175,13 +176,14 @@ This case targets an already deployed WA-DD instance. Regular users do not need 
 | Structure preparation | Protein Processing | PDB ID or uploaded PDB/CIF | `protein` / `prepared_protein` assets |
 | Ligand preparation | Ligand Processing | SDF, SMILES, table, or drawn molecule | `ligand` / `prepared_ligand` assets |
 | Conformation generation | Structure Prediction | Protein asset, template/ligand-induced parameters | OpenFold3 structure-result assets |
-| MD and pocket analysis | GROMACS / MD | Protein/complex/topology/trajectory assets, `pocket_discovery` protocol | `md_result`, `pocket_analyzer_report.json`, `pocket_events.csv`, `pocket_volume.csv`, standard `pocket` assets |
+| MD and pocket analysis | GROMACS / MD | Protein/complex/topology/trajectory assets, `pocket_discovery` protocol | `md_result`, `pocket_analyzer_report.json`, `pocket_events.csv`, `pocket_volume.csv`, standard `pocket` assets, dynamic `pocket_ensemble` asset |
 | Molecule generation | Molecule Generation | Standard `pocket` asset and generation constraints | Candidate-molecule SDF assets |
 | FEP validation | FEP / Analysis | Congeneric ligands, complexes, or docking/generation outputs | FEP result tables and downloadable result assets |
 
 ### 5.2 Standard Asset Chaining
 
 - GROMACS `pocket_discovery` writes pocket-analysis outputs into the same task result and creates a standard `pocket` asset when a representative structure is available.
+- `pocket_discovery` also registers a `pocket_ensemble` (dynamic pocket ensemble) asset; the Docking page pocket picker accepts it directly without a separate receptor — docking fans out over each pocket's cluster representative structure and tags poses with pocket origin and cluster population.
 - Standard `pocket` assets can be selected directly in the Docking and Molecule Generation pages; users do not need to manually copy center coordinates or file paths.
 - The task-output button in the upper-right task panel lists registered output assets; "download all outputs" packages all result files for that task.
 - Individual result files remain openable or downloadable from asset details, including `json`, `csv`, `xvg`, `pdb`, `gro`, and `log` outputs.
