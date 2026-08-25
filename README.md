@@ -35,8 +35,9 @@ WA-DD 是一个个人独立开发的计算机辅助药物设计（CADD）工作�
 
 | 状态 | 模块 | 当前可用范围 |
 | --- | --- | --- |
-| 已可用 | 项目与资产、蛋白处理、配体处理、对接任务、分子生成、相互作用分析 | 可创建并复用资产、提交任务、查看、筛选、导出或下载输出。 |
+| 已可用 | 项目与资产、蛋白处理、结构预测、配体处理、对接任务、分子生成、相互作用分析 | 可创建并复用资产、提交任务、查看、筛选、导出或下载输出。 |
 | 已可用 | FEP / RBFE 生产计算 | 支持 OpenFE + OpenMM（CUDA）进行真实 ΔG/ΔΔG 自由能计算；可选择 dry-run 规划或完整生产模拟；输出 edge 结果表、带 FEP 字段的 SDF 和轨迹文件。 |
+| 已可用 | GROMACS / MD | 支持 EM、NVT、NPT、生产 MD、aMD、Metadynamics、Umbrella、结合分析、隐式口袋发现和轨迹后处理等任务；支持 checkpoint 续跑。 |
 | 已可用 | Model Zoo、TPD / PROTAC、Agent 工作台、管理、系统资源、用户文档、API 文档 | 可集中下载和更新项目模型；TPD 可提交 DeepTernary 结构建模任务；可管理个人 Pi / Prime Agent 会话与共享模型配置；管理员可管理用户和任务；模块指南和 API 契约可直接浏览。 |
 | 规划中 | SAR / 构效关系 | 目前仅保留功能定位与指南入口，尚无可提交的业务工作流。 |
 
@@ -45,6 +46,7 @@ WA-DD 是一个个人独立开发的计算机辅助药物设计（CADD）工作�
 - **项目与资产**：按用户隔离项目、资产、任务和文件；资产支持预览、下载、重命名、删除和复制到其他项目。操作优先使用资产名称、类型和来源，不要求用户记裸 ID。
 - **蛋白与配体处理**：支持 PDB ID/本地 PDB、SMILES/SDF/MOL/MOL2/PDB 导入，3D 预览、口袋定义、Ketcher 2D 编辑及蛋白/配体准备。配体资产按原始配体、准备后配体、对接构象、分子生成和 FEP 输出分组，可打开 2D/3D、排序、筛选、合并、导出。
 - **对接与相互作用分析**：使用 Uni-Dock GPU（Vina/Vinardo 评分）提交对接任务；每组任务输出一个合并 SDF pose library 和报告。相互作用分析可从对接、生成或 FEP 输出中多选构象，检查几何接触、导出表格/SDF 或生成新资产。
+- **结构预测**：提供 OpenFold3、ESMFold、Boltz-2 和 Chai-1 四种引擎。ESMFold 适合单链快速预测，OpenFold3、Boltz-2 和 Chai-1 支持多组分或复合物候选；模型文件由 Model Zoo 管理，输出按结构资产登记。
 - **分子生成**：PocketXMol 支持口袋 de novo 生成和 fragment growing；结果保存为可复用的 `prepared_ligand` 或 `prepared_ligand_library`。`scaffold hopping` 与 `linker design` 需要原子锚点选择器，当前未开放。
 - **FEP / RBFE 生产计算**：基于 OpenFE + OpenMM（CUDA）执行真实相对结合自由能计算。支持 star 拓扑网络、Lomap 原子映射、dry-run 规划预览和完整生产模拟。每个 edge 输出 ΔΔG (kcal/mol)、误差和轨迹文件（DCD），结果汇总为 `fep_result` edge 表和带 FEP 字段的 `fep_output` SDF。支持从对接姿势库或准备好的配体 SDF 直接启动。
 - **GROMACS / MD worker**：基于 GROMACS + CUDA 的分子动力学任务入口。支持 EM、NVT、NPT、生产 MD、aMD、Metadynamics、Umbrella、结合分析、隐式口袋发现和轨迹后处理任务类型；页面提供结构化核心参数、完整 `.mdp`/命令/文件高级编辑、GPU 可见卡控制和轨迹/能量/分析/结构/参数/日志输出分组。AMD 镜像默认 CUDA 12.8，Thor 镜像默认 CUDA 13，Dockerfile 每次默认从 upstream 最新 GROMACS main 构建，`GROMACS_CUDA_TARGET_SM` 可覆盖一次编译的 GPU 架构集合。
@@ -194,8 +196,11 @@ cd deploy
 | Ligand prep | 配体准备（含 RDKit、OpenBabel、Meeko） | CPU |
 | Uni-Dock | GPU 对接引擎（Vina/Vinardo） | NVIDIA GPU |
 | Molecule gen | PocketXMol 分子生成 | NVIDIA GPU |
+| DeepTernary | TPD / PROTAC 三元复合物结构建模 | NVIDIA GPU |
+| 结构预测 | OpenFold3 / ESMFold / Boltz-2 / Chai-1 蛋白与复合物结构预测 | NVIDIA GPU |
 | FEP | OpenFE + OpenMM 自由能计算 | NVIDIA GPU（AMD 或 Thor） |
 | GROMACS | GROMACS + CUDA 分子动力学、轨迹分析和 checkpoint resume | NVIDIA GPU（AMD 或 Thor） |
+| Agent workers | Pi / Prime / Jcode Agent 会话运行时 | CPU |
 
 ### 模型缓存
 
@@ -265,9 +270,11 @@ login
 - [配体准备功能框架](userguide/ligand-preparation-research-and-framework.md)
 - [对接任务](userguide/docking-tasks.md)
 - [分子生成](userguide/molecule-generation.md)
+- [结构预测](userguide/structure-prediction.md)
 - [Model Zoo](userguide/model-zoo.md)
 - [FEP 与分析](userguide/fep-analysis.md)
 - [GROMACS / MD](userguide/gromacs-md.md)
+- [案例：隐式口袋发现工作流](userguide/案例：隐式口袋发现工作流.md)
 - [相互作用分析](userguide/interaction-analysis.md)
 - [TPD / PROTAC](userguide/tpd-protac.md)
 - [TPD / PROTAC 5T35 案例](userguide/tpd-protac-5t35-case.md)
