@@ -1,8 +1,8 @@
 > [English documentation](pi-agent.EN.md)
 
-# Agent 工作台（Pi / Prime / JCode）
+# Agent 工作台（Pi / Prime）
 
-Agent 页面支持 Pi Agent Core、Prime Agent 与 JCode 三种个人 CADD 运行时。每个 WA-DD 用户只能看到自己的会话、上下文和模型配置；三个运行时共享同一份加密模型配置。
+Agent 页面支持 Pi Agent Core 与 Prime Agent 两种个人 CADD 运行时。每个 WA-DD 用户只能看到自己的会话、上下文和模型配置；两个运行时共享同一份加密模型配置。早期的 JCode 运行时已下线，历史 JCode 会话只能查看，不能再发送消息。
 
 Agent 会随请求接收页面当前选中的项目；查找配体时会先按配体类型精确检索该项目，再读取所选资产中的分子和 SMILES，而不是从截断的全量资产列表猜测。
 
@@ -17,6 +17,8 @@ Agent 会随请求接收页面当前选中的项目；查找配体时会先按�
 配置 Sciverse 后，工作台最右侧独立的科研证据栏会显示“检索文献”和“查询点石”入口：点击会填入相应指令，发送后 Agent 可调用可引用的文献证据检索和点石的物质、反应、相似度与文献工具。文献标题、证据片段、页码和 `doc_id` 会在该栏内滚动显示，不会遮挡对话。SeqStudio 当前仅公开在线/本地工作流，没有公开 HTTP API；其 Key 不会被伪装成可调用能力。
 
 Pi 与 Prime 只提供受控的 `wa_dd_api` 工具：在当前用户权限内读取项目、资产和任务，并提交允许的准备、对接或 FEP API 请求。Prime 的内置 IPython / shell 工具已禁用，Prime worker 也没有宿主机目录、Docker socket 或其他用户 token 的访问权。
+
+回复运行期间支持消息队列：在输入框按 Enter 发送的是引导（steer）消息，会在当前回合工具执行完后立即注入；按 Alt+Enter 发送的是追问（follow-up）消息，会等本轮结束后再投递。输入框下方的“引导投递 / 追问投递”分别选择逐条（one-at-a-time，默认，适合前后依赖的指令）或批量（all，独立任务较多时一次统筹）模式，选择会记忆在浏览器中并在运行期间即时生效。待投递消息会显示在对话下方的队列面板中，可一键清空尚未投递的引导与追问消息。
 
 Pi 复用既有的 `WA_DD_DATA_HOST_DIR` 挂载；加密配置和会话上下文镜像固定保存到容器内 `/data/pi`，即宿主机的 `${WA_DD_DATA_HOST_DIR}/pi`。PostgreSQL 仍是权限校验和查询的权威记录。
 
