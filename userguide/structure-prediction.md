@@ -5,7 +5,7 @@
 ## 后端选择
 
 - **ESMFold**：只需要蛋白序列，适合单链快速预测。不使用 MSA/template/ligand 输入。
-- **Boltz-2**：支持单链蛋白、PDB/CIF 模板、一个外部 MSA 或在线 MSA，以及 diffusion samples、seed 和输出格式。worker 会生成 Boltz YAML 后再执行预测。
+- **Boltz-2**：支持单链蛋白、PDB/CIF 模板、一个外部 MSA 或在线 MSA，以及 diffusion samples、seed 和输出格式。在线 MSA 与外部 MSA 必须至少选择一种；worker 会生成 Boltz YAML 后再执行预测。
 - **Chai-1**：支持单链蛋白、PDB/CIF 模板、A3M 外部 MSA 或在线 MSA，以及 diffusion samples、trunk samples、seed 和 device。worker 会把 A3M 转成 Chai 的 aligned parquet，并为自定义模板生成 m8 命中表和本地 CIF 缓存。
 - **OpenFold3**：支持表单自动生成单链 query、PDB/CIF 模板、外部 MSA、指定 seeds、精度和输出格式，也支持在高级参数窗口粘贴完整 query JSON 和 runner YAML。
 
@@ -21,11 +21,13 @@
 2. 仍在“蛋白处理”中上传模板结构 PDB/CIF/mmCIF。模板必须包含蛋白链；上传成功后会成为同一项目下可选择的蛋白结构资产。
 3. 打开“结构预测”，选择 OpenFold3、Boltz-2 或 Chai-1。ESMFold 是序列快速预测后端，不接受模板。
 4. 在“蛋白资产”选择待预测蛋白，在“模板结构资产”勾选一个或多个模板，并保持“启用模板”开启。
-5. 按所选引擎设置 samples、seed、精度、输出格式和 device。选择外部 MSA 资产后，任务会自动关闭在线 MSA server，保证选中的 MSA 真正进入后端；Chai-1 的外部 MSA 必须是 `.a3m`。
+5. 按所选引擎设置 samples、seed、精度、输出格式和 device。选择外部 MSA 资产后，任务会自动关闭在线 MSA server，保证选中的 MSA 真正进入后端；Chai-1 的外部 MSA 必须是 `.a3m`。Boltz-2 必须保留在线 MSA，或选择一个外部 MSA，否则 Web 与 API 都会在提交前拒绝该无效组合。
 6. 点击提交。任务详情的输入清单会记录所选资产；worker 同时把实际生成的 OpenFold3 query/runner、Boltz YAML 或 Chai m8/CIF 缓存写入任务工作目录，便于审计。
 7. 任务完成后，在输出资产中查看 PDB/CIF、日志和置信度文件。需要对接或 FEP 时，先到“蛋白处理”生成 `prepared_protein`。
 
 如果选择了模板资产却关闭“启用模板”，提交会直接报错，不会把模板只记录在任务里而静默忽略。
+
+OpenFold3 默认使用 Model Hub 中的 OpenBind-0 `of3-ob-2025-06-30-174k.pt`，运行镜像固定使用兼容的 OpenFold3 0.5.0。旧的 Preview-2 `of3-p2-155k.pt` 不兼容 0.5.0；只有在确认自定义 checkpoint 与运行版本匹配时，才在高级参数中覆盖 checkpoint 路径或名称。
 
 ## 输出复用
 
