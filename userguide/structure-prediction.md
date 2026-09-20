@@ -43,7 +43,7 @@ OpenFold3 的候选规模同时受 diffusion samples 和 seed 数量影响。第
 | 页面字段 / API 字段 | 怎么设置 | 注意事项 |
 | --- | --- | --- |
 | 精度 / `precision` | OpenFold3 在 server6 推荐 `bf16`；ESMFold 的稳妥默认值为 `fp32` | `bf16`/`fp16` 通常占用更少显存；`fp32` 占用更高。页面只在 OpenFold3 和 ESMFold 显示此项。遇到不支持的低精度算子或数值异常时改为 `fp32` 重试。 |
-| Device / `device` | 单卡通常填 `cuda:0` | OpenFold3、ESMFold、Chai-1会使用该字段。Boltz-2 当前由 worker 的可见 GPU 控制，不依赖此字段。 |
+| Device / `device` | 单卡通常填 `cuda:0` | OpenFold3、ESMFold、Chai-1直接使用该字段；Boltz-2 worker 会据此限制可见 GPU。若同时使用下面的 GPU 控制，应保持两处选择一致。 |
 | 模型 / Checkpoint 路径 / `inference_ckpt_path` | 正常使用必须留空 | 留空即使用 Model Zoo 管理的部署默认模型。OpenFold3 只有在管理员确认版本兼容且路径在 worker 容器内可见时，才填写 checkpoint 文件绝对路径；其他后端把它作为模型目录。 |
 | Checkpoint 名称 / `inference_ckpt_name` | 正常使用留空 | 仅 OpenFold3 使用。不要用它尝试加载旧 Preview-2 模型；OpenFold3 0.5.0 默认 checkpoint 已由部署配置确定。 |
 | GPU 使用方式 | 推荐“自动” | “指定单卡/多卡可见”只限制任务可见的 GPU，不会自动把一次预测变成多卡分布式任务。 |
@@ -141,6 +141,146 @@ ESMFold 适合快速获得单链初始结构，不是模板建模后端。
 
 OpenFold3 0.5.0 默认使用公开 ModelScope 仓库 `huluxiaohuowa/openfold3-openbind-0` 中的 OpenBind-0 `of3-ob-2025-06-30-174k.pt`。旧仓库 `huluxiaohuowa/openfold3` 保留 Preview-2 `of3-p2-155k.pt`，不作为 0.5.0 的默认模型；只有在确认自定义 checkpoint 与运行版本匹配时，才在高级参数中覆盖 checkpoint 路径或名称。
 
+## OpenFold3 模板预测完整流程
+
+### Web 页面
+
+1. 在“蛋白处理”上传目标 FASTA 或蛋白结构，再上传模板 PDB/CIF/mmCIF。
+2. 进入“结构预测”，后端选择“OpenFold3”。确认“模型管理”显示 OpenFold3 已就绪。
+3. 在“蛋白资产”选择目标，在“模板结构资产”勾选模板，保持“启用模板”开启。
+4. MSA 有三种用法：
+   - 快速验证模板链路：不选外部 MSA，并关闭在线 MSA。
+   - 使用在线 MSA：不选外部 MSA，开启在线 MSA。
+   - 使用自己的 MSA：选择 `.a3m`、`.sto` 或 `.stk` 资产；页面会自动关闭在线 MSA。
+5. 第一次建议设置 samples=`1`、seeds 数量=`1`、指定 seed=`42`、输出=`pdb`、精度=`bf16`、device=`cuda:0`。跑通后再改成常规 samples=`5`、输出=`cif`。
+6. “模型 / Checkpoint 路径”和“Checkpoint 名称”保持空白，使用部署默认 OpenBind-0。GPU 使用方式选“自动”。
+7. 点击“提交结构预测任务”。完成后点击输出资产查看结构、日志、配置和置信度文件。
+
+任务审计时，应能在工作目录看到：
+
+- `openfold3/input/query.json`：实际送入 OpenFold3 的 query，所选模板会出现在 `template_cif_paths`。
+- `openfold3/input/runner.yml`：seeds、精度和输出格式等 runner 配置。
+- `openfold3/input/input_manifest.json`：目标、模板、MSA 资产 ID 和参数清单。
+- `openfold3/output/`：结构、模型配置、实验配置和预测结果。
+
+### API 请求
+
+```json
+{
+  "engine": "openfold3",
+  "project_id": "PROJECT_ID",
+  "protein_asset_id": "TARGET_ASSET_ID",
+  "ligand_asset_ids": [],
+  "template_asset_ids": ["TEMPLATE_ASSET_ID"],
+  "msa_asset_ids": [],
+  "name": "OpenFold3 template prediction",
+  "use_msa_server": false,
+  "use_templates": true,
+  "num_diffusion_samples": 1,
+  "num_model_seeds": 1,
+  "seeds": [42],
+  "output_format": "pdb",
+  "precision": "bf16",
+  "device": "cuda:0",
+  "inference_ckpt_path": null,
+  "inference_ckpt_name": null,
+  "extra_args": []
+}
+```
+
+如需复杂多链或蛋白-配体输入，打开“高级参数编辑”提供完整 `query.json`；`runner.yml` 可覆盖 runner 配置。普通单链模板预测不要填写这两项。
+
+## Boltz-2 模板预测完整流程
+
+### Web 页面
+
+1. 上传目标蛋白和模板结构，进入“结构预测”，后端选择“Boltz-2”。
+2. 选择目标蛋白和一个或多个模板，保持“启用模板”开启。
+3. 配置 MSA：
+   - 没有自己的 MSA：保持“使用在线 MSA server”开启。
+   - 有自己的 MSA：选择一个 `.a3m`、`.sto` 或 `.stk` 资产；当前单链表单最多一个，页面会关闭在线 MSA。
+4. 冒烟测试设置 samples=`1`、seed=`42`、输出=`pdb`；常规任务设置 samples=`5`、输出优先 `cif`。
+5. “Model seeds 数量”和“精度”不用于 Boltz-2。每个 Boltz-2 任务只接受一个显式 seed；要比较多个 seed，应分别创建任务。
+6. 模型路径保持空白，device 通常为 `cuda:0`，GPU 使用方式选“自动”。提交后在任务列表查看输出资产。
+
+任务工作目录中的 `boltz2/input/input.yaml` 是实际输入。应确认其中：
+
+- `sequences[0].protein.sequence` 是目标序列。
+- 使用外部 MSA 时存在 `sequences[0].protein.msa`。
+- `templates` 列出所选模板路径和 `chain_id`。
+
+### API 请求
+
+```json
+{
+  "engine": "boltz2",
+  "project_id": "PROJECT_ID",
+  "protein_asset_id": "TARGET_ASSET_ID",
+  "ligand_asset_ids": [],
+  "template_asset_ids": ["TEMPLATE_ASSET_ID"],
+  "msa_asset_ids": [],
+  "name": "Boltz-2 template prediction",
+  "use_msa_server": true,
+  "use_templates": true,
+  "num_diffusion_samples": 1,
+  "num_model_seeds": 1,
+  "seeds": [42],
+  "output_format": "pdb",
+  "precision": "bf16",
+  "device": "cuda:0",
+  "extra_args": []
+}
+```
+
+这里的 `precision` 和 `num_model_seeds` 是统一请求模型中的兼容字段，Boltz-2 worker 不使用它们。若 `use_msa_server=false` 且 `msa_asset_ids=[]`，API 会返回 HTTP 400，不会创建无效任务。
+
+## Chai-1 模板预测完整流程
+
+### Web 页面
+
+1. 上传目标蛋白和模板结构，进入“结构预测”，后端选择“Chai-1”。
+2. 选择目标蛋白和模板，保持“启用模板”开启。worker 会把模板转换为本地 CIF 缓存，并生成 Chai 所需的 m8 模板命中表。
+3. 配置 MSA：
+   - 没有自己的 MSA：开启在线 MSA。
+   - 使用外部 MSA：只能选择 `.a3m`；worker 会转换为 Chai 的 aligned parquet。`.sto`/`.stk` 可作为其他后端的 MSA，但不能用于 Chai-1。
+4. 冒烟测试设置 diffusion samples=`1`、Model seeds 数量=`1`、seed=`42`、device=`cuda:0`。
+5. 常规任务可先用 diffusion samples=`5`、trunk samples=`1`。页面上的“Model seeds 数量”在 Chai-1 中实际映射为 `--num-trunk-samples`，不是多个显式随机 seed。
+6. 输出格式和精度由 Chai-1 后端管理，页面不会把它们传成 Chai 参数。模型路径保持空白，GPU 使用方式选“自动”。
+7. 提交任务，完成后打开输出资产查看 CIF/PDB、NPZ、置信度文件和 `chai1.log`。
+
+任务审计时，应能在工作目录看到：
+
+- `chai1/input/input.fasta`：实际目标序列。
+- `chai1/input/templates/template_hits.m8`：模板命中关系。
+- `chai1/input/templates/cif/*.cif.gz`：本地模板 CIF 缓存；自定义模板不应再被当成 RCSB ID 下载。
+- 使用外部 MSA 时，`chai1/input/chai_msa/` 保存转换后的 aligned parquet。
+- `chai1/output/`：Chai-1 结构和置信度结果。
+
+### API 请求
+
+```json
+{
+  "engine": "chai1",
+  "project_id": "PROJECT_ID",
+  "protein_asset_id": "TARGET_ASSET_ID",
+  "ligand_asset_ids": [],
+  "template_asset_ids": ["TEMPLATE_ASSET_ID"],
+  "msa_asset_ids": [],
+  "name": "Chai-1 template prediction",
+  "use_msa_server": true,
+  "use_templates": true,
+  "num_diffusion_samples": 1,
+  "num_model_seeds": 1,
+  "seeds": [42],
+  "output_format": "cif",
+  "precision": "bf16",
+  "device": "cuda:0",
+  "extra_args": []
+}
+```
+
+Chai-1 当前每个任务只接受一个显式 seed。`query_json` 和 `runner_yaml` 是 OpenFold3 专用字段，Chai-1 请求中不要填写。
+
 ## API 操作
 
 先调用 `POST /api/v1/auth/login` 获取 Bearer token，并准备同一项目下的 `project_id`。目标序列和模板都通过公开资产接口上传，不要直接复制文件到任务目录：
@@ -157,29 +297,7 @@ curl -H "Authorization: Bearer $TOKEN" \
   "$BASE_URL/api/v1/assets/upload"
 ```
 
-记录两个响应中的目标 `asset_id` 和模板 `asset_id`，再提交模板预测。下面是 OpenFold3 的最小可复现实例；不填写 checkpoint 字段时使用部署默认的 OpenBind-0：
-
-```json
-{
-  "engine": "openfold3",
-  "project_id": "PROJECT_ID",
-  "protein_asset_id": "TARGET_ASSET_ID",
-  "template_asset_ids": ["TEMPLATE_ASSET_ID"],
-  "msa_asset_ids": [],
-  "name": "OpenFold3 template prediction",
-  "use_msa_server": false,
-  "use_templates": true,
-  "num_diffusion_samples": 1,
-  "num_model_seeds": 1,
-  "seeds": [42],
-  "output_format": "pdb",
-  "precision": "bf16",
-  "device": "cuda:0",
-  "extra_args": []
-}
-```
-
-把 JSON 提交到 `POST /api/v1/structure-prediction/openfold3`。Boltz-2 使用同一接口，把 `engine` 改为 `boltz2`；若没有上传外部 MSA，必须设置 `use_msa_server: true`。通过 `GET /api/v1/jobs/{job_id}` 和 `GET /api/v1/jobs/{job_id}/events` 查询进度，完成后响应中的 `output_asset_ids` 即为可继续复用的结构资产。
+记录响应中的目标 `asset_id` 和模板 `asset_id`，填入上面三个后端对应的请求示例。三个后端统一把 JSON 提交到 `POST /api/v1/structure-prediction/openfold3`，由 `engine` 字段选择实际 worker。通过 `GET /api/v1/jobs/{job_id}` 和 `GET /api/v1/jobs/{job_id}/events` 查询进度，完成后响应中的 `output_asset_ids` 即为可继续复用的结构资产。
 
 ## 输出复用
 
