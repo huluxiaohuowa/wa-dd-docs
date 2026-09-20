@@ -252,8 +252,7 @@ OpenFold3 0.5.0 默认使用公开 ModelScope 仓库 `huluxiaohuowa/openfold3-op
 
 - `chai1/input/input.fasta`：实际目标序列。
 - `chai1/input/templates/template_hits.m8`：模板命中关系。
-- `chai1/input/templates/cif/*.cif.gz`：worker 生成的本地模板 CIF 缓存。
-- `chai1/output/templates/*.cif.gz`：复制给 Chai-1 实际读取的模板缓存；自定义模板不应再被当成 RCSB ID 下载。
+- `chai1/input/templates/cif/*.cif.gz`：worker 生成的本地模板 CIF 缓存；WA-DD 的 Chai-1 适配入口会优先从这里解析自定义模板，不会把它当成 RCSB ID 下载。
 - 使用外部 MSA 时，`chai1/input/chai_msa/` 保存转换后的 aligned parquet。
 - `chai1/output/`：Chai-1 结构和置信度结果。
 
