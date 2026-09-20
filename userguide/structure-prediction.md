@@ -9,6 +9,118 @@
 - **Chai-1**：支持单链蛋白、PDB/CIF 模板、A3M 外部 MSA 或在线 MSA，以及 diffusion samples、trunk samples、seed 和 device。worker 会把 A3M 转成 Chai 的 aligned parquet，并为自定义模板生成 m8 命中表和本地 CIF 缓存。
 - **OpenFold3**：支持表单自动生成单链 query、PDB/CIF 模板、外部 MSA、指定 seeds、精度和输出格式，也支持在高级参数窗口粘贴完整 query JSON 和 runner YAML。
 
+## 参数怎么设置
+
+先选择后端，再按下面的规则设置。页面会隐藏当前后端不支持的字段；即使绕过页面直接调用 API，不支持或互相矛盾的组合也会被拒绝。这里的“更多候选”表示增加采样数量，不代表结果一定更准确，最终仍应结合置信度、结构合理性和下游验证筛选。
+
+### 输入和模板参数
+
+| 页面字段 / API 字段 | 怎么设置 | 具体规则 |
+| --- | --- | --- |
+| 蛋白资产 / `protein_asset_id` | 推荐选择项目内已上传的目标蛋白资产，便于复用和追踪 | 接受 `protein`、`prepared_protein`、`complex`、`md_structure`。资产应包含序列或可解析序列的结构文件。 |
+| FASTA / 单链序列 / `sequence` | 临时快速预测时可直接粘贴；需要留痕时优先上传为资产 | 没有选择资产时必须填写序列，或为 OpenFold3 提供完整 `query_json`。 |
+| 模板结构资产 / `template_asset_ids` | 勾选一个或多个与目标同源、构象合适的 PDB/CIF/mmCIF 资产 | 模板必须包含 PDB/CIF/mmCIF 文件。选了模板就必须开启“启用模板”；ESMFold 不接受模板。 |
+| 启用模板 / `use_templates` | 使用所选模板时保持开启；不做模板建模时关闭并清空模板选择 | 选中模板但关闭此项会返回 HTTP 400，不会静默忽略模板。 |
+| MSA 资产 / `msa_asset_ids` | 有自己生成的 MSA 时选择；否则根据后端选择在线 MSA | 支持 `.a3m`、`.sto`、`.stk`；Chai-1 只接受 `.a3m`；Boltz-2 当前单链表单最多选择一个外部 MSA。 |
+| 在线 MSA / `use_msa_server` | 没有外部 MSA 时开启；使用外部 MSA 后页面会自动关闭 | Boltz-2 必须在“在线 MSA”和“一个外部 MSA”中至少选择一种。OpenFold3 可关闭在线 MSA并只使用模板或序列。 |
+
+目标蛋白和模板必须属于当前用户的同一项目。模板数量越多不一定越好；优先选择序列覆盖完整、分辨率较好、配体/构象状态符合研究问题的模板。系统负责把模板真正写入后端输入，但不会替用户判断模板的生物学适用性。
+
+### 采样、seed 和输出参数
+
+| 页面字段 / API 字段 | 允许值 | 推荐设置和影响 |
+| --- | --- | --- |
+| Diffusion samples / `num_diffusion_samples` | `1`–`100`，页面默认 `5` | 冒烟测试用 `1`；常规预测用 `5`；需要更多候选可用 `10`。数量增加通常会增加运行时间、输出文件和结果筛选工作。 |
+| Model seeds 数量 / `num_model_seeds` | `1`–`50`，页面默认 `1` | OpenFold3 中，未填写“指定 seeds”时用于生成相应数量的 model seeds；Chai-1 中映射为 trunk samples。Boltz-2 当前不使用该字段。 |
+| 指定 seeds / `seeds` | 逗号或空格分隔的整数，如 `42,100,200` | 需要复现实验时填写固定值。OpenFold3 可填写多个；Boltz-2、Chai-1 当前每个任务只接受一个显式 seed。填写 OpenFold3 显式 seeds 后，`num_model_seeds` 不再决定 seed 数量。 |
+| 输出格式 / `output_format` | `cif` 或 `pdb` | OpenFold3 常规保存推荐 `cif`，信息更完整；需要兼容传统工具时选 `pdb`。Boltz-2 支持二者。ESMFold 固定输出 PDB，Chai-1 使用后端自身输出格式。 |
+| 输出资产名称 / `name` | 任意易识别名称 | 建议包含靶点、模板、后端和配置，例如 `KRAS_OpenFold3_1UBQ_seed42`，便于从任务列表追踪。 |
+
+OpenFold3 的候选规模同时受 diffusion samples 和 seed 数量影响。第一次运行建议先用 `1 × 1` 验证输入和模型，再增加采样；不要一开始就把两项都调到上限。Boltz-2 如需比较多个 seed，当前应分别提交多个任务，每个任务填写一个 seed。
+
+### 精度、设备、模型和 GPU
+
+| 页面字段 / API 字段 | 怎么设置 | 注意事项 |
+| --- | --- | --- |
+| 精度 / `precision` | OpenFold3 在 server6 推荐 `bf16`；ESMFold 的稳妥默认值为 `fp32` | `bf16`/`fp16` 通常占用更少显存；`fp32` 占用更高。页面只在 OpenFold3 和 ESMFold 显示此项。遇到不支持的低精度算子或数值异常时改为 `fp32` 重试。 |
+| Device / `device` | 单卡通常填 `cuda:0` | OpenFold3、ESMFold、Chai-1会使用该字段。Boltz-2 当前由 worker 的可见 GPU 控制，不依赖此字段。 |
+| 模型 / Checkpoint 路径 / `inference_ckpt_path` | 正常使用必须留空 | 留空即使用 Model Zoo 管理的部署默认模型。OpenFold3 只有在管理员确认版本兼容且路径在 worker 容器内可见时，才填写 checkpoint 文件绝对路径；其他后端把它作为模型目录。 |
+| Checkpoint 名称 / `inference_ckpt_name` | 正常使用留空 | 仅 OpenFold3 使用。不要用它尝试加载旧 Preview-2 模型；OpenFold3 0.5.0 默认 checkpoint 已由部署配置确定。 |
+| GPU 使用方式 | 推荐“自动” | “指定单卡/多卡可见”只限制任务可见的 GPU，不会自动把一次预测变成多卡分布式任务。 |
+| GPU ID | 自动模式留空；单卡如 `0`，多卡如 `0,1` | 这里填写物理可见 GPU 编号。`device` 仍应使用任务容器内编号，通常是 `cuda:0`。 |
+
+页面调度时使用的估算显存为：OpenFold3 `32 GB`、Boltz-2 `24 GB`、Chai-1 `24 GB`、ESMFold `16 GB`。这是排队和并发控制的估算值，不是显存上限；实际用量还会随序列长度、链数、MSA、模板、samples 和 seeds 改变。
+
+### 可以直接采用的配置
+
+#### 1. 输入链路冒烟测试
+
+- 后端：OpenFold3
+- 模板：选择一个 PDB/CIF 模板并开启模板
+- 在线 MSA：关闭
+- Diffusion samples：`1`
+- Model seeds 数量：`1`
+- 指定 seed：`42`
+- 输出格式：`pdb`
+- 精度：`bf16`
+- Device：`cuda:0`
+- checkpoint、GPU ID、高级参数：全部留空
+
+这套配置适合先验证资产、模板、checkpoint 和 worker 链路，不能代替正式的多候选计算。
+
+#### 2. 常规模板预测
+
+- 后端：OpenFold3
+- 模板：选择经过人工判断的一个或多个模板
+- MSA：有外部 MSA 就选择外部 MSA；否则按研究需要启用在线 MSA
+- Diffusion samples：`5`
+- Model seeds 数量：`1`
+- 指定 seeds：留空，或填写一个固定 seed 以便复现
+- 输出格式：`cif`
+- 精度：`bf16`
+- GPU：自动
+- checkpoint 和高级参数：留空
+
+#### 3. 生成更多候选
+
+- 后端：OpenFold3
+- Diffusion samples：先从 `10` 开始
+- Model seeds 数量：`3`
+- 指定 seeds：留空，让 seed 数量生效；若要严格复现，则填写三个明确整数
+- 其他参数保持常规配置
+
+先观察单任务耗时、显存和输出规模，再继续增加。更多 samples/seeds 只扩大候选集合，不应直接表述为“高质量模式”。
+
+#### 4. Boltz-2 模板预测
+
+- 后端：Boltz-2
+- 模板：选择 PDB/CIF/mmCIF
+- MSA：启用在线 MSA，或者选择一个外部 MSA，二者至少一种
+- Diffusion samples：冒烟测试 `1`，常规使用 `5`
+- 指定 seed：每个任务填写一个整数，如 `42`
+- 输出格式：优先 `cif`，需要传统工具兼容时选 `pdb`
+- GPU：自动
+
+#### 5. Chai-1 模板预测
+
+- 后端：Chai-1
+- 模板：选择 PDB/CIF/mmCIF
+- 外部 MSA：必须是 `.a3m`；没有时启用在线 MSA
+- Diffusion samples：冒烟测试 `1`，常规使用 `5`
+- Model seeds 数量：这里表示 trunk samples，常规先用 `1`
+- 指定 seed：每个任务一个整数
+- Device：`cuda:0`
+
+#### 6. ESMFold 快速单链预测
+
+- 后端：ESMFold
+- 输入：单链序列或可提取序列的蛋白资产
+- 模板、MSA：不支持，也不要选择
+- 精度：优先 `fp32`；显存紧张且硬件支持时再尝试 `bf16`/`fp16`
+- Device：`cuda:0`
+
+ESMFold 适合快速获得单链初始结构，不是模板建模后端。
+
 ## 输入资产
 
 蛋白处理页可以上传 PDB/mmCIF，也可以上传 `.fa`、`.fasta`、`.faa`、`.seq`、`.txt` 格式的蛋白序列文件。序列文件会保存为 `protein` 资产，文件角色为 `sequence`，可在结构预测页直接选择。
