@@ -27,7 +27,7 @@
 
 如果选择了模板资产却关闭“启用模板”，提交会直接报错，不会把模板只记录在任务里而静默忽略。
 
-OpenFold3 默认使用 Model Hub 中的 OpenBind-0 `of3-ob-2025-06-30-174k.pt`，运行镜像固定使用兼容的 OpenFold3 0.5.0。旧的 Preview-2 `of3-p2-155k.pt` 不兼容 0.5.0；只有在确认自定义 checkpoint 与运行版本匹配时，才在高级参数中覆盖 checkpoint 路径或名称。
+OpenFold3 0.5.0 默认使用公开 ModelScope 仓库 `huluxiaohuowa/openfold3-openbind-0` 中的 OpenBind-0 `of3-ob-2025-06-30-174k.pt`。旧仓库 `huluxiaohuowa/openfold3` 保留 Preview-2 `of3-p2-155k.pt`，不作为 0.5.0 的默认模型；只有在确认自定义 checkpoint 与运行版本匹配时，才在高级参数中覆盖 checkpoint 路径或名称。
 
 ## 输出复用
 
