@@ -1571,6 +1571,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API 操作
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1836,6 +1847,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API 操作
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1898,6 +1920,38 @@
 </ol>
 <p>如果选择了模板资产却关闭“启用模板”，提交会直接报错，不会把模板只记录在任务里而静默忽略。</p>
 <p>OpenFold3 0.5.0 默认使用公开 ModelScope 仓库 <code>huluxiaohuowa/openfold3-openbind-0</code> 中的 OpenBind-0 <code>of3-ob-2025-06-30-174k.pt</code>。旧仓库 <code>huluxiaohuowa/openfold3</code> 保留 Preview-2 <code>of3-p2-155k.pt</code>，不作为 0.5.0 的默认模型；只有在确认自定义 checkpoint 与运行版本匹配时，才在高级参数中覆盖 checkpoint 路径或名称。</p>
+<h2 id="api">API 操作</h2>
+<p>先调用 <code>POST /api/v1/auth/login</code> 获取 Bearer token，并准备同一项目下的 <code>project_id</code>。目标序列和模板都通过公开资产接口上传，不要直接复制文件到任务目录：</p>
+<pre><code class="language-bash">curl -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -F kind=protein -F project_id=&quot;$PROJECT_ID&quot; \
+  -F name=target-sequence -F file=@target.fasta \
+  &quot;$BASE_URL/api/v1/assets/upload&quot;
+
+curl -H &quot;Authorization: Bearer $TOKEN&quot; \
+  -F kind=protein -F project_id=&quot;$PROJECT_ID&quot; \
+  -F name=template-structure -F file=@template.pdb \
+  &quot;$BASE_URL/api/v1/assets/upload&quot;
+</code></pre>
+<p>记录两个响应中的目标 <code>asset_id</code> 和模板 <code>asset_id</code>，再提交模板预测。下面是 OpenFold3 的最小可复现实例；不填写 checkpoint 字段时使用部署默认的 OpenBind-0：</p>
+<pre><code class="language-json">{
+  &quot;engine&quot;: &quot;openfold3&quot;,
+  &quot;project_id&quot;: &quot;PROJECT_ID&quot;,
+  &quot;protein_asset_id&quot;: &quot;TARGET_ASSET_ID&quot;,
+  &quot;template_asset_ids&quot;: [&quot;TEMPLATE_ASSET_ID&quot;],
+  &quot;msa_asset_ids&quot;: [],
+  &quot;name&quot;: &quot;OpenFold3 template prediction&quot;,
+  &quot;use_msa_server&quot;: false,
+  &quot;use_templates&quot;: true,
+  &quot;num_diffusion_samples&quot;: 1,
+  &quot;num_model_seeds&quot;: 1,
+  &quot;seeds&quot;: [42],
+  &quot;output_format&quot;: &quot;pdb&quot;,
+  &quot;precision&quot;: &quot;bf16&quot;,
+  &quot;device&quot;: &quot;cuda:0&quot;,
+  &quot;extra_args&quot;: []
+}
+</code></pre>
+<p>把 JSON 提交到 <code>POST /api/v1/structure-prediction/openfold3</code>。Boltz-2 使用同一接口，把 <code>engine</code> 改为 <code>boltz2</code>；若没有上传外部 MSA，必须设置 <code>use_msa_server: true</code>。通过 <code>GET /api/v1/jobs/{job_id}</code> 和 <code>GET /api/v1/jobs/{job_id}/events</code> 查询进度，完成后响应中的 <code>output_asset_ids</code> 即为可继续复用的结构资产。</p>
 <h2 id="_5">输出复用</h2>
 <p>预测成功后，输出资产会带有：</p>
 <ul>
