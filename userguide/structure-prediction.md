@@ -29,6 +29,46 @@
 
 OpenFold3 0.5.0 默认使用公开 ModelScope 仓库 `huluxiaohuowa/openfold3-openbind-0` 中的 OpenBind-0 `of3-ob-2025-06-30-174k.pt`。旧仓库 `huluxiaohuowa/openfold3` 保留 Preview-2 `of3-p2-155k.pt`，不作为 0.5.0 的默认模型；只有在确认自定义 checkpoint 与运行版本匹配时，才在高级参数中覆盖 checkpoint 路径或名称。
 
+## API 操作
+
+先调用 `POST /api/v1/auth/login` 获取 Bearer token，并准备同一项目下的 `project_id`。目标序列和模板都通过公开资产接口上传，不要直接复制文件到任务目录：
+
+```bash
+curl -H "Authorization: Bearer $TOKEN" \
+  -F kind=protein -F project_id="$PROJECT_ID" \
+  -F name=target-sequence -F file=@target.fasta \
+  "$BASE_URL/api/v1/assets/upload"
+
+curl -H "Authorization: Bearer $TOKEN" \
+  -F kind=protein -F project_id="$PROJECT_ID" \
+  -F name=template-structure -F file=@template.pdb \
+  "$BASE_URL/api/v1/assets/upload"
+```
+
+记录两个响应中的目标 `asset_id` 和模板 `asset_id`，再提交模板预测。下面是 OpenFold3 的最小可复现实例；不填写 checkpoint 字段时使用部署默认的 OpenBind-0：
+
+```json
+{
+  "engine": "openfold3",
+  "project_id": "PROJECT_ID",
+  "protein_asset_id": "TARGET_ASSET_ID",
+  "template_asset_ids": ["TEMPLATE_ASSET_ID"],
+  "msa_asset_ids": [],
+  "name": "OpenFold3 template prediction",
+  "use_msa_server": false,
+  "use_templates": true,
+  "num_diffusion_samples": 1,
+  "num_model_seeds": 1,
+  "seeds": [42],
+  "output_format": "pdb",
+  "precision": "bf16",
+  "device": "cuda:0",
+  "extra_args": []
+}
+```
+
+把 JSON 提交到 `POST /api/v1/structure-prediction/openfold3`。Boltz-2 使用同一接口，把 `engine` 改为 `boltz2`；若没有上传外部 MSA，必须设置 `use_msa_server: true`。通过 `GET /api/v1/jobs/{job_id}` 和 `GET /api/v1/jobs/{job_id}/events` 查询进度，完成后响应中的 `output_asset_ids` 即为可继续复用的结构资产。
+
 ## 输出复用
 
 预测成功后，输出资产会带有：
