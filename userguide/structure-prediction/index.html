@@ -2712,8 +2712,7 @@
 <ul>
 <li><code>chai1/input/input.fasta</code>：实际目标序列。</li>
 <li><code>chai1/input/templates/template_hits.m8</code>：模板命中关系。</li>
-<li><code>chai1/input/templates/cif/*.cif.gz</code>：worker 生成的本地模板 CIF 缓存。</li>
-<li><code>chai1/output/templates/*.cif.gz</code>：复制给 Chai-1 实际读取的模板缓存；自定义模板不应再被当成 RCSB ID 下载。</li>
+<li><code>chai1/input/templates/cif/*.cif.gz</code>：worker 生成的本地模板 CIF 缓存；WA-DD 的 Chai-1 适配入口会优先从这里解析自定义模板，不会把它当成 RCSB ID 下载。</li>
 <li>使用外部 MSA 时，<code>chai1/input/chai_msa/</code> 保存转换后的 aligned parquet。</li>
 <li><code>chai1/output/</code>：Chai-1 结构和置信度结果。</li>
 </ul>
