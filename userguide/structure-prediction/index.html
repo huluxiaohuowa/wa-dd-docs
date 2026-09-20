@@ -1897,7 +1897,7 @@
 <li>任务完成后，在输出资产中查看 PDB/CIF、日志和置信度文件。需要对接或 FEP 时，先到“蛋白处理”生成 <code>prepared_protein</code>。</li>
 </ol>
 <p>如果选择了模板资产却关闭“启用模板”，提交会直接报错，不会把模板只记录在任务里而静默忽略。</p>
-<p>OpenFold3 默认使用 Model Hub 中的 OpenBind-0 <code>of3-ob-2025-06-30-174k.pt</code>，运行镜像固定使用兼容的 OpenFold3 0.5.0。旧的 Preview-2 <code>of3-p2-155k.pt</code> 不兼容 0.5.0；只有在确认自定义 checkpoint 与运行版本匹配时，才在高级参数中覆盖 checkpoint 路径或名称。</p>
+<p>OpenFold3 0.5.0 默认使用公开 ModelScope 仓库 <code>huluxiaohuowa/openfold3-openbind-0</code> 中的 OpenBind-0 <code>of3-ob-2025-06-30-174k.pt</code>。旧仓库 <code>huluxiaohuowa/openfold3</code> 保留 Preview-2 <code>of3-p2-155k.pt</code>，不作为 0.5.0 的默认模型；只有在确认自定义 checkpoint 与运行版本匹配时，才在高级参数中覆盖 checkpoint 路径或名称。</p>
 <h2 id="_5">输出复用</h2>
 <p>预测成功后，输出资产会带有：</p>
 <ul>
