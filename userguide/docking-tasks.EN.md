@@ -1,10 +1,12 @@
 > [中文文档](docking-tasks.md)
 
+Uni-Dock2 replaces the previous Uni-Dock engine. Source: https://github.com/dptech-corp/Uni-Dock2 . Thanks to developers 泓叡 and 聪聪. The API engine identifier remains `unidock` for existing workflows. Inputs are receptor PDB and ligand SDF, with a pocket center and box. Vina scoring is supported; Vinardo is unavailable. The optional torsion library is off by default. Output is one reusable pose SDF with scores, clustering, interaction reports and raw run/configuration files. Stored ligand atoms and explicit hydrogens are preserved. Covalent and position-bias workflows are not exposed by this integration.
+
 # Docking Tasks
 
 ## Role
 
-Docking tasks combine receptor, ligand, and pocket assets to predict binding poses, screen candidates, and seed FEP. The default docking engine is Uni-Dock GPU with Vina/Vinardo scoring.
+Docking tasks combine receptor, ligand, and pocket assets to predict binding poses, screen candidates, and seed FEP. The default docking engine is Uni-Dock2 GPU with Vina scoring.
 
 ## Inputs
 

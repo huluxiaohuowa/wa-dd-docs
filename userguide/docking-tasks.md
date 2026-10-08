@@ -1,10 +1,12 @@
 > [English documentation](docking-tasks.EN.md)
 
+对接引擎已升级为 [Uni-Dock2](https://github.com/dptech-corp/Uni-Dock2)，感谢开发者 **泓叡、聪聪**。为兼容现有任务，API 引擎标识仍为 `unidock`。输入为受体 PDB、配体 SDF 和口袋中心/盒子；仅支持 Vina 打分，不支持 Vinardo。可选 torsion library 默认关闭。每个任务输出一个可复用的构象 SDF，并保留打分、聚类、相互作用报告、原始构象及运行配置。保留配体原有原子和显式氢。此次集成尚未开放共价对接和 position bias 的任务入口。
+
 # 对接任务
 
 ## 作用
 
-对接任务组合蛋白、配体和口袋，用于预测结合构象、筛选候选和生成 FEP 起点。当前默认对接引擎为 Uni-Dock GPU，支持 Vina/Vinardo 评分函数。
+对接任务组合蛋白、配体和口袋，用于预测结合构象、筛选候选和生成 FEP 起点。当前默认对接引擎为 Uni-Dock2 GPU，支持 Vina 评分函数。
 
 ## 输入
 
