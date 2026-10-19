@@ -50,7 +50,7 @@ WA-DD 是一个个人独立开发的计算机辅助药物设计（CADD）工作�
 - **分子生成**：PocketXMol 支持口袋 de novo 生成和 fragment growing；结果保存为可复用的 `prepared_ligand` 或 `prepared_ligand_library`。`scaffold hopping` 与 `linker design` 需要原子锚点选择器，当前未开放。
 - **FEP / RBFE 生产计算**：基于 OpenFE + OpenMM（CUDA）执行真实相对结合自由能计算。支持 star 拓扑网络、Lomap 原子映射、dry-run 规划预览和完整生产模拟。每个 edge 输出 ΔΔG (kcal/mol)、误差和轨迹文件（DCD），结果汇总为 `fep_result` edge 表和带 FEP 字段的 `fep_output` SDF。支持从对接姿势库或准备好的配体 SDF 直接启动。
 - **GROMACS / MD worker**：基于 GROMACS + CUDA 的分子动力学任务入口。支持 EM、NVT、NPT、生产 MD、aMD、Metadynamics、Umbrella、结合分析、隐式口袋发现和轨迹后处理任务类型；页面提供结构化核心参数、完整 `.mdp`/命令/文件高级编辑、GPU 可见卡控制和轨迹/能量/分析/结构/参数/日志输出分组。AMD 镜像默认 CUDA 12.8，Thor 镜像默认 CUDA 13，Dockerfile 每次默认从 upstream 最新 GROMACS main 构建，`GROMACS_CUDA_TARGET_SM` 可覆盖一次编译的 GPU 架构集合。
-- **Model Zoo**：集中管理项目模型，置顶 PocketXMol 和 DeepTernary，并支持自选 ModelScope / HuggingFace 仓库下载。模型路径采用 `/data/export/ms|hf/.../current` 兼容结构，便于后续与 VOS 中的 model-hub 对接。
+- **Model Zoo**：集中管理项目模型，置顶 PocketXMol 和 DeepTernary，并支持自选 ModelScope / HuggingFace 仓库下载。模型路径采用 `/data/export/ms|hf/.../current` 兼容结构。VOS 版仍由 WA-DD 自行管理下载、更新和删除，与 V-Scheduler 同步状态、进度及路径。
 - **TPD / PROTAC**：DeepTernary 任务以 POI、E3、degrader/MGD 和 PROTAC 辅助 PDB 资产为输入，输出 `ternary_complex` 结构假设。binary ligand/mask PDB 可从蛋白页共晶配体生成 TPD PDB 资产，或在配体页上传 PDB 后选择。
 - **Agent 工作台**：每位用户拥有独立会话、上下文和加密模型配置；可为会话选择 Pi 或 Prime。Prime 使用真实 `AgentSession` 运行时，但禁用了它的内置终端工具；两者仅通过受控 `wa_dd_api` 访问该用户有权限的项目、资产和任务。
 - **管理、用户文档与自动化**：管理员可审核用户和管理全局任务；系统资源页显示宿主机 CPU、内存、磁盘和 GPU；Web 镜像会把 `userguide/*.md` 转换为页面内用户文档；API 文档基于 FastAPI OpenAPI，支持以 `project_id`、`asset_id` 和 `job_id` 串联自动化。
@@ -103,7 +103,7 @@ web、protein-prep worker、ligand-prep worker 和后续模型 worker 都必须�
 
 数据库 `AssetFile.storage_path` 只记录容器内 `/data/...` 路径，不记录宿主机路径。这样 web 上传、worker 读取、worker 输出、web 下载和跨任务复用都使用同一套路径，不会因为不同容器看到不同目录而混乱。
 
-`/modelhub` 是共享模型目录，不用于用户项目输入/输出文件。Model Zoo 服务把同一宿主目录挂载为 `/data`，并维护 `export/ms|hf/<org>/<repo>/snapshots/...` 与 `current` 稳定入口；web 和模型 worker 通过 `/modelhub/export/.../current` 读取。该结构与 VOS 中的 model-hub 对接路径兼容。
+`/modelhub` 是共享模型目录，不用于用户项目输入/输出文件。Model Zoo 服务把同一宿主目录挂载为 `/data`，并维护 `export/ms|hf/<org>/<repo>/snapshots/...` 与 `current` 稳定入口；web 和模型 worker 通过 `/modelhub/export/.../current` 读取。VOS 版选择与 V-Scheduler 相同的公共目录后，通过共享注册表同步模型状态、进度和路径；下载与校验仍由 WA-DD 自行完成，不调用 V-Scheduler 下载接口。
 
 系统资源监控使用同一个 `/data` 挂载路径传递宿主机指标：
 
@@ -227,7 +227,7 @@ ln -sfn snapshots/manual "${MODEL_HUB_SHARED_MODELS_PATH}/export/ms/huluxiaohuow
 - `data/trained_models/pxm/checkpoints/pocketxmol.ckpt`
 - `data/trained_models/pxm/train_config/train.yml`
 
-模型更新不会在本地 `current` 已满足必需文件时盲目删除重下；Model Zoo 会把新下载内容放入新的 snapshot，校验必需文件后再切换 `current`。WA-DD 和 Model Hub 使用同一目录规范，因此任一系统下载的 `huluxiaohuowa/pocketxmol` 或 `huluxiaohuowa/deepternary` 都能被另一方读取和更新。
+模型更新不会在本地 `current` 已满足必需文件时盲目删除重下；Model Zoo 会把新下载内容放入新的 snapshot，校验必需文件后再切换 `current`。WA-DD 和 Model Hub 使用同一目录规范，因此已有权重可原位复用。WA-DD 管理的模型应在 WA-DD 中更新或删除，V-Scheduler 用于查看同步信息，避免两边同时操作同一模型。
 
 Uni-Dock 对接引擎为传统分子对接程序，不依赖神经网络模型文件。
 

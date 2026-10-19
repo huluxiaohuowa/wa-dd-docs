@@ -4,7 +4,7 @@
 
 ## 作用
 
-Model Zoo 用于集中下载和更新 WA-DD 使用的模型。它采用与后续 VOS model-hub 对接兼容的路径设计，只保留模型下载、更新和路径管理，不包含模型运行实例管理。
+Model Zoo 用于集中下载和更新 WA-DD 使用的模型。模型的下载、更新、删除、快照切换和必需文件检查均由 WA-DD 自行完成。VOS 版与 V-Scheduler 同步状态、进度和路径，不通过 V-Scheduler 下载，也不包含模型运行实例管理。
 
 固定项目模型会置顶显示：
 
@@ -31,7 +31,17 @@ web 和 worker 容器把同一个宿主目录挂载为 `/modelhub`，读取路�
 /modelhub/export/hf/<org>/<repo>/current
 ```
 
-不要把模型手动放到其他目录，否则 Model Zoo、后续对接的 model-hub 和 worker 无法用同一套规则识别和更新。
+不要把模型手动放到其他目录，否则 Model Zoo、V-Scheduler 和 worker 无法用同一套规则识别模型。
+
+## VOS 与 V-Scheduler 同步
+
+安装时让 WA-DD 和 V-Scheduler 选择同一个 `MODEL_HUB_SHARED_MODELS_PATH` 公共目录；也兼容旧 Model Hub。V-Scheduler 是可选的信息查看方，不是 WA-DD 下载模型的前置依赖。
+
+Model Zoo 与 V-Scheduler 均将该目录挂载为 `/data`，按已有共享存储契约同步 `registry/models.json` 与 `shared/tasks/*.json`。模型记录保留其他元数据，增加 `managed_by=wa-dd-model-zoo`、相对根路径和相对 `current` 路径；任务记录标记 WA-DD 所有者，并持续刷新下载进度。启动时同步已有项目模型和自选模型，不将从未下载的项目模型登记为全局失败模型。
+
+下载成功后同步就绪状态和指定的 revision（未指定时使用本地快照标识）；失败时同步失败状态；删除时移除对应模型与 WA-DD 任务记录。V-Scheduler 的 `/data/...` 与 worker 的 `/modelhub/...` 是同一公共目录的不同容器路径，不是可互换的绝对路径。
+
+WA-DD 管理的模型请在 WA-DD 中下载、更新或删除，V-Scheduler 用于查看状态和路径。发现同一模型有其他应用的未结束任务时，WA-DD 返回冲突，不覆盖其进度或启动下载、删除。共享任务检查不是跨应用的原子操作锁，仍应避免从两边同时发起操作；管理标记也不会自动禁用 V-Scheduler 的管理按钮。
 
 ## 使用方式
 

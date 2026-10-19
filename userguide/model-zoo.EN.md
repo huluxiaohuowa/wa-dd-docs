@@ -4,7 +4,7 @@
 
 ## Purpose
 
-Model Zoo centrally downloads and updates models used by WA-DD. It uses a path layout compatible with later VOS model-hub integration and keeps only model download, update, and path management. It does not include model runtime instance management.
+Model Zoo centrally downloads and updates models used by WA-DD. WA-DD owns downloads, updates, deletion, snapshot publication, and required-file validation. In VOS, it synchronizes status, progress, and paths with V-Scheduler without using V-Scheduler to download models. It does not include model runtime instance management.
 
 Pinned project models are shown at the top:
 
@@ -31,7 +31,17 @@ The web and worker containers mount the same host directory as `/modelhub` and r
 /modelhub/export/hf/<org>/<repo>/current
 ```
 
-Do not place models in another directory manually. Otherwise Model Zoo, the later integrated model-hub, and workers cannot recognize and update them through the same rules.
+Do not place models in another directory manually. Otherwise Model Zoo, V-Scheduler, and workers cannot recognize models through the same rules.
+
+## VOS synchronization with V-Scheduler
+
+Select the same `MODEL_HUB_SHARED_MODELS_PATH` public directory for WA-DD and V-Scheduler during installation; legacy Model Hub is also compatible. V-Scheduler is an optional viewer, not a prerequisite for WA-DD downloads.
+
+Both Model Zoo and V-Scheduler mount this directory at `/data` and synchronize `registry/models.json` and `shared/tasks/*.json` through the existing shared-storage contract. Model records preserve other metadata and add `managed_by=wa-dd-model-zoo`, a relative root path, and a relative `current` path. Task records identify the WA-DD owner and continuously refresh download progress. Startup synchronizes existing project and custom models without registering never-downloaded project models as globally failed.
+
+Successful downloads synchronize readiness and the requested revision (or the local snapshot identifier when no revision is specified); failures synchronize failure status; deletion removes the model and its WA-DD task record. V-Scheduler's `/data/...` and workers' `/modelhub/...` are different container mount paths for the same public directory, not interchangeable absolute paths.
+
+Download, update, and delete WA-DD-managed models in WA-DD; use V-Scheduler to view status and paths. When another application has an unfinished task for the same model, WA-DD returns a conflict instead of overwriting progress or starting a download or deletion. The shared-task check is not an atomic cross-application operation lock, so avoid starting operations from both applications simultaneously. The management marker does not automatically disable V-Scheduler's management buttons.
 
 ## Workflow
 
